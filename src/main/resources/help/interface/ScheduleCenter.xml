@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+	<interface key="schedule/select" desc="调度中心列表接口">
+		<input>
+			<field label="每个个数" name="limit" desc="一般20个" />
+			<field label="当前页" name="current" desc="第一页是0" />
+			<field label="目录id" name="directoryId" desc="可不传，传递之后按照目录过滤作业" />
+			<field label="作业名称" name="name" desc="可不传，传递之后按照作业名称过滤" />
+			<field label="作业状态" name="status" desc="可不传，传递之后按照作业名称作业" />
+		</input>
+		<output type="rows">
+			<field label="作业id" name="idJob" desc="作业id" />
+			<field label="目录名称" name="directoryName" />
+			<field label="作业名称" name="name" />
+			<field label="作业状态" name="jobStatus" desc="1表示，4表示" />
+			<field label="作业状态中文名" name="statusName" />
+			<field label="节点" name="node" />
+			<field label="同步方式" name="syncMode" />
+			<field label="同步方式中文名" name="syncModeName" />
+		</output>
+	</interface>
+
+	<interface key="schedule/getCount" desc="作业状态统计">
+		<input>
+			<field label="目录id" name="directoryId" desc="" />
+			<field label="作业名称" name="name" desc="可不传，传递之后按照作业名称过滤" />
+		</input>
+		<output type="rows">
+			<field label="状态代码" name="code" desc="" />
+			<field label="状态名称" name="name" />
+			<field label="数量" name="count" />
+		</output>
+	</interface>
+
+	<interface key="schedule/getSpeed" desc="性能和状态轮询">
+		<input>
+			<field label="作业id" name="id" desc="多个id用逗号隔开，如果'1,34,346,46'" />
+		</input>
+		<output type="rows">
+			<field label="状态代码" name="code" desc="" />
+			<field label="状态名称" name="name" />
+			<field label="数量" name="count" />
+		</output>
+	</interface>
+
+	<interface key="schedule/getJobMetric" desc="获取执行中的作业调度信息">
+		<input>
+			<field label="作业id" name="id" desc="" />
+		</input>
+		<output type="rows">
+			<field label="ID" name="id" desc="" />
+			<field label="作业ID" name="jobId" />
+			<field label="启动统计" name="startCount" />
+			<field label="作业名称" name="jobName" desc="" />
+			<field label="转换总数" name="transCount" />
+			<field label="同步方式" name="syncMode" />
+			<field label="周期表达式" name="cycle" desc="" />
+			<field label="目录名称" name="directoryName" />
+			<field label="状态" name="status" />
+			<field label="节点名称" name="node" />
+			<field label="日志级别" name="logLevel" />
+			<field label="读" name="linesRead" desc="" />
+			<field label="写" name="linesWritten" />
+			<field label="输入" name="linesInput" />
+			<field label="输出" name="linesOutput" desc="" />
+			<field label="更新" name="linesUpdated" />
+			<field label="拒绝" name="linesRejected" />
+			<field label="速度" name="speed" desc="" />
+			<field label="错误" name="error" />
+			<field label="创建时间" name="createTime" />
+			<field label="作业开始时间" name="startTime" />
+			<field label="作业结束时间" name="endTime" />
+			<field label="作业当前时间" name="currentTime" />
+
+			<field label="转换" name="trans" desc="转换的参数如下" />
+			<field label="ID" name="id" desc="" />
+			<field label="作业调度ID" name="jobMetricId " />
+			<field label="作业ID" name="jobId" />
+			<field label="作业名称" name="jobName" desc="" />
+			<field label="转换ID" name="transId" />
+			<field label="转换名称" name="transName" desc="" />
+			<field label="目录名称" name="directoryName" />
+			<field label="启动统计" name="startCount" />
+			<field label="状态" name="status" />
+			<field label="步骤总数" name="stepCount" />
+			<field label="读" name="linesRead" desc="" />
+			<field label="写" name="linesWritten" />
+			<field label="输入" name="linesInput" />
+			<field label="输出" name="linesOutput" desc="" />
+			<field label="更新" name="linesUpdated" />
+			<field label="拒绝" name="linesRejected" />
+			<field label="速度" name="speed" desc="" />
+			<field label="错误" name="error" />
+			<field label="创建时间" name="createTime" />
+			<field label="转换开始时间" name="startTime" />
+			<field label="转换结束时间" name="endTime" />
+			<field label="转换当前时间" name="currentTime" />
+		</output>
+	</interface>
+
+	<interface key="schedule/getJobMetricHistory" desc="获取作业历史调度信息">
+		<input>
+			<field label="作业id" name="id" desc="" />
+		</input>
+		<output type="rows">
+			<field label="ID" name="id" desc="" />
+			<field label="作业ID" name="jobId" />
+			<field label="启动统计" name="startCount" />
+			<field label="作业名称" name="jobName" desc="" />
+			<field label="转换总数" name="transCount" />
+			<field label="同步方式" name="syncMode" />
+			<field label="周期表达式" name="cycle" desc="" />
+			<field label="目录名称" name="directoryName" />
+			<field label="状态" name="status" />
+			<field label="节点名称" name="node" />
+			<field label="日志级别" name="logLevel" />
+			<field label="读" name="linesRead" desc="" />
+			<field label="写" name="linesWritten" />
+			<field label="输入" name="linesInput" />
+			<field label="输出" name="linesOutput" desc="" />
+			<field label="更新" name="linesUpdated" />
+			<field label="拒绝" name="linesRejected" />
+			<field label="速度" name="speed" desc="" />
+			<field label="错误" name="error" />
+			<field label="创建时间" name="createTime" />
+			<field label="作业开始时间" name="startTime" />
+			<field label="作业结束时间" name="endTime" />
+			<field label="作业当前时间" name="currentTime" />
+
+			<field label="转换" name="trans" desc="转换的参数如下" />
+			<field label="ID" name="id" desc="" />
+			<field label="作业调度ID" name="jobMetricId " />
+			<field label="作业ID" name="jobId" />
+			<field label="作业名称" name="jobName" desc="" />
+			<field label="转换ID" name="transId" />
+			<field label="转换名称" name="transName" desc="" />
+			<field label="目录名称" name="directoryName" />
+			<field label="启动统计" name="startCount" />
+			<field label="状态" name="status" />
+			<field label="步骤总数" name="stepCount" />
+			<field label="读" name="linesRead" desc="" />
+			<field label="写" name="linesWritten" />
+			<field label="输入" name="linesInput" />
+			<field label="输出" name="linesOutput" desc="" />
+			<field label="更新" name="linesUpdated" />
+			<field label="拒绝" name="linesRejected" />
+			<field label="速度" name="speed" desc="" />
+			<field label="错误" name="error" />
+			<field label="创建时间" name="createTime" />
+			<field label="转换开始时间" name="startTime" />
+			<field label="转换结束时间" name="endTime" />
+			<field label="转换当前时间" name="currentTime" />
+		</output>
+	</interface>
+
+	<interface key="schedule/getLastJobInfo" desc="获取最近一次作业调度信息">
+		<input>
+			<field label="作业id" name="id" desc="" />
+		</input>
+		<output type="rows">
+			<field label="ID" name="id" desc="" />
+			<field label="作业ID" name="jobId" />
+			<field label="启动统计" name="startCount" />
+			<field label="作业名称" name="jobName" desc="" />
+			<field label="转换总数" name="transCount" />
+			<field label="同步方式" name="syncMode" />
+			<field label="周期表达式" name="cycle" desc="" />
+			<field label="目录名称" name="directoryName" />
+			<field label="状态" name="status" />
+			<field label="节点名称" name="node" />
+			<field label="日志级别" name="logLevel" />
+			<field label="读" name="linesRead" desc="" />
+			<field label="写" name="linesWritten" />
+			<field label="输入" name="linesInput" />
+			<field label="输出" name="linesOutput" desc="" />
+			<field label="更新" name="linesUpdated" />
+			<field label="拒绝" name="linesRejected" />
+			<field label="速度" name="speed" desc="" />
+			<field label="错误" name="error" />
+			<field label="创建时间" name="createTime" />
+			<field label="作业开始时间" name="startTime" />
+			<field label="作业结束时间" name="endTime" />
+			<field label="作业当前时间" name="currentTime" />
+
+		</output>
+	</interface>
+
+	<interface key="schedule/getJobInfoHistory" desc="获取历史作业调度信息">
+		<input>
+			<field label="每页条数" name="limit" desc="" />
+			<field label="页数" name="current" desc="" />
+			<field label="作业id" name="jobId" desc="" />
+			<field label="调度次数" name="startCount" desc="" />
+			<field label="调度结果" name="status" desc="" />
+			<field label="开始时间" name="startTime" desc="" />
+			<field label="结束时间" name="endTime" desc="" />
+		</input>
+		<output type="rows">
+			<field label="ID" name="id" desc="" />
+			<field label="作业ID" name="jobId" />
+			<field label="启动统计" name="startCount" />
+			<field label="作业名称" name="jobName" desc="" />
+			<field label="转换总数" name="transCount" />
+			<field label="同步方式" name="syncMode" />
+			<field label="周期表达式" name="cycle" desc="" />
+			<field label="目录名称" name="directoryName" />
+			<field label="状态" name="status" />
+			<field label="节点名称" name="node" />
+			<field label="日志级别" name="logLevel" />
+			<field label="读" name="linesRead" desc="" />
+			<field label="写" name="linesWritten" />
+			<field label="输入" name="linesInput" />
+			<field label="输出" name="linesOutput" desc="" />
+			<field label="更新" name="linesUpdated" />
+			<field label="拒绝" name="linesRejected" />
+			<field label="速度" name="speed" desc="" />
+			<field label="错误" name="error" />
+			<field label="创建时间" name="createTime" />
+			<field label="作业开始时间" name="startTime" />
+			<field label="作业结束时间" name="endTime" />
+			<field label="作业当前时间" name="currentTime" />
+		</output>
+	</interface>
+
+	<interface key="schedule/getTransInfoHistory" desc="获取作业调度下的转换调度历史信息">
+		<input>
+			<field label="每页条数" name="limit" desc="" />
+			<field label="页数" name="current" desc="" />
+			<field label="作业调度id" name="jobMetricId" desc="就是schedule/getJobInfoHistory获取的id" />
+			<field label="作业ID" name="jobId" desc="" />
+			<field label="转换ID" name="transId" desc="" />
+			<field label="调度次数" name="startCount" desc="" />
+			<field label="调度结果" name="status" desc="" />
+			<field label="开始时间" name="startTime" desc="" />
+			<field label="结束时间" name="endTime" desc="" />
+		</input>
+		<output type="rows">
+			<field label="ID" name="id" desc="" />
+			<field label="作业调度ID" name="jobMetricId " />
+			<field label="作业ID" name="jobId" />
+			<field label="作业名称" name="jobName" desc="" />
+			<field label="转换ID" name="transId" />
+			<field label="转换名称" name="transName" desc="" />
+			<field label="目录名称" name="directoryName" />
+			<field label="启动统计" name="startCount" />
+			<field label="状态" name="status" />
+			<field label="步骤总数" name="stepCount" />
+			<field label="读" name="linesRead" desc="" />
+			<field label="写" name="linesWritten" />
+			<field label="输入" name="linesInput" />
+			<field label="输出" name="linesOutput" desc="" />
+			<field label="更新" name="linesUpdated" />
+			<field label="拒绝" name="linesRejected" />
+			<field label="速度" name="speed" desc="" />
+			<field label="错误" name="error" />
+			<field label="创建时间" name="createTime" />
+			<field label="转换开始时间" name="startTime" />
+			<field label="转换结束时间" name="endTime" />
+			<field label="转换当前时间" name="currentTime" />
+		</output>
+	</interface>
+
+	<interface key="schedule/getStepInfo" desc="获取转换调度下的步骤调度信息">
+		<input>
+			<field label="转换调度id" name="transMetricId" desc="" />
+		</input>
+		<output type="rows">
+			<field label="ID" name="id" desc="" />
+			<field label="转换调度id" name="transMetricId " />
+			<field label="转换ID" name="transId" />
+			<field label="转换名称" name="transName" desc="" />
+			<field label="步骤ID" name="stepId" />
+			<field label="步骤名称" name="stepName" desc="" />
+			<field label="并行数" name="copy" />
+			<field label="启动统计" name="startCount" />
+			<field label="状态" name="statusDescription" />
+			<field label="读" name="linesRead" desc="" />
+			<field label="写" name="linesWritten" />
+			<field label="输入" name="linesInput" />
+			<field label="输出" name="linesOutput" desc="" />
+			<field label="更新" name="linesUpdated" />
+			<field label="拒绝" name="linesRejected" />
+			<field label="速度" name="speed" desc="" />
+			<field label="错误" name="error" />
+			<field label="优先" name="priority" desc="" />
+			<field label="时间（秒）" name="seconds" />
+			<field label="创建时间" name="createTime" />
+		</output>
+	</interface>
+
+	<interface key="schedule/getJobLog" desc="作业日志">
+		<input>
+			<field label="作业id" name="id" desc="" />
+			<field label="开始结点" name="startPoint" desc="" />
+			<field label="日志条数" name="count" desc="" />
+		</input>
+		<output type="row">
+			<field label="结束结点" name="endPoint" desc="" />
+			<field label="日志内容" name="log" desc="是一个字符串数组" />
+		</output>
+	</interface>
+
+	<interface key="schedule/getJobLog" desc="作业日志">
+		<input>
+			<field label="作业id" name="id" desc="" />
+			<field label="开始结点" name="startPoint" desc="" />
+			<field label="日志条数" name="count" desc="" />
+		</input>
+		<output type="row">
+			<field label="结束结点" name="endPoint" desc="" />
+			<field label="日志内容" name="log" desc="是一个字符串数组" />
+		</output>
+	</interface>
+
+	<interface key="jobSync/save" desc="保存周期模板接口">
+		<input>
+			<field label="主键" name="id" desc="" />
+			<field label="名称" name="name" desc="必填字段" />
+			<field label="节点" name="node" desc="" />
+			<field label="日志路径" name="logEditPath" desc="" />
+			<field label="日志级别" name="logLevel" desc="" />
+			<field label="内存大小" name="mem" desc="" />
+			<field label="同步方式" name="syncMode" desc="" />
+			<field label="立即执行" name="immediate" desc="" />
+			<field label="重复执行" name="repeat" desc="" />
+			<field label="独占资源" name="occupy" desc="" />
+			<field label="corn表达式" name="cycle" desc="" />
+			<field label="类型" name="scheduleType" desc="同步周期" />
+			<field label="以秒计算的间隔" name="intervalSecond" desc="同步周期" />
+			<field label="以分计算的间隔" name="intervalMinute" desc="同步周期" />
+			<field label="小时" name="hour" desc="同步周期" />
+			<field label="分钟" name="minute" desc="同步周期" />
+			<field label="一周的一天" name="dayOfWeek" desc="同步周期" />
+			<field label="一个月的一天" name="dayOfMonth" desc="同步周期" />
+		</input>
+		<output type="row">
+			<field label="保存成功" name="success" desc="保存成功" />
+			<field label="保存失败" name="error" desc="保存失败" />
+		</output>
+	</interface>
+
+	<interface key="schedule/save" desc="保存作业周期信息接口">
+		<input>
+			<field label="作业主键" name="id" desc="必填字段" />
+			<field label="周期模板主键" name="syncId" desc="" />
+			<field label="节点" name="node" desc="" />
+			<field label="日志路径" name="logEditPath" desc="" />
+			<field label="日志级别" name="logLevel" desc="" />
+			<field label="内存大小" name="mem" desc="" />
+			<field label="同步方式" name="syncMode" desc="" />
+			<field label="立即执行" name="immediate" desc="" />
+			<field label="重复执行" name="repeat" desc="" />
+			<field label="独占资源" name="occupy" desc="" />
+			<field label="corn表达式" name="cycle" desc="" />
+			<field label="类型" name="scheduleType" desc="同步周期" />
+			<field label="以秒计算的间隔" name="intervalSecond" desc="同步周期" />
+			<field label="以分计算的间隔" name="intervalMinute" desc="同步周期" />
+			<field label="小时" name="hour" desc="同步周期" />
+			<field label="分钟" name="minute" desc="同步周期" />
+			<field label="一周的一天" name="dayOfWeek" desc="同步周期" />
+			<field label="一个月的一天" name="dayOfMonth" desc="同步周期" />
+		</input>
+		<output type="row">
+			<field label="保存成功" name="success" desc="保存成功" />
+			<field label="保存失败" name="error" desc="保存失败" />
+		</output>
+	</interface>
+	
+	<interface key="schedule/getJobRowInfo" desc="作业配置信息">
+		<input>
+			<field label="作业主键" name="id" desc="必填字段" />
+		</input>
+		<output type="row">
+			<field label="作业id" name="idJob" desc="作业id" />
+			<field label="目录名称" name="directoryName" />
+			<field label="作业名称" name="name" />
+			<field label="作业状态" name="jobStatus" desc="1表示，4表示" />
+			<field label="作业状态中文名" name="statusName" />
+			<field label="周期模板主键" name="syncId" desc="" />
+			<field label="节点" name="node" />
+			<field label="同步方式" name="syncMode" />
+			<field label="同步方式中文名" name="syncModeName" />
+			<field label="日志级别" name="logLevel" desc="" />
+			<field label="内存大小" name="mem" desc="" />
+			<field label="立即执行" name="immediate" desc="" />
+			<field label="重复执行" name="repeat" desc="" />
+			<field label="独占资源" name="occupy" desc="" />
+			<field label="corn表达式" name="cycle" desc="" />
+			<field label="类型" name="scheduleType" desc="同步周期" />
+			<field label="以秒计算的间隔" name="intervalSecond" desc="同步周期" />
+			<field label="以分计算的间隔" name="intervalMinute" desc="同步周期" />
+			<field label="小时" name="hour" desc="同步周期" />
+			<field label="分钟" name="minute" desc="同步周期" />
+			<field label="一周的一天" name="dayOfWeek" desc="同步周期" />
+			<field label="一个月的一天" name="dayOfMonth" desc="同步周期" />
+		</output>
+	</interface>
+
+	<interface key="schedule/getJobErrorLog" desc="获取作业ERROR日志">
+		<input>
+			<field label="每页条数" name="limit" desc="" />
+			<field label="页数" name="current" desc="" />
+			<field label="作业id" name="jobId" desc="" />
+			<field label="转换id" name="transId" desc="" />
+			<field label="作业度量id" name="jobMetricId" desc="" />
+			<field label="开始时间" name="startTime" desc="" />
+			<field label="结束时间" name="endTime" desc="" />
+		</input>
+		<output type="rows">
+			<field label="主键" name="id" desc="" />
+			<field label="作业度量id" name="jobMetricId" />
+			<field label="作业id" name="jobId" />
+			<field label="作业名称" name="jobName" desc="" />
+			<field label="转换id" name="transId" />
+			<field label="转换名称" name="transName" />
+			<field label="状态编号" name="statusCode" desc="" />
+			<field label="状态名称" name="statusName" />
+			<field label="日志" name="log" />
+			<field label="日期" name="currentTime" desc="" />
+			<field label="类型" name="type" desc="" />
+		</output>
+	</interface>
+
+	<interface key="schedule/start" desc="启动作业">
+		<input>
+			<field label="作业id" name="id" desc="必填字段" />
+			<field label="作业引用id" name="referencePointJobId" desc="" />
+			<field label="索引" name="index" desc="" />
+			<field label="session id" name="sessionId" desc="必填字段" />
+		</input>
+		<output type="rows">
+			<field label="启动成功" name="success" desc="启动成功" />
+		</output>
+	</interface>
+
+	<interface key="schedule/stop" desc="停止作业">
+		<input>
+			<field label="作业id" name="id" desc="必填字段" />
+		</input>
+		<output type="rows">
+			<field label="已停止" name="success" desc="已停止" />
+		</output>
+	</interface>
+
+	<interface key="schedule/changePosition" desc="作业等待启动队列的插队">
+		<input>
+			<field label="作业id" name="id" desc="必填字段" />
+			<field label="下标位置" name="position" desc="必填字段" />
+		</input>
+		<output type="rows">
+			<field label="插队成功" name="success" desc="插队成功" />
+		</output>
+	</interface>
+
+</interfaces>

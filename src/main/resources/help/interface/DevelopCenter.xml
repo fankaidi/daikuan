@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+
+	<interface key="develop/preview" desc="预览转换">
+		<input>
+			<field label="转换id" name="id" desc="必填参数" />
+			<field label="转换预览配置" name="json" desc="必填参数" />
+		</input>
+		<output type="rows">
+			<field label="字段列表" name="fieldList" />
+			<field label="数据列表" name="valueList" />
+			<field label="日志" name="log" />
+		</output>
+	</interface>
+
+	<interface key="develop/run/trans" desc="启动转换">
+		<input>
+			<field label="id" name="id" desc="必填参数" />
+		</input>
+		<output type="rows">
+			<field label="启动成功" name="success" />
+			<field label="启动失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="develop/pause/trans" desc="暂停转换">
+		<input>
+			<field label="id" name="id" desc="必填参数" />
+		</input>
+		<output type="rows">
+			<field label="暂停成功" name="success" />
+			<field label="暂停失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="develop/resume/trans" desc="继续转换">
+		<input>
+			<field label="id" name="id" desc="必填参数" />
+		</input>
+		<output type="rows">
+			<field label="继续成功" name="success" />
+			<field label="继续失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="develop/stop/trans" desc="停止转换">
+		<input>
+			<field label="id" name="id" desc="必填参数" />
+		</input>
+		<output type="rows">
+			<field label="停止成功" name="success" />
+			<field label="停止失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="develop/getTransTree" desc="在作业下转换进口中的转换树">
+		<input/>
+		<output type="rows">
+			<field label="节点id" name="id" />
+			<field label="父节点id" name="pId" />
+			<field label="是否为父节点" name="isParent" />
+			<field label="节点名称" name="name" />
+			<field label="父节点名称" name="parentName" />
+			<field label="是否勾选" name="checked" />
+			<field label="子节点集合" name="children" />
+		</output>
+	</interface>
+
+	<interface key="develop/copy" desc="复制转换">
+		<input>
+			<field label="转换id" name="id" desc="必填参数" />
+			<field label="目录id" name="directoryId" desc="必填参数" />
+			<field label="转换名称" name="name" desc="" />
+		</input>
+		<output type="rows">
+			<field label="节点id" name="id" />
+			<field label="父节点id" name="pId" />
+			<field label="是否为父节点" name="isParent" />
+			<field label="节点名称" name="name" />
+			<field label="父节点名称" name="parentName" />
+			<field label="是否勾选" name="checked" />
+			<field label="子节点集合" name="children" />
+			<field label="json" name="json" />
+		</output>
+	</interface>
+
+	<interface key="develop/getTrans" desc="根据作业id获取转换">
+		<input>
+			<field label="作业id" name="jobId" desc="必填参数" />
+		</input>
+		<output type="rows">
+			<field label="作业id" name="idJob" />
+			<field label="转换id" name="transId" />
+			<field label="转换名称" name="name" />
+		</output>
+	</interface>
+
+</interfaces>

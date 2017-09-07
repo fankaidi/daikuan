@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+	<interface key="resource/getSourceData" desc="导入zip包" >
+		<input>
+			<field label="zip包" name="file" desc="zip包"/>
+			<field label="文件夹id" name="directoryId" desc="选中文件夹id，为空可不传"/>
+		</input>
+		<output type="row">
+			<field label="关键字" name="key" desc="关键字，导入的时候有用"/>
+			<field label="数据列表" name="relist" desc="[{'id':'7','name':'mysql到oracle11g','path':'/wby测试','type':'trans','exist':0},{'id':'5','name':'dmp_test','path':null,'type':'conn','exist':1}],type表示类型，exist:1表示已经存在，id表示他在这个类型下的唯一id"/>
+		</output>
+	</interface>
+
+	<interface key="resource/importSource" desc="导入作业、转换、数据库连接接口" >
+		<input>
+			<field label="关键字" name="key" desc="关键字，resource/getSourceData提供"/>
+			<field label="导入数据" name="sourceData" desc="传入这样的字符串 [{'type':'trans','id':'3'},{'type':'conn','id':'5'}]"/>
+			<field label="导入规则" name="ruleData" desc="传入这样的字符串 [{'type':'conn','level':'C'},{'type':'trans','level':'A'}]"/>
+		</input>
+		<output type="rows">
+			<field label="返回" name="id1" desc="返回成功"/>
+			<field label="说明" name="id2" desc="在导入的时候，会通过websocket提交发送下载进度,数据格式如下:{'type':'import','message':{'runNo':1,'total':5,'failNo':0,'logs':[{'name':'mysql到oracle11g','statusName':'成功','id':7,'type':'trans','status':1}]}}"/>
+		</output>
+	</interface>
+	
+	<interface key="resource/getResourceTreeByNode" desc="导入树数据结构" >
+		<input>
+			<field label="树数据" name="nodeData" desc="传入这样的字符串[{'id':'7','name':'mysql到oracle11g','path':'/wby测试','type':'trans'},{'id':'6','name':'多控件转换','path':'/wby测试','type':'trans'},{'id':'4','name':'oracle11g到oracle10g','path':'/wby测试','type':'trans'},{'id':'3','name':'大数据抽取','path':'/wby测试','type':'trans'},{'id':'5','name':'增量测试','path':'/wby测试','type':'trans'},{'id':'8','name':'mysql_201','path':null,'type':'conn'},{'id':'3','name':'oracle10g_141','path':null,'type':'conn'},{'id':'5','name':'dmp_test','path':null,'type':'conn'},{'id':'7','name':'oracle11g','path':null,'type':'conn'}]"/>		
+		</input>
+		<output type="rows">
+			<field label="节点id" name="id" desc="转换、作业、连接和文件夹的id"/>
+			<field label="父节点id" name="pId" desc="文件夹id"/>
+			<field label="是否为文件夹" name="isParent" desc="true为是"/>
+			<field label="节点名称" name="name" desc=""/>
+			<field label="节点类型" name="type" desc="是转换、作业、连接和文件夹"/>
+			<field label="树类型" name="treeType" desc="是转换树还是作业树还是连接数"/>
+			<field label="父节点名称" name="parentName" desc="父节点名称"/>
+			<field label="子节点列表" name="children" desc=""/>	
+		</output>
+	</interface>
+	
+	<interface key="resource/saveTemplate" desc="导入导出模板保存" >
+		<input>
+		<field label="模板类型" name="type" desc="1为导出,2为导入"/>
+		<field label="模板名称" name="tempName" desc="模板名称"/>
+		<field label="模板标签" name="tags" desc="模板标签,传入job,trans,conn等信息"/>
+		<field label="模板内容" name="content" desc="传入这样的字符串[{'id':'7','type':'trans'},{'id':'8','type':'conn'}]"/>		
+		</input>
+		<output type="row">
+			<field label="模板id" name="模板id" desc="模板id"/>	
+		</output>
+	</interface>
+	
+	<interface key="resource/getTemplateList" desc="导入导出模板列表" >
+		<input>
+		<field label="模板类型" name="type" desc="1为导出,2为导入"/>
+		<field label="模板标签" name="tags" desc="模板标签,传入job,trans,conn等信息"/>
+		</input>
+		<output type="rows">
+			<field label="模板id" name="id" desc="模板id"/>	
+			<field label="模板名称" name="tempName" desc="模板名称"/>
+			<field label="类型" name="tempType" desc="类型"/>
+		</output>
+	</interface>
+	
+	<interface key="resource/getImportTemplateTree" desc="导入模板树数据结构" >
+		<input>
+			<field label="关键字" name="key" desc="关键字，resource/getSourceData提供"/>
+			<field label="导出模板id" name="id" desc="导出模板id"/>
+		</input>
+		<output type="rows">
+			<field label="节点id" name="id" desc="转换、作业、连接和文件夹的id"/>
+			<field label="父节点id" name="pId" desc="文件夹id"/>
+			<field label="是否为文件夹" name="isParent" desc="true为是"/>
+			<field label="节点名称" name="name" desc=""/>
+			<field label="节点类型" name="type" desc="是转换、作业、连接和文件夹"/>
+			<field label="树类型" name="treeType" desc="是转换树还是作业树还是连接数"/>
+			<field label="父节点名称" name="parentName" desc="父节点名称"/>
+			<field label="子节点列表" name="children" desc=""/>	
+		</output>
+	</interface>
+	
+
+</interfaces>

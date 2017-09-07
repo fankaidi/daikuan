@@ -1,0 +1,69 @@
+﻿html{width:100%; height:100%;}
+body{margin:0; padding:0; font-size:14px; color:#444; line-height:150%; font-family:微软雅黑; text-align:left; color:#CAA475; word-wrap:break-word; background:#24252A; background-size:100% 100%;}
+A{color:#CAA475; text-decoration:none;}
+A:hover{color:#FFF; text-decoration:none;}
+div{margin:0; padding:0; border:none; float:none;}
+img{border:none;}
+p{margin:0; padding:0; line-height:22px;}
+ul{margin:0; padding:0; list-style-type:none; float:none;}
+dl{width:100%; height:auto; margin:0; padding:0;}
+.table{border:solid 1px #B4B4B4; border-collapse:collapse;}
+.table tr th{padding-left:5px; height:32px; border:solid 1px #B4B4B4;}
+.table tr td{height:32px; padding:5px; border:solid 1px #B4B4B4; line-height:32px; text-align:center;}
+.table tr td.textleft{text-align:left;}
+.input,.select,.submit,.textarea{margin-right:10px; border:0px solid #888; outline:0; float:left; font-size:14px; color:#CAA475; background:none; overflow:hidden;}
+.search span,.add span{margin-right:2px; line-height:36px; float:left; overflow:hidden}
+.input{width:200px;height:48px; border:0px solid #888; line-height:36px; padding:0 5px; float:left;}
+.select{width:200px;height:48px; line-height:46px; padding:4px 2px;}
+.search_input{width:200px; height:30px; margin:0; padding:0 5px; border:0 solid #47B488; border-width:1px 0 1px 1px; outline:0; float:left; line-height:30px; color:#FFF; background:#47B488;}
+.search_submit{width:32px; height:32px; margin:0; padding:0; border:1px solid #004229; outline:0; float:left; color:#666; line-height:32px; background:#004229 url(images/search.png) -3px -3px no-repeat;}
+.search_submit:hover{border:1px solid #0AAC87; cursor:pointer; background:#004229 url(images/search.png) -3px -3px no-repeat;}
+.search_submit:active{box-shadow:inset 2px 2px 0 #C4FFE9;}
+.textarea{width:600px; height:300px; border:1px solid #999; line-height:36px; padding:0 5px;}
+.submit{width:100%; height:48px; padding:0; border:0px solid #CAA475; font-size:16px; color:#FFF; line-height:48px; font-family:微软雅黑; background:#CAA475;}
+.left{float:left; display:inline; overflow:hidden;}
+.right{float:right; display:inline; overflow:hidden;}
+#header{width:100%; margin:50px auto; border:0; overflow:hidden;}
+#header .logo{width:60%; max-width:354px; margin:0 auto; border:0; overflow:hidden;}
+#header .logo img{max-width:100%; margin:0 auto; border:0; overflow:hidden;}
+#container{width:100%; min-width:320px; margin:0 auto; padding:0; overflow:hidden;}
+#container .index{width:100%; height:auto; margin:0 auto; padding:0; border-top:2px solid #CAA475; float:none; overflow:hidden;}
+#container .index .area{width:100%; height:auto; margin:20px auto; padding:0; float:none; overflow:hidden;}
+#container .index .area P.title{width:100%; height:38px; margin:20px auto 0; padding:0; float:none; font-size:20px; text-align:center; overflow:hidden;}
+#container .index .area ul{width:100%; margin:20px auto 0; float:none; font-size:20px; text-align:center; overflow:hidden; padding:0;}
+#container .index .area ul li{width:80%; min-width:300px; margin:20px auto 0; padding:0; border:2px solid #CAA475; float:none; overflow:hidden;}
+#container .index .area ul li A{display:block; width:100%; min-width:300px; height:38px; margin:0; padding:0; float:none; font-size:16px; line-height:38px; text-align:center; overflow:hidden;}
+#container .add{width:100%; height:auto; margin:0 auto; padding:0; float:none; overflow:hidden;}
+#container .add .area{width:100%; height:auto; margin:0 auto; padding:0; float:none; overflow:hidden;}
+#container .add .area P.title1{width:100%; height:38px; margin:0 auto; padding:0; float:none; font-size:20px; text-align:center; color:#888; overflow:hidden;}
+#container .add .area P.title2{width:100%; height:38px; margin:0 auto 20px; padding:0; float:none; font-size:20px; text-align:center; color:#DDD; overflow:hidden;}
+#container .add .area .title3{width:90%; min-width:300px; max-width:380px; margin:0 auto; padding:10px 5%; float:none; background:#E1D2D7; overflow:hidden;}
+#container .add .area .title3 .left{width:90%; max-width:360px; margin:0; padding:0; font-size:14px; text-align:left; color:#FF0000; overflow:hidden;}
+#container .add .area .title3 .right{width:20px; height:20px; margin:10px 0; padding:0; -moz-border-radius:10px; -webkit-border-radius:10px; border-radius:10px; font-size:14px; line-height:20px; text-align:center; color:#FFF; background:#FF0000; overflow:hidden;}
+#container .add .area dl{width:90%; min-width:300px; max-width:380px; height:48px; margin:0 auto; padding:0 5%; border-top:1px solid #AAA; font-size:14px; float:none; overflow:hidden;}
+#container .add .area dt{width:60px; height:48px; margin-right:5px; padding:0; float:left; text-align:left; display:inline; line-height:48px; overflow:hidden;}
+#container .add .area dd{width:auto; min-height:48px; margin:0; padding:0; line-height:48px; float:left; text-align:left; color:#FF0000; display:inline; overflow:hidden;}
+#container .add .area dd span{margin:5px 0;}
+#container .success{width:100%; height:auto; margin:0 auto; padding:0; float:none; overflow:hidden;}
+#container .success .area{width:100%; height:auto; margin:0 auto; padding:0; float:none; overflow:hidden;}
+#container .success .area P.info{width:90%; min-width:280px; max-width:380px; margin:0 auto; padding:0 5%; float:none; font-size:14px; line-height:28px; text-align:center; color:#FF0000; overflow:hidden;}
+#footer{width:100%; margin:20px auto 0; padding:10px 0; border-top:1px solid #CAA475; float:none; color:#AAA; overflow:hidden;}
+#footer A{color:#AAA;}
+#footer .area{width:100%; height:auto; margin:0 auto; line-height:28px; float:none; text-align:center; overflow:hidden;}
+#footer span{margin-right:10px;}
+#footer .copyright A{margin-right:20px;}
+#addsub{width:100%; height:48px; bottom:0; right:0; position:fixed; z-index:500; margin:0; padding:0; border:0; line-height:48px; color:#FFF; background:#CAA475; overflow:hidden;}
+#result{display:none; width:100%; height:48px; top:0; right:0; position:fixed; z-index:500; margin:0; padding:0; border:0; line-height:48px; color:#FFF; overflow:hidden;}
+#result.red{background:#ea533f;}
+#result.green{background:#090;}
+#reinfo{width:100%; margin:0 auto; padding:0; float:none; text-align:center;}
+.w060{width:60px;}
+.w080{width:80px;}
+.w100{width:100px;}
+.w150{width:150px;}
+.w248{width:248px;}
+.w300{width:300px;}
+.w450{width:450px;}
+.h100{height:100px;}
+.h200{height:200px;}
+.h300{height:300px;}

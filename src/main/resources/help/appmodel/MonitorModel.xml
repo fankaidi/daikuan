@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="monitor" name="全息监控" desc="全息监控">
+	<appmodel desc="系统监控">
+		<interfacedesc key="monitor/getSlave" name="获取子节点" desc="" />
+		<interfacedesc key="monitor/getProcess" name="获取作业进程" desc="" />
+		<interfacedesc key="monitor/getLog/Error" name="获取错误日志" desc="" />
+		<interfacedesc key="monitor/getLog/Debug" name="获取警告日志" desc="" />
+	</appmodel>
+
+</appmodels>

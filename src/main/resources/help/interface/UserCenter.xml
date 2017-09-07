@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+	<interface key="user/login" desc="用户登录">
+		<input>
+			<field label="用户名" name="userName" desc="" />
+			<field label="密码" name="password" desc="" />
+		</input>
+		<output type="rows">
+			<field label="登录成功" name="success" />
+			<field label="用户名或者密码错误" name="error" />
+		</output>
+	</interface>
+
+	<interface key="user/logout" desc="用户注销">
+		<input>
+			<field label="sessionId" name="sessionId" desc="" />
+		</input>
+		<output type="rows">
+			<field label="注销成功" name="success" />
+			<field label="注销失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="user/select" desc="分页查询用户">
+		<input>
+			<field label="每页条数" name="limit" desc="必填字段" />
+			<field label="第几页" name="current" desc="必填字段" />
+			<field label="用户名" name="userName"/>
+			<field label="姓名" name="realName"/>
+			<field label="登录锁" name="isLock"/>
+		</input>
+		<output type="rows">
+			<field label="用户id" name="id" />
+			<field label="用户名" name="userName" />
+			<field label="登录锁" name="isLock" />
+			<field label="姓名" name="realName" />
+			<field label="联系方式" name="phoneNumber" />
+			<field label="电子邮件" name="email" />
+			<field label="职位" name="position" />
+			<field label="创建日期" name="createTime_" />
+			<field label="修改日期" name="updateTime_" />
+		</output>
+	</interface>
+
+	<interface key="user/getUserRow" desc="查询用户单条记录">
+		<input>
+			<field label="用户id" name="id" desc="必填字段" />
+		</input>
+		<output type="rows">
+			<field label="用户id" name="id" />
+			<field label="用户名" name="userName" />
+			<field label="登录锁" name="isLock" />
+			<field label="姓名" name="realName" />
+			<field label="联系方式" name="phoneNumber" />
+			<field label="电子邮件" name="email" />
+			<field label="职位" name="position" />
+			<field label="创建日期" name="createTime_" />
+			<field label="修改日期" name="updateTime_" />
+		</output>
+	</interface>
+
+	<interface key="user/checkSession" desc="验证会话">
+		<input>
+			<field label="sessionId" name="sessionId" desc="必填字段" />
+		</input>
+		<output type="rows">
+			<field label="用户id" name="id" />
+			<field label="用户名" name="userName" />
+			<field label="登录锁" name="isLock" />
+			<field label="姓名" name="realName" />
+			<field label="联系方式" name="phoneNumber" />
+			<field label="电子邮件" name="email" />
+			<field label="职位" name="position" />
+			<field label="创建日期" name="createTime_" />
+			<field label="修改日期" name="updateTime_" />
+		</output>
+	</interface>
+
+	<interface key="user/save" desc="保存用户">
+		<input>
+			<field label="用户id" name="id" />
+			<field label="用户名" name="userName" desc="必填字段"/>
+			<field label="登录锁" name="isLock"/>
+			<field label="姓名" name="realName" />
+			<field label="联系方式" name="phoneNumber" />
+			<field label="电子邮件" name="email" />
+			<field label="职位" name="position" />
+			<field label="角色id" name="roleIds" desc="比如1,2,3,4 参照接口role/getRoleTree"/>
+		</input>
+		<output type="rows">
+			<field label="保存成功" name="success" />
+			<field label="保存失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="user/modifiedPassword" desc="修改密码">
+		<input>
+			<field label="用户id" name="id" desc="必填字段" />
+			<field label="原密码" name="oldPassword" desc="必填字段"/>
+			<field label="新密码" name="newPassword" desc="必填字段"/>
+			<field label="新密码确认" name="confirmPassword"  desc="必填字段"/>
+		</input>
+		<output type="rows">
+			<field label="修改密码成功" name="success" />
+			<field label="修改密码失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="user/initializePassword" desc="初始化密码">
+		<input>
+			<field label="用户id" name="id" desc="必填字段" />
+		</input>
+		<output type="rows">
+			<field label="初始化密码成功" name="success" />
+			<field label="初始化密码失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="user/delete" desc="删除用户">
+		<input>
+			<field label="用户id" name="id" desc="必填字段, 例如单个1 多个1,2,3,4" />
+		</input>
+		<output type="rows">
+			<field label="删除成功" name="success" />
+			<field label="删除失败" name="error" />
+		</output>
+	</interface>
+
+
+</interfaces>

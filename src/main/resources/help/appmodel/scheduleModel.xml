@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="schedule" name="调度中心" desc="作业调度">
+	
+	<appmodel desc="调度列表页面">
+		<interfacedesc key="schedule/select" name="调度中心列表" desc="" />
+		<interfacedesc key="schedule/getCount" name="作业状态统计" desc="需要根据文件夹进行筛选，包含子目录" />
+		<interfacedesc key="schedule/getSpeed" name="正在运行作业的性能和状态轮询" desc="" />
+		<interfacedesc key="schedule/getJobMetric" name="正在运行作业度量" desc="" />
+		<interfacedesc key="schedule/getJobMetricHistory" name="最近一次执行结束的作业度量" desc="" />
+		<interfacedesc key="schedule/getJobRowInfo" name="作业配置信息" desc="" />
+	</appmodel>
+
+	<appmodel desc="作业">
+		<interfacedesc key="schedule/start" name="启动作业" desc="" />
+		<interfacedesc key="schedule/stop" name="停止作业" desc="" />
+		<interfacedesc key="schedule/changePosition" name="作业等待启动队列 插队" desc="" />
+	</appmodel>
+	
+	<appmodel desc="作业详情">
+		<interfacedesc key="schedule/getJobInfoHistory" name="获取历史作业调度信息" desc="" />
+		<interfacedesc key="schedule/getTransInfoHistory" name="获取作业调度下的转换调度历史信息" desc="" />
+		<interfacedesc key="schedule/getStepInfo" name="转换的度量，也就是步骤度量" desc="" />
+		<interfacedesc key="schedule/getJobLog" name="作业日志" desc="" />
+		<interfacedesc key="schedule/getJobErrorLog" name="作业ERROR日志" desc="" />
+	</appmodel>
+
+	<appmodel desc="调度信息">
+		<interfacedesc key="jobSync/save" name="保存周期模板接口" desc = ""/>
+		<interfacedesc key="schedule/save" name="保存作业周期信息接口" desc=""/>
+	</appmodel>
+
+</appmodels>

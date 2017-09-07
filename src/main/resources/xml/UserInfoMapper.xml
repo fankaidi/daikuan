@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kensure.ktl.user.dao.UserInfoDao"><!--dsName="" saasAspect=""-->
+	<!-- <cache readOnly="true"/> -->
+    <sql id="allFields">
+		id,
+		name,
+		pwd,
+		mobile,
+		qq,
+		xb,
+		card,
+		year,
+		danwei,
+		zhiwu,
+		phone,
+		zhimafen,
+		huabeiedu,
+		jiebeiedu,
+		xinyongka,
+		jiedaibao,
+		create_date as createDate,
+		update_date as updateDate
+    </sql>
+    
+	<sql id="insertFields">
+		id,
+		name,
+		pwd,
+		mobile,
+		qq,
+		xb,
+		card,
+		year,
+		danwei,
+		zhiwu,
+		phone,
+		zhimafen,
+		huabeiedu,
+		jiebeiedu,
+		xinyongka,
+		jiedaibao,
+		create_date,
+		update_date
+    </sql>
+	
+	<insert id="insert" parameterType="com.kensure.ktl.user.model.UserInfo">
+		insert into user_info (<include refid="insertFields"/>)
+		values (
+			#{id},
+			#{name},
+			#{pwd},
+			#{mobile},
+			#{qq},
+			#{xb},
+			#{card},
+			#{year},
+			#{danwei},
+			#{zhiwu},
+			#{phone},
+			#{zhimafen},
+			#{huabeiedu},
+			#{jiebeiedu},
+			#{xinyongka},
+			#{jiedaibao},
+			#{createDate},
+			#{updateDate}
+		)
+	</insert>
+	
+	<insert id="insertInBatch" parameterType="com.kensure.ktl.user.model.UserInfo">
+		insert into user_info (<include refid="insertFields"/>) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.name},
+				#{item.pwd},
+				#{item.mobile},
+				#{item.qq},
+				#{item.xb},
+				#{item.card},
+				#{item.year},
+				#{item.danwei},
+				#{item.zhiwu},
+				#{item.phone},
+				#{item.zhimafen},
+				#{item.huabeiedu},
+				#{item.jiebeiedu},
+				#{item.xinyongka},
+				#{item.jiedaibao},
+				#{item.createDate},
+				#{item.updateDate}
+			)
+		</foreach>
+	</insert>   		
+	
+    <sql id="whereClause">
+		<if test="name != null">			
+			name = #{name}			
+		</if>
+		<if test="pwd != null">			
+			and pwd = #{pwd}			
+		</if>
+		<if test="mobile != null">			
+			and mobile = #{mobile}			
+		</if>
+		<if test="qq != null">			
+			and qq = #{qq}			
+		</if>
+		<if test="xb != null">			
+			and xb = #{xb}			
+		</if>
+		<if test="card != null">			
+			and card = #{card}			
+		</if>
+		<if test="year != null">			
+			and year = #{year}			
+		</if>
+		<if test="danwei != null">			
+			and danwei = #{danwei}			
+		</if>
+		<if test="zhiwu != null">			
+			and zhiwu = #{zhiwu}			
+		</if>
+		<if test="phone != null">			
+			and phone = #{phone}			
+		</if>
+		<if test="zhimafen != null">			
+			and zhimafen = #{zhimafen}			
+		</if>
+		<if test="huabeiedu != null">			
+			and huabeiedu = #{huabeiedu}			
+		</if>
+		<if test="jiebeiedu != null">			
+			and jiebeiedu = #{jiebeiedu}			
+		</if>
+		<if test="xinyongka != null">			
+			and xinyongka = #{xinyongka}			
+		</if>
+		<if test="jiedaibao != null">			
+			and jiedaibao = #{jiedaibao}			
+		</if>
+		<if test="createDate != null">			
+			and create_date = #{createDate}			
+		</if>
+		<if test="updateDate != null">			
+			and update_date = #{updateDate}			
+		</if>
+	</sql>
+    
+	<select id="selectOne" resultType="com.kensure.ktl.user.model.UserInfo" parameterType="Long" >
+		select <include refid="allFields"/> 
+		  from user_info 
+		 where id = #{id} 
+	</select>
+	
+	<select id="selectByIds" parameterType="List" resultType="com.kensure.ktl.user.model.UserInfo">
+		select <include refid="allFields"/> from user_info 
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+		
+	<select id="selectAll" resultType="com.kensure.ktl.user.model.UserInfo">
+		select <include refid="allFields"/> 
+		from user_info 
+	</select>
+
+	<select id="selectCount" resultType="long">
+		select count(*) from user_info 
+	</select>
+	
+	<select id="selectCountByWhere" parameterType="Map" resultType="Long">
+		select count(*) from user_info 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</select>
+
+	<select id="selectByWhere" parameterType="Map" resultType="com.kensure.ktl.user.model.UserInfo">
+		select <include refid="allFields"/>
+		from user_info 
+		<where>
+		    <include refid="whereClause"/>
+		</where>				
+		<if test="orderby != null">
+			ORDER BY ${orderby}
+		</if>
+	</select>
+	
+	<sql id="setComn">		
+		<if test="name != null">
+			name = #{name},
+		</if>
+		<if test="pwd != null">
+			pwd = #{pwd},
+		</if>
+		<if test="mobile != null">
+			mobile = #{mobile},
+		</if>
+		<if test="qq != null">
+			qq = #{qq},
+		</if>
+		<if test="xb != null">
+			xb = #{xb},
+		</if>
+		<if test="card != null">
+			card = #{card},
+		</if>
+		<if test="year != null">
+			year = #{year},
+		</if>
+		<if test="danwei != null">
+			danwei = #{danwei},
+		</if>
+		<if test="zhiwu != null">
+			zhiwu = #{zhiwu},
+		</if>
+		<if test="phone != null">
+			phone = #{phone},
+		</if>
+		<if test="zhimafen != null">
+			zhimafen = #{zhimafen},
+		</if>
+		<if test="huabeiedu != null">
+			huabeiedu = #{huabeiedu},
+		</if>
+		<if test="jiebeiedu != null">
+			jiebeiedu = #{jiebeiedu},
+		</if>
+		<if test="xinyongka != null">
+			xinyongka = #{xinyongka},
+		</if>
+		<if test="jiedaibao != null">
+			jiedaibao = #{jiedaibao},
+		</if>
+		<if test="createDate != null">
+			create_date = #{createDate},
+		</if>
+		<if test="updateDate != null">
+			update_date = #{updateDate}
+		</if>
+	</sql>
+	
+	<update id="update" parameterType="com.kensure.ktl.user.model.UserInfo">
+		 update user_info 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<update id="updateByMap" parameterType="Map">
+		 update user_info 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from user_info where id = #{id}
+	</delete>
+	
+	<delete id="deleteMulti" parameterType="List">
+		delete from user_info
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteByWhere" parameterType="Map">
+		delete from user_info 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</delete>	
+
+</mapper>    

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="table" name="表输入输出" desc="控件">
+
+	<appmodel desc="">
+		<interfacedesc key="table/getField" name="根据sql语句获取字段" desc="" />
+		<interfacedesc key="table/generateSQL" name="生成sql语句" desc="" />
+		<interfacedesc key="table/execute" name="执行sql语句" desc="" />
+	</appmodel>
+
+</appmodels>

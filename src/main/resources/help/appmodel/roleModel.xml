@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="role" name="角色管理" desc="角色管理">
+	<appmodel desc="角色管理">
+		<interfacedesc key="role/select" name="分页查询角色" desc="" />
+		<interfacedesc key="role/getRoleRow" name="查询单条角色信息" desc="" />
+		<interfacedesc key="role/save" name="保存角色" desc="" />
+		<interfacedesc key="role/delete" name="删除角色" desc="" />
+		<interfacedesc key="role/getRoleTree" name="获取角色树" desc="" />
+	</appmodel>
+
+</appmodels>

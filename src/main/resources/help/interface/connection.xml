@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+	<interface key="connection/testConnection" desc="db连接测试" >
+		<input>
+			<field label="db连接名称" name="name" desc="必填参数"/>
+			<field label="主机名" name="hostName" desc="必填参数" />
+			<field label="端口号" name="port" desc="必填参数"/>
+			<field label="数据库名称" name="databaseName" desc=""/>
+			<field label="用户名" name="username" desc=""/>
+			<field label="密码" name="password" desc=""/>
+			<field label="数据库种类编号" name="idDatabaseType" desc="必填参数"/>
+			<field label="连接种类编号" name="idDatabaseContype" desc=""/>
+			<field label="集群类型" name="shimId" desc="限HBase使用"/>
+		</input>
+		<output type="rows">
+			<field label="成功" name="success" desc="测试成功"/>
+			<field label="失败" name="error" desc="测试失败"/>
+		</output>
+	</interface>
+
+	<interface key="connection/check" desc="根据ID检测DB连接, 检测时间超过10秒判断为连接失败" >
+		<input>
+			<field label="id" name="id" desc="必填参数 多个以 , 分隔"/>
+		</input>
+		<output type="Map">
+			<field label="key" name="key" desc="id"/>
+			<field label="value" name="value" desc="状态"/>
+		</output>
+	</interface>
+
+</interfaces>

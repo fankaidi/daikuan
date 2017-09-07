@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="connection" name="db连接" desc="db连接">
+	
+	<appmodel desc="调度列表页面">
+		<interfacedesc key="connection/testConnection" name="db连接测试" desc="" />
+		<interfacedesc key="connection/check" name="根据ID检测DB连接, 检测时间超过10秒判断为连接失败" desc="多个以 , 分隔" />
+	</appmodel>
+
+</appmodels>

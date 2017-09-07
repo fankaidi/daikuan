@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+
+	<interface key="HBase/getKeyType" desc="获取Mapping主键类型" >
+		<input/>
+		<output type="rows">
+			<field label="类型" name="java.lang.String" desc="类型"/>
+		</output>
+	</interface>
+
+	<interface key="HBase/getType" desc="获取Mapping类型" >
+		<input>
+			<field label="是否为HBase数据类型" name="hBaseType" desc="布尔值类型，true:HBase类型,false:ktl类型, 默认: ktl类型"/>
+		</input>
+		<output type="rows">
+			<field label="类型" name="java.lang.String" desc="类型"/>
+		</output>
+	</interface>
+
+	<interface key="HBase/getShimList" desc="获取HBase集群类型" >
+		<input/>
+		<output type="rows">
+			<field label="编号" name="code" desc="编号"/>
+			<field label="名称" name="name" desc="名称"/>
+		</output>
+	</interface>
+
+	<interface key="HBase/getTable" desc="获取表" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+		</input>
+		<output type="rows">
+			<field label="表名称" name="java.lang.String" desc="表名称"/>
+		</output>
+	</interface>
+
+	<interface key="HBase/getMappingTable" desc="获取映射表" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+		</input>
+		<output type="rows">
+			<field label="mapper名称" name="java.lang.String" desc="mapper名称"/>
+		</output>
+	</interface>
+
+	<interface key="HBase/getMapping" desc="获取映射关系" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="Mapping表名称" name="mappingTableName" desc="Mapping表名称"/>
+		</input>
+		<output type="rows">
+			<field label="mapper名称" name="java.lang.String" desc="mapper名称"/>
+		</output>
+	</interface>
+
+	<interface key="HBase/getColumn" desc="获取映射字段" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="必填字段"/>
+			<field label="Mapping表名称" name="mappingTableName" desc="必填字段"/>
+			<field label="Mapping名称" name="mappingName" desc="必填字段"/>
+			<field label="是否为HBase数据类型" name="hBaseType" desc="布尔值类型，true:HBase类型,false:ktl类型, 默认: ktl类型"/>
+		</input>
+		<output type="rows">
+			<field label="字段" name="alias" desc=""/>
+			<field label="rowKey" name="rowKey" desc=""/>
+			<field label="列蔟" name="columnFamily" desc=""/>
+			<field label="列名" name="columnName" desc=""/>
+			<field label="类型" name="type" desc=""/>
+			<field label="格式" name="format" desc=""/>
+			<field label="索引值" name="indexedValue" desc=""/>
+			<field label="列名来自变量" name="columnNameFromVariable" desc=""/>
+		</output>
+	</interface>
+
+	<interface key="HBase/saveMapping" desc="保存映射" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="Mapping表" name="mappingTableName" desc="映射表"/>
+			<field label="映射名称" name="mappingName" desc="映射名称"/>
+			<field label="Mapping json" name="mapping" desc="Mapping json"/>
+		</input>
+		<output type="rows">
+			<field label="保存成功" name="success" />
+			<field label="保存失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="HBase/deleteMapping" desc="删除映射" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="Mapping表" name="mappingTableName" desc="映射表"/>
+			<field label="映射名称" name="mappingName" desc="映射名称"/>
+		</input>
+		<output type="rows">
+			<field label="删除成功" name="success" />
+			<field label="删除失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="HBase/createTable" desc="创建表" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="表名称" name="tableName" desc="表名称"/>
+			<field label="列蔟" name="columnFamily" desc="列蔟, 多个以逗号分隔"/>
+			<field label="预分区" name="spiltKey" desc="预分区, 多个以逗号分隔"/>
+		</input>
+		<output type="rows">
+			<field label="创建成功" name="success" />
+			<field label="创建失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="HBase/truncateTable" desc="清空表" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="表名称" name="tableName" desc="表名称"/>
+		</input>
+		<output type="rows">
+			<field label="清空成功" name="success" />
+			<field label="清空失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="HBase/getColumnFamily" desc="获取列蔟" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="表名称" name="tableName" desc="表名称"/>
+		</input>
+		<output type="rows">
+			<field label="String" name="String" />
+		</output>
+	</interface>
+
+</interfaces>

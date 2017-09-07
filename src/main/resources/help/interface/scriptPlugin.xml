@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+	<interface key="script/getVariable" desc="获取变量" >
+		<input>
+			<field label="源字段名称" name="sourceName" desc="该参数为非数据库输入控件使用，多个以 , 分隔"/>
+			<field label="源字段类型" name="sourceType" desc="该参数为非数据库输入控件使用，多个以 , 分隔"/>
+			<field label="源字段长度" name="sourceLength" desc="该参数为非数据库输入控件使用，多个以 , 分隔"/>
+			<field label="js" name="js" desc="js代码"/>
+		</input>
+		<output type="rows">
+			<field label="字段名称" name="name" desc="字段名称"/>
+			<field label="字段类型" name="type" desc="字段类型"/>
+			<field label="字段长度" name="type" desc="字段长度"/>
+			<field label="字段精度" name="precision" desc="字段精度"/>
+		</output>
+	</interface>
+
+</interfaces>

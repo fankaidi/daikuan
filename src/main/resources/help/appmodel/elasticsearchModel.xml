@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="ElasticSearch控件接口" name="step" desc="ElasticSearch控件">
+	<appmodel desc="ElasticSearch控件描述">
+		<interfacedesc key="connection/getElasticSearchDatabaseList" name="获取ElasticSearch DB连接" desc="获取ElasticSearch DB连接" />
+		<interfacedesc key="elasticsearch/getIndex" name="获取索引" desc="获取索引" />
+		<interfacedesc key="elasticsearch/getIndexType" name="获取索引类型" desc="获取索引类型" />
+		<interfacedesc key="elasticsearch/createIndex" name="创建索引" desc="创建索引" />
+		<interfacedesc key="elasticsearch/getMapping" name="获取mapping" desc="获取mapping" />
+		<interfacedesc key="elasticsearch/commitMapping" name="提交mapping" desc="提交mapping" />
+		<interfacedesc key="elasticsearch/deleteMapping" name="删除mapping" desc="删除mapping" />
+	</appmodel>
+
+</appmodels>

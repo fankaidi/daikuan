@@ -1,0 +1,149 @@
+
+.banner-box {
+  width: 100%; 
+  height: 480px;
+  position: relative;
+}
+
+.banner-content {
+  position: absolute;
+  width: 1200px;
+  height: 480px;
+  left: 50%;
+  margin-left: -600px;
+  top: 0;
+  z-index: 10;
+  opacity: 0;
+  filter:alpha(opacity=0);
+
+}
+
+.app-main {
+  display: inline-block;
+  margin: 60px 0 0 60px;
+  vertical-align: middle;
+}
+
+.qrimg{
+  display: inline-block;
+  margin-top: 8px;
+  width: 140px;
+  vertical-align: middle;
+}
+.qrimg>.qrcode{
+  display: block;
+  width: 132px;
+  height: 132px;
+  border: 4px solid #fff;
+}
+.qrimg>p{
+  color: #fff;
+  text-align: center;
+  font-size: 14px;
+  line-height: 24px;
+}
+.section-wrap{
+  background: #fff;
+
+}
+.section-wrap-gray{
+  background: #fbfbfb;
+}
+.section{
+  width: 990px;
+  margin: 0 auto;
+  padding: 42px 0;
+
+}
+.stepimg{
+  height: 283px;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+.stepimg1{
+  background-image: url(../img/step1.png);
+}
+.stepimg2{
+  background-image: url(../img/step2.png);
+}
+.stepimg3{
+  background-image: url(../img/step3.png);
+}
+.stepinfo{
+  padding-top: 89px;
+}
+.stepinfo .big-info{
+  font-size: 40px;
+  font-weight: bold;
+  color: #4c382d;
+  text-align: left;
+  padding-bottom: 22px;
+  text-indent: 122px;
+}
+.stepinfo .small-info{
+  font-size: 22px;
+  text-align: left;
+  color: #4c382d;
+  text-indent: 122px;
+}
+.stepinfo span{
+  color: #f9795c;
+}
+
+.section .left{
+  width: 495px;
+  float: left;
+}
+.section .right{
+  width: 495px;
+  float: right;
+}
+.section-two{
+  padding: 64px 0 104px 0;
+  text-align: center;
+}
+.section-two>h2{
+  text-align: center;
+  color: #4c3734;
+  font-size: 30px;
+  font-weight: bold;
+  padding-bottom: 90px;
+}
+.section-two>h2>span{
+  color: #fd8807;
+}
+.section-two>ul{
+  display: inline-block;
+
+}
+.section-two>ul>li{
+  float: left;
+  width: 128px;
+
+}
+.section-two>ul>li.arror{
+  height: 128px;
+  margin: 0 78px;
+  background: url(../img/arror.png) no-repeat center;
+
+}
+.section-two>ul>li>div>div{
+  width: 128px;
+  height: 128px;
+
+}
+.section-two>ul>li>div>p{
+  color: #484848;
+  font-size: 22px;
+  text-align: center;
+  padding-top: 52px;
+}
+.process1{
+  background: url(../img/process1.png) no-repeat center;
+}
+.process2{
+  background: url(../img/process2.png) no-repeat center;
+}
+.process3{
+  background: url(../img/process3.png) no-repeat center;
+}

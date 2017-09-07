@@ -1,0 +1,75 @@
+
+.banner {
+  width: 100%;
+  height: 300px;
+  position: absolute;
+  background: #fe974a;
+  z-index: 5;
+  opacity: 0;
+  filter:alpha(opacity=0);
+ 
+}
+.banner-content {
+  position: absolute;
+  width: 1200px;
+  height: 300px;
+  left: 50%;
+  margin-left: -600px;
+  top: 12px;
+  z-index: 10;
+  opacity: 0;
+  filter:alpha(opacity=0);
+  
+}
+.banner-img{
+  width: 941px;
+  height: 212px;
+  background: url(../img/help-img.png) no-repeat center;
+  margin: 44px auto 0 auto;
+}
+.main{
+  width: 1082px;
+  padding: 60px 0 160px 0;
+  background: #fff;
+  margin: 0 auto;
+}
+.main-content{
+  padding: 28px;
+}
+.tab-box{
+  border-bottom: 1px solid #cecece;
+}
+
+.tab-box>li{
+  font-size: 24px;
+  line-height: 78px;
+  color: #999999;
+  float: left;
+  width: 134px;
+  margin-right: 182px;
+  text-align: center;
+  cursor: pointer;
+}
+.tab-box>li.now{
+  color: #020202;
+  border-bottom: 4px solid #fe9850;
+}
+.tab-box .lastli{
+  margin-right: 0;
+}
+.help-content .title{
+  font-size: 22px;
+  color: #fe9850;
+  line-height: 68px;
+  text-align: justify;
+}
+.help-content .info{
+  font-size: 14px;
+  color: #070707;
+  line-height: 24px;
+  margin-bottom: 28px;
+  text-align: justify;
+}
+.help-content-two,.help-content-three,.help-content-four{
+  display: none;
+}

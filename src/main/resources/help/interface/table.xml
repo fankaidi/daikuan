@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+	<interface key="table/getField" desc="根据连接名称和sql语句获取字段" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="sql语句" name="sql" desc="sql名称"/>
+		</input>
+		<output type="rows">
+			<field label="字段名称" name="name" desc="字段名称"/>
+			<field label="字段类型" name="type" desc="字段类型"/>
+			<field label="字段长度" name="length" desc="字段长度"/>
+		</output>
+	</interface>
+
+	<interface key="table/generateSQL" desc="生成sql语句" >
+		<input>
+			<field label="源连接" name="sourceDatabaseName" desc="源连接"/>
+			<field label="源sql语句" name="sourceSql" desc="源sql语句"/>
+			<field label="源字段名称" name="sourceName" desc="该参数为非数据库输入控件使用，多个以 , 分隔"/>
+			<field label="源字段类型" name="sourceType" desc="该参数为非数据库输入控件使用，多个以 , 分隔"/>
+			<field label="源字段长度" name="sourceLength" desc="该参数为非数据库输入控件使用，多个以 , 分隔"/>
+			<field label="目标连接" name="targetDataBaseName" desc="目标连接"/>
+			<field label="目标table、schema、view" name="targetName" desc="目标table、schema、view"/>
+		</input>
+		<output type="rows">
+			<field label="sql语句" name="java.lang.String" desc="sql语句"/>
+		</output>
+	</interface>
+
+	<interface key="table/execute" desc="执行sql语句" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="sql语句" name="sql" desc="sql名称"/>
+		</input>
+		<output type="rows">
+			<field label="执行结果" name="java.lang.String" desc="执行结果"/>
+		</output>
+	</interface>
+
+</interfaces>

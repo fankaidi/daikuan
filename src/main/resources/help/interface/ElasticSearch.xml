@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+
+	<interface key="connection/getElasticSearchDatabaseList" desc="获取ElasticSearch DB连接" >
+		<input/>
+		<output type="rows">
+			<field label="db连接名称" name="name" desc="必填参数"/>
+			<field label="主机名" name="hostName" desc="必填参数" />
+			<field label="端口号" name="port" desc="必填参数"/>
+			<field label="数据库名称" name="databaseName" desc=""/>
+			<field label="用户名" name="username" desc=""/>
+			<field label="密码" name="password" desc=""/>
+			<field label="数据库种类编号" name="idDatabaseType" desc="必填参数"/>
+			<field label="连接种类编号" name="idDatabaseContype" desc=""/>
+			<field label="数据库种类名称" name="databaseType" desc="必填参数"/>
+			<field label="连接种类名称" name="databaseContype" desc=""/>
+		</output>
+	</interface>
+
+	<interface key="elasticsearch/getIndex" desc="获取索引" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+		</input>
+		<output type="rows">
+			<field label="索引名称" name="String" desc="类型名称"/>
+		</output>
+	</interface>
+
+	<interface key="elasticsearch/getIndexType" desc="根据连接名称和索引名称获取索引类型" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="索引名称" name="index" desc="索引名称"/>
+		</input>
+		<output type="rows">
+			<field label="类型名称" name="String" desc="类型名称"/>
+		</output>
+	</interface>
+
+	<interface key="elasticsearch/createIndex" desc="创建索引" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="索引名称" name="index" desc="索引名称"/>
+			<field label="分片" name="shards" desc="分片"/>
+			<field label="副本" name="replicas" desc="副本"/>
+		</input>
+		<output type="rows">
+			<field label="创建成功" name="success" desc="创建成功"/>
+			<field label="创建失败" name="error" desc="创建失败"/>
+		</output>
+	</interface>
+
+	<interface key="elasticsearch/getMapping" desc="获取mapping信息" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="索引名称" name="index" desc="索引名称"/>
+			<field label="索引类型" name="indexType" desc="索引类型"/>
+			<field label="是否为父子" name="isParentChild" desc="是否为父子：boolean类型"/>
+			<field label="父类型" name="parentType" desc="父类型"/>
+			<field label="mapping json" name="mapping" desc="mapping json"/>
+		</input>
+		<output type="rows">
+			<field label="查询成功" name="success" desc="查询成功"/>
+			<field label="查询失败" name="error" desc="查询失败"/>
+		</output>
+	</interface>
+
+	<interface key="elasticsearch/commitMapping" desc="提交mapping" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="索引名称" name="index" desc="索引名称"/>
+			<field label="索引类型" name="indexType" desc="索引类型"/>
+			<field label="是否为父子" name="isParentChild" desc="是否为父子：boolean类型"/>
+			<field label="父类型" name="parentType" desc="父类型"/>
+			<field label="分片" name="shards" desc="分片"/>
+			<field label="副本" name="replicas" desc="副本"/>
+			<field label="mapping json" name="mapping" desc="mapping json"/>
+		</input>
+		<output type="rows">
+			<field label="查询成功" name="success" desc="查询成功"/>
+			<field label="查询失败" name="error" desc="查询失败"/>
+		</output>
+	</interface>
+
+	<interface key="elasticsearch/deleteMapping" desc="删除mapping" >
+		<input>
+			<field label="DB连接名称" name="databaseName" desc="DB连接名称"/>
+			<field label="索引名称" name="index" desc="索引名称"/>
+			<field label="索引类型" name="indexType" desc="索引类型"/>
+		</input>
+		<output type="rows">
+			<field label="删除成功" name="success" desc="删除成功"/>
+			<field label="删除成功" name="error" desc="删除成功"/>
+		</output>
+	</interface>
+
+</interfaces>

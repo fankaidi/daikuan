@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="statistics" name="统计分析" desc="流量统计">
+	<appmodel desc="趋势图">
+		<interfacedesc key="statistics/getDataTrend/hour" name="按小时趋势图分析" desc="" />
+		<interfacedesc key="statistics/getDataTrend/day" name="按天趋势图分析" desc="" />
+	</appmodel>
+
+	<appmodel desc="作业统计">
+		<interfacedesc key="statistics/getJobTrend/hour" name="按小时作业统计" desc="" />
+		<interfacedesc key="statistics/getJobTrend/day" name="按天作业统计" desc="" />
+		<interfacedesc key="statistics/getJobList" name="获取作业统计分页" desc="" />
+	</appmodel>
+
+	<appmodel desc="节点统计">
+
+		<interfacedesc key="statistics/getSlaveTrend/hour" name="按小时节点统计" desc="" />
+		<interfacedesc key="statistics/getSlaveTrend/day" name="按天节点统计" desc="" />
+		<interfacedesc key="statistics/getSlaveList/hour" name="按小时获取节点统计分页" desc="" />
+		<interfacedesc key="statistics/getSlaveList/day" name="按天获取节点统计分页" desc="" />
+	</appmodel>
+	
+	<appmodel desc="排行统计">
+
+		<interfacedesc key="statistics/getTops/write" name="作业流量排名" desc="" />
+		<interfacedesc key="statistics/getTops/speed" name="作业性能排名" desc="" />
+		<interfacedesc key="statistics/getTops/slave" name="节点性能排名" desc="" />
+		<interfacedesc key="statistics/getTops/slaveWrite" name="节点流量排名" desc="" />
+	</appmodel>	
+
+</appmodels>

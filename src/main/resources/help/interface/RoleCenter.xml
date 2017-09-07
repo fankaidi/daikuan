@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+
+	<interface key="role/select" desc="分页查询角色">
+		<input>
+			<field label="每页条数" name="limit" desc="必填字段" />
+			<field label="第几页" name="current" desc="必填字段" />
+			<field label="角色名" name="name"/>
+			<field label="状态" name="disable"/>
+		</input>
+		<output type="rows">
+			<field label="角色id" name="id" />
+			<field label="角色名" name="name" />
+			<field label="是否可用" name="disable" />
+			<field label="描述" name="description" />
+			<field label="创建日期" name="createTime_" />
+			<field label="修改日期" name="updateTime_" />
+		</output>
+	</interface>
+
+	<interface key="role/getRoleRow" desc="查询用户单条记录">
+		<input>
+			<field label="角色id" name="id" desc="必填字段" />
+		</input>
+		<output type="rows">
+			<field label="角色id" name="id" />
+			<field label="角色名" name="name" />
+			<field label="是否可用" name="disable" />
+			<field label="描述" name="description" />
+			<field label="创建日期" name="createTime_" />
+			<field label="修改日期" name="updateTime_" />
+		</output>
+	</interface>
+
+	<interface key="role/save" desc="保存角色">
+		<input>
+			<field label="角色id" name="id" />
+			<field label="角色名" name="name" desc="必填字段"/>
+			<field label="是否可用" name="disable"/>
+			<field label="描述" name="description"/>
+			<field label="菜单id" name="menuIds" desc="比如1,2,3,4 参照接口menu/getMenuTree"/>
+		</input>
+		<output type="rows">
+			<field label="保存成功" name="success" />
+			<field label="保存失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="role/delete" desc="删除角色">
+		<input>
+			<field label="角色id" name="id" desc="必填字段" />
+		</input>
+		<output type="rows">
+			<field label="删除成功" name="success" />
+			<field label="删除失败" name="error" />
+		</output>
+	</interface>
+
+	<interface key="role/getRoleTree" desc="获取角色树">
+		<input>
+			<field label="用户id" name="id" desc="" />
+		</input>
+		<output type="rows">
+			<field label="节点id" name="id" />
+			<field label="父节点id" name="pId" />
+			<field label="是否为父节点" name="isParent" />
+			<field label="节点名称" name="name" />
+			<field label="父节点名称" name="parentName" />
+			<field label="是否勾选" name="checked" />
+			<field label="子节点集合" name="children" />
+		</output>
+	</interface>
+
+
+</interfaces>

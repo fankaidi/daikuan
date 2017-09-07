@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+
+	<interface key="monitor/getSlave" desc="获取子节点">
+		<input/>
+		<output type="rows">
+			<field label="子节点名称" name="name" />
+			<field label="子节点ip" name="ip" />
+			<field label="子节点port" name="port" />
+			<field label="是否与此子节点建立连接" name="connect" />
+			<field label="表示此子节点的状态是否可用" name="usable" />
+			<field label="cpu" name="cpu" />
+			<field label="供应商" name="vendor" />
+			<field label="型号" name="model" />
+			<field label="频率" name="mhz" />
+			<field label="核数" name="totalCores" />
+			<field label="Socket插座" name="totalSockets" />
+			<field label="插槽" name="coresPerSocket" />
+			<field label="缓存" name="cacheSize" />
+			<field label="cpu占用" name="usage" />
+			<field label="mem" name="mem" />
+			<field label="内存容量" name="total" />
+			<field label="内存占用" name="usage" />
+			<field label="disk" name="disk" />
+			<field label="磁盘容量" name="total" />
+			<field label="磁盘占用" name="usage" />
+			<field label="磁盘读性能" name="read" />
+			<field label="磁盘写性能" name="write" />
+			<field label="swap" name="swap" />
+			<field label="swap容量" name="total" />
+			<field label="swap占用" name="usage" />
+			<field label="状态" name="status" />
+			<field label="异常时间" name="abnormalTime" />
+			<field label="等待时间" name="duration" />
+		</output>
+	</interface>
+
+	<interface key="monitor/getProcess" desc="获取作业进程">
+		<input/>
+		<output type="rows">
+			<field label="节点" name="slave" />
+			<field label="进程分类" name="category" />
+			<field label="进程名称" name="process" />
+			<field label="进程id" name="pid" />
+			<field label="进程内存cpu" name="cupUsage" />
+			<field label="进程内存占用" name="memUsage" />
+			<field label="分配进程内存" name="mem" />
+			<field label="状态" name="status" />
+			<field label="等待时间" name="duration" />
+		</output>
+	</interface>
+
+	<interface key="monitor/getLog/Error" desc="获取错误日志">
+		<input>
+			<field label="每页条数" name="limit" desc="" />
+			<field label="页数" name="current" desc="" />
+			<field label="作业id" name="jobId" desc="" />
+			<field label="开始时间" name="startTime" desc="" />
+			<field label="结束时间" name="endTime" desc="" />
+		</input>
+		<output type="rows">
+			<field label="主键" name="id" desc="" />
+			<field label="作业度量id" name="jobMetricId" />
+			<field label="作业id" name="jobId" />
+			<field label="作业名称" name="jobName" desc="" />
+			<field label="转换id" name="transId" />
+			<field label="转换名称" name="transName" />
+			<field label="状态编号" name="statusCode" desc="" />
+			<field label="状态名称" name="statusName" />
+			<field label="日志" name="log" />
+			<field label="日期" name="currentTime" desc="" />
+			<field label="类型" name="type" desc="" />
+		</output>
+	</interface>
+
+
+	<interface key="monitor/getLog/Debug" desc="获取警告日志">
+		<input>
+			<field label="每页条数" name="limit" desc="" />
+			<field label="页数" name="current" desc="" />
+			<field label="作业id" name="jobId" desc="" />
+			<field label="开始时间" name="startTime" desc="" />
+			<field label="结束时间" name="endTime" desc="" />
+		</input>
+		<output type="rows">
+			<field label="主键" name="id" desc="" />
+			<field label="作业度量id" name="jobMetricId" />
+			<field label="作业id" name="jobId" />
+			<field label="作业名称" name="jobName" desc="" />
+			<field label="转换id" name="transId" />
+			<field label="转换名称" name="transName" />
+			<field label="状态编号" name="statusCode" desc="" />
+			<field label="状态名称" name="statusName" />
+			<field label="日志" name="log" />
+			<field label="日期" name="currentTime" desc="" />
+			<field label="类型" name="type" desc="" />
+		</output>
+	</interface>
+
+</interfaces>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="resource" name="资源类功能">
+	<appmodel desc="导出资源">
+		<interfacedesc key="resource/getResourceTree" name="导出树接口" desc="" />
+		<interfacedesc key="resource/exportResource" name="导出作业、转换、数据库连接接口" desc="" />
+		
+		<interfacedesc key="resource/saveTemplate" name="导入模板保存" desc="" />
+		<interfacedesc key="resource/getTemplateList" name="导入导出模板列表" desc="" />
+		<interfacedesc key="resource/getExportTemplateTree" name="根据导出模板获取树结构" desc="" />
+	</appmodel>
+	
+	<appmodel desc="导入资源">
+		<interfacedesc key="resource/getResourceTreeByNode" name="导入树接口" desc="" />
+		<interfacedesc key="resource/getSourceData" name="导入zip包" desc="导入zip包，并且返回数据,这里会返回一个key，这个key在resource/importSource有用" />
+		<interfacedesc key="resource/importSource" name="导入作业、转换、数据库连接接口" desc="需要resource/getSourceData返回的key" />
+		
+		<interfacedesc key="resource/saveTemplate" name="导入模板保存" desc="" />
+		<interfacedesc key="resource/getTemplateList" name="导入导出模板列表" desc="" />
+		<interfacedesc key="resource/getImportTemplateTree" name="根据导入模板获取树结构" desc="" />
+	</appmodel>
+
+
+
+</appmodels>

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="script" name="js脚本控件" desc="控件">
+
+	<appmodel desc="js脚本控件">
+		<interfacedesc key="script/getVariable" name="获取变量" desc="" />
+	</appmodel>
+
+</appmodels>

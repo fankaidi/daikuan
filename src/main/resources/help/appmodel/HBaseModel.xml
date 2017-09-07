@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="hbase" name="HBase控件" desc="控件">
+
+	<appmodel desc="">
+		<interfacedesc key="HBase/getKeyType" name="获取mapping主键类型" desc="" />
+		<interfacedesc key="HBase/getType" name="获取mapping类型" desc="" />
+		<interfacedesc key="HBase/getShimList" name="获取HBase集群类型" desc="" />
+		<interfacedesc key="HBase/getTable" name="获取表" desc="" />
+		<interfacedesc key="HBase/getMappingTable" name="获取Mapping表" desc="" />
+		<interfacedesc key="HBase/getMapping" name="获取映射" desc="" />
+		<interfacedesc key="HBase/getColumn" name="获取映射字段" desc="" />
+		<interfacedesc key="HBase/saveMapping" name="保存映射" desc="" />
+		<interfacedesc key="HBase/deleteMapping" name="删除映射" desc="" />
+		<interfacedesc key="HBase/createTable" name="创建表" desc="" />
+		<interfacedesc key="HBase/truncateTable" name="清空表" desc="" />
+		<interfacedesc key="HBase/getColumnFamily" name="获取列蔟" desc="" />
+	</appmodel>
+
+</appmodels>

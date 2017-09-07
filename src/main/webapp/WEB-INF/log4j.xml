@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<appender name="STDOUT" class="org.apache.log4j.ConsoleAppender" >
+		<param name="encoding" value="UTF-8" />
+		<!-- 设置监视器输出方式 -->
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" 
+				value="[%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%c]: %m%n" />
+		</layout>
+		<!--过滤器设置输出的级别--> 
+		<filter class="org.apache.log4j.varia.LevelRangeFilter">
+			<param name="levelMin" value="DEBUG" />
+			<param name="levelMax" value="FATAL" />
+			<param name="AcceptOnMatch" value="true" />
+		</filter>
+	</appender>
+
+	<appender name="DEBUGFile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${catalina.home}/ktl_log/DEBUG.log" />
+        <param name="encoding" value="UTF-8" />   
+        <param name="threshold" value="DEBUG" />
+        <param name="maxBackupIndex" value="10" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+        <layout class="org.apache.log4j.PatternLayout">   
+            <param name="conversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%c]: %m%n" />   
+        </layout>
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">   
+            <!--<param name="levelMin" value="WARN" />-->
+            <param name="levelMin" value="DEBUG" />
+            <param name="levelMax" value="DEBUG" />   
+            <param name="AcceptOnMatch" value="true" />   
+        </filter> 
+    </appender>
+
+	<appender name="INFOFile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${catalina.home}/ktl_log/INFO.log" />
+        <param name="encoding" value="UTF-8" />   
+        <param name="threshold" value="INFO" />
+        <param name="maxBackupIndex" value="30" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+        <layout class="org.apache.log4j.PatternLayout">   
+            <param name="conversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%c]: %m%n" />   
+        </layout>   
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">   
+            <!--<param name="levelMin" value="WARN" />-->
+            <param name="levelMin" value="INFO" />
+            <param name="levelMax" value="INFO" />   
+            <param name="AcceptOnMatch" value="true" />   
+        </filter>   
+    </appender>
+
+    <appender name="WARNFile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${catalina.home}/ktl_log/WARN.log" />
+        <param name="encoding" value="UTF-8" />   
+        <param name="threshold" value="WARN" />
+        <param name="maxBackupIndex" value="5" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+        <layout class="org.apache.log4j.PatternLayout">   
+            <param name="conversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%c]: %m%n" />   
+        </layout>   
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">   
+            <!--<param name="levelMin" value="WARN" />-->
+            <param name="levelMin" value="WARN" />
+            <param name="levelMax" value="WARN" />   
+            <param name="AcceptOnMatch" value="true" />   
+        </filter>   
+    </appender>
+
+    <appender name="ERRORFile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${catalina.home}/ktl_log/ERROR.log" />
+        <param name="encoding" value="UTF-8" />   
+        <param name="threshold" value="ERROR" />
+        <param name="maxBackupIndex" value="5" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+        <layout class="org.apache.log4j.PatternLayout">   
+            <param name="conversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%c]: %m%n" />   
+        </layout>   
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">   
+            <!--<param name="levelMin" value="WARN" />-->
+            <param name="levelMin" value="ERROR" />
+            <param name="levelMax" value="ERROR" />   
+            <param name="AcceptOnMatch" value="true" />   
+        </filter>   
+    </appender>
+
+    <appender name="FATALFile" class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="file" value="${catalina.home}/ktl_log/FATAL.log" />
+        <param name="encoding" value="UTF-8" />   
+        <param name="threshold" value="FATAL" />
+        <param name="maxBackupIndex" value="5" />
+        <param name="DatePattern" value="'.'yyyy-MM-dd'.log'"/>
+        <layout class="org.apache.log4j.PatternLayout">   
+            <param name="conversionPattern" value="[%d{yyyy-MM-dd HH:mm:ss}] [%p] [%t] [%c]: %m%n" />   
+        </layout>   
+        <filter class="org.apache.log4j.varia.LevelRangeFilter">   
+            <!--<param name="levelMin" value="WARN" />-->
+            <param name="levelMin" value="FATAL" />
+            <param name="levelMax" value="FATAL" />   
+            <param name="AcceptOnMatch" value="true" />   
+        </filter>   
+    </appender>
+
+     <logger name="org.springframework" additivity="true">   
+        <level value="OFF" />
+    </logger>
+
+     <logger name="org.apache" additivity="true">   
+        <level value="OFF" />
+    </logger>
+
+    <logger name="druid.sql" additivity="true">
+            <level value="OFF"  />
+    </logger>
+
+    <logger name="org.mybatis" additivity="true">
+        <level value="OFF"  />
+    </logger>
+
+    <logger name="org.quartz" additivity="true">
+            <level value="OFF"  />
+    </logger>
+
+    <logger name="com.kensure.dao" additivity="true">
+            <level value="OFF"  />
+    </logger>
+
+    <logger name="com.kensure.ktl" additivity="true">
+        <level value="OFF"  />
+    </logger>
+
+    <logger name="net.sf" additivity="true">
+        <level value="OFF"  />
+    </logger>
+
+    <logger name="com.kensure.cache" additivity="true">
+        <level value="OFF"  />
+    </logger>
+
+    <root>
+		<!-- 设置接收所有输出的通道 -->
+		<priority value="ERROR" />
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="DEBUGFile" />
+		<appender-ref ref="INFOFile" />
+		<appender-ref ref="WARNFile" />
+		<appender-ref ref="ERRORFile" />
+		<appender-ref ref="FATALFile" />
+	</root>
+</log4j:configuration>

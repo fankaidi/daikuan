@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="user" name="用户管理" desc="用户管理">
+	<appmodel desc="用户">
+		<interfacedesc key="user/login" name="用户登录" desc="" />
+		<interfacedesc key="user/logout" name="用户退出" desc="" />
+	</appmodel>
+
+	<appmodel desc="用户管理">
+		<interfacedesc key="user/select" name="查询用户" desc="" />
+		<interfacedesc key="user/getUserRow" name="查询单条用户信息" desc="" />
+		<interfacedesc key="user/checkSession" name="验证会话" desc="" />
+		<interfacedesc key="user/save" name="保存用户" desc="" />
+		<interfacedesc key="user/modifiedPassword" name="修改密码" desc="" />
+		<interfacedesc key="user/initializePassword" name="初始化密码" desc="" />
+		<interfacedesc key="user/delete" name="删除用户" desc="" />
+	</appmodel>
+
+</appmodels>

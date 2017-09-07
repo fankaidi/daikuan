@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="devlop" name="开发中心" desc="转化和作业设计中心">
+	<appmodel desc="开发中心">
+		<interfacedesc key="develop/preview" name="预览转换" desc="" />
+		<interfacedesc key="develop/run/trans" name="启动转换" desc="" />
+		<interfacedesc key="develop/pause/trans" name="暂停转换" desc="" />
+		<interfacedesc key="develop/resume/trans" name="继续转换" desc="" />
+		<interfacedesc key="develop/stop/trans" name="停止转换" desc="" />
+		<interfacedesc key="develop/verify/trans" name="校验转换" desc="" />
+		<interfacedesc key="develop/getTransTree" name="在作业下转换进口中的转换树" desc="" />
+		<interfacedesc key="develop/copy" name="复制转换" desc="" />
+		<interfacedesc key="develop/getTrans" name="根据作业id获取转换" desc="" />
+	</appmodel>
+
+</appmodels>

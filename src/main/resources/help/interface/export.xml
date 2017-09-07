@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+	<interface key="resource/getResourceTree" desc="资源数，包含作业、转换、数据库连接" >
+		<input>
+			<field label="资源类型" name="types" desc="job,trans,conn，必传"/>
+			<field label="文件夹id" name="directoryId" desc="选中文件夹id，为空可不传"/>
+		</input>
+		<output type="rows">
+			<field label="节点id" name="id" desc="转换、作业、连接和文件夹的id"/>
+			<field label="父节点id" name="pId" desc="文件夹id"/>
+			<field label="是否为文件夹" name="isParent" desc="true为是"/>
+			<field label="节点名称" name="name" desc=""/>
+			<field label="节点类型" name="type" desc="是转换、作业、连接和文件夹"/>
+			<field label="树类型" name="treeType" desc="是转换树还是作业树还是连接数"/>
+			<field label="父节点名称" name="parentName" desc="父节点名称"/>
+			<field label="子节点列表" name="children" desc=""/>	
+		</output>
+	</interface>
+
+	<interface key="resource/exportResource" desc="导出作业、转换、数据库连接接口" >
+		<input>
+			<field label="作业id" name="jobIds" desc="作业id,多个用逗号隔开"/>
+			<field label="转换id" name="transIds" desc="转换id,多个用逗号隔开"/>
+			<field label="连接id" name="connIds" desc="连接id,多个用逗号隔开"/>
+			<field label="目录id" name="directoryId" desc="目录id,可以不传，不传默认为根目录"/>
+		</input>
+		<output type="rows">
+			<field label="无返回" name="id1" desc="如果成功,直接下载一个zip包"/>
+			<field label="说明" name="id2" desc="在下载的时候，会通过websocket提交发送下载进度,数据格式如下:{'type':'export','message':{'runNo':1,'total':5,'failNo':0,'logs':[{'name':'mysql到oracle11g','statusName':'成功','id':7,'type':'trans','status':1}]}}"/>
+		</output>
+	</interface>
+	
+	<interface key="resource/getExportTemplateTree" desc="根据导出模板获取树结构" >
+		<input>
+			<field label="导出模板id" name="id" desc="导出模板id"/>
+		</input>
+		<output type="rows">
+			<field label="节点id" name="id" desc="转换、作业、连接和文件夹的id"/>
+			<field label="父节点id" name="pId" desc="文件夹id"/>
+			<field label="是否为文件夹" name="isParent" desc="true为是"/>
+			<field label="节点名称" name="name" desc=""/>
+			<field label="节点类型" name="type" desc="是转换、作业、连接和文件夹"/>
+			<field label="树类型" name="treeType" desc="是转换树还是作业树还是连接数"/>
+			<field label="父节点名称" name="parentName" desc="父节点名称"/>
+			<field label="子节点列表" name="children" desc=""/>	
+		</output>
+	</interface>
+	
+	
+
+</interfaces>

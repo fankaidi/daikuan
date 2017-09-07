@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<interfaces>
+	<interface key="statistics/getDataTrend/hour" desc="按小时趋势图分析">
+		<input>
+			<field label="开始时间" name="startTime" desc="" />
+			<field label="结束时间" name="endTime" desc="" />
+		</input>
+		<output type="rows">
+			<field label="小时" name="hour" />
+			<field label="输入" name="input" />
+			<field label="速度" name="speed" />
+			<field label="平均性能" name="averageWrite" />
+		</output>
+	</interface>
+
+	<interface key="statistics/getDataTrend/day" desc="按天趋势图分析">
+		<input>
+			<field label="开始时间" name="startTime" desc="" />
+			<field label="结束时间" name="endTime" desc="" />
+		</input>
+		<output type="rows">
+			<field label="天" name="currentDate_" />
+			<field label="输入" name="input" />
+			<field label="速度" name="speed" />
+			<field label="平均性能" name="averageWrite" />
+		</output>
+	</interface>
+
+	<interface key="statistics/getJobTrend/hour" desc="按小时作业统计分析">
+		<input>
+			<field label="开始时间" name="startTime" desc="必填字段" />
+			<field label="结束时间" name="endTime" desc="必填字段" />
+			<field label="节点" name="ip" desc="" />
+			<field label="作业名称" name="jobName" desc="" />
+		</input>
+		<output type="rows">
+			<field label="天" name="currentDate_" />
+			<field label="小时" name="hour" />
+			<field label="输出总量" name="input" />
+			<field label="平均性能" name="speed" />
+		</output>
+	</interface>
+
+	<interface key="statistics/getJobTrend/day" desc="按天作业统计分析">
+		<input>
+			<field label="开始时间" name="startTime" desc="必填字段" />
+			<field label="结束时间" name="endTime" desc="必填字段" />
+			<field label="节点" name="ip" desc="" />
+			<field label="作业名称" name="jobName" desc="" />
+		</input>
+		<output type="rows">
+			<field label="天" name="currentDate_" />
+			<field label="输出总量" name="output" />
+			<field label="平均性能" name="speed" />
+		</output>
+	</interface>
+
+	<interface key="statistics/getJobList" desc="作业统计列表">
+		<input>
+			<field label="每页条数" name="limit" desc="必填字段" />
+			<field label="页数" name="current" desc="必填字段" />
+			<field label="开始时间" name="startTime" desc="必填字段" />
+			<field label="结束时间" name="endTime" desc="必填字段" />
+			<field label="节点" name="ip" desc="" />
+			<field label="作业名称" name="jobName" desc="" />
+		</input>
+		<output type="rows">
+			<field label="节点" name="ip" desc="" />
+			<field label="作业名称" name="name" desc="" />
+			<field label="输入总量" name="input" />
+			<field label="输出总量" name="output" />
+			<field label="平均性能" name="speed" />
+		</output>
+	</interface>
+
+	<interface key="statistics/getSlaveTrend/hour" desc="按小时节点统计分析">
+		<input>
+			<field label="开始时间" name="startTime" desc="必填字段" />
+			<field label="结束时间" name="endTime" desc="必填字段" />
+			<field label="节点" name="ip" desc="" />
+		</input>
+		<output type="rows">
+			<field label="天" name="currentDate_" />
+			<field label="小时" name="hour" />
+			<field label="输出总量" name="output" />
+			<field label="平均性能" name="speed" />
+		</output>
+	</interface>
+
+	<interface key="statistics/getSlaveTrend/day" desc="按天节点统计分析">
+		<input>
+			<field label="开始时间" name="startTime" desc="必填字段" />
+			<field label="结束时间" name="endTime" desc="必填字段" />
+			<field label="节点" name="ip" desc="" />
+		</input>
+		<output type="rows">
+			<field label="天" name="currentDate_" />
+			<field label="输出总量" name="output" />
+			<field label="平均性能" name="speed" />
+		</output>
+	</interface>
+
+	<interface key="statistics/getSlaveList/hour" desc="按小时节点统计列表">
+		<input>
+			<field label="每页条数" name="limit" desc="必填字段" />
+			<field label="页数" name="current" desc="必填字段" />
+			<field label="开始时间" name="startTime" desc="必填字段" />
+			<field label="结束时间" name="endTime" desc="必填字段" />
+			<field label="节点" name="ip" desc="" />
+		</input>
+		<output type="rows">
+			<field label="节点" name="ip" desc="" />
+			<field label="日期" name="currentDate_" desc="" />
+			<field label="输出总量" name="output" />
+			<field label="平均性能" name="speed" />
+		</output>
+	</interface>
+
+	<interface key="statistics/getSlaveList/day" desc="按天节点统计列表">
+		<input>
+			<field label="每页条数" name="limit" desc="必填字段" />
+			<field label="页数" name="current" desc="必填字段" />
+			<field label="开始时间" name="startTime" desc="必填字段" />
+			<field label="结束时间" name="endTime" desc="必填字段" />
+			<field label="节点" name="ip" desc="" />
+		</input>
+		<output type="rows">
+			<field label="节点" name="ip" desc="" />
+			<field label="日期" name="currentDate_" desc="" />
+			<field label="输出总量" name="output" />
+			<field label="平均性能" name="speed" />
+		</output>
+	</interface>
+	
+	<interface key="statistics/getTops/write" desc="作业流量排名">
+		<input> 
+			<field label="开始时间" name="startTime" desc="" />
+			<field label="结束时间" name="endTime" desc="" />
+			<field label="前几名,默认为10" name="limit" desc=""/>
+			<field label="从第几名开始,默认为0" name="offset" desc=""/>
+		</input>
+		<output>
+			<field label="作业名称" name="name" desc=""/>
+			<field label="输入" name="input" desc=""/>
+		</output>
+	</interface>
+	
+	<interface key="statistics/getTops/speed" desc="作业性能排名">
+		<input> 
+			<field label="开始时间" name="startTime" desc="" />
+			<field label="结束时间" name="endTime" desc="" />
+			<field label="前几名,默认为10" name="limit" desc=""/>
+			<field label="从第几名开始,默认为0" name="offset" desc=""/>
+		</input>
+		<output>
+			<field label="作业名称" name="name" desc=""/>
+			<field label="速度" name="speed" desc=""/>
+		</output>
+	</interface>
+	
+	<interface key="statistics/getTops/slave" desc="节点性能排名">
+		<input> 
+			<field label="开始时间" name="startTime" desc="" />
+			<field label="结束时间" name="endTime" desc="" />
+			<field label="前几名,默认为10" name="limit" desc=""/>
+			<field label="从第几名开始,默认为0" name="offset" desc=""/>
+		</input>
+		<output>
+			<field label="节点" name="ip" desc=""/>
+			<field label="速度" name="speed" desc="" />
+		</output>
+	</interface>
+	
+	<interface key="statistics/getTops/slaveWrite" desc="节点流量排名">
+		<input> 
+			<field label="开始时间" name="startTime" desc="" />
+			<field label="结束时间" name="endTime" desc="" />
+			<field label="前几名,默认为10" name="limit" desc=""/>
+			<field label="从第几名开始,默认为0" name="offset" desc=""/>
+		</input>
+		<output>
+			<field label="节点" name="ip" desc=""/>
+			<field label="输入" name="input" desc=""/>
+		</output>
+	</interface>	
+
+</interfaces>

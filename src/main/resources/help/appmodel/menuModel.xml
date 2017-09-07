@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<appmodels key="menu" name="菜单管理" desc="菜单管理">
+	<appmodel desc="菜单管理">
+		<interfacedesc key="menu/select" name="分页查询菜单" desc="" />
+		<interfacedesc key="menu/getMenuRow" name="查询单条菜单信息" desc="" />
+		<interfacedesc key="menu/save" name="保存菜单" desc="" />
+		<interfacedesc key="menu/delete" name="删除菜单" desc="" />
+	</appmodel>
+
+</appmodels>
