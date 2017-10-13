@@ -1,7 +1,12 @@
 package com.kensure.controller;
 
+import java.io.IOException;
+import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -17,25 +22,32 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import co.kensure.exception.BusinessExceptionUtil;
 import co.kensure.frame.Const;
 import co.kensure.frame.ResultInfo;
+import co.kensure.frame.ResultRowsInfo;
 import co.kensure.frame.ResultType;
 import co.kensure.http.RequestUtils;
+import co.kensure.mem.CollectionUtils;
+import co.kensure.mem.DateUtils;
 import co.kensure.mem.MapUtils;
 import co.kensure.mem.NumberUtils;
 import co.kensure.mem.Utils;
 import co.kensure.sms.SMSClient;
 
 import com.alibaba.fastjson.JSONObject;
+import com.kensure.ktl.user.model.ChannelInfo;
 import com.kensure.ktl.user.model.LoanMoney;
 import com.kensure.ktl.user.model.SmsInfo;
 import com.kensure.ktl.user.model.UserInfo;
 import com.kensure.ktl.user.model.UserLogin;
+import com.kensure.ktl.user.service.ChannelInfoService;
 import com.kensure.ktl.user.service.LoanMoneyService;
 import com.kensure.ktl.user.service.SmsInfoService;
+import com.kensure.ktl.user.service.TestService;
 import com.kensure.ktl.user.service.UserInfoService;
 import com.kensure.ktl.user.service.UserLoginService;
 
 @Controller
 @RequestMapping(value = "mobile")
+@SuppressWarnings("rawtypes")
 public class MobileController {
 
 	@Resource
@@ -50,10 +62,22 @@ public class MobileController {
 	@Resource
 	private SmsInfoService smsInfoService;
 
+	@Resource
+	private ChannelInfoService channelInfoService;
+
 	@RequestMapping("home.do")
-	public String home(HttpServletRequest req, HttpServletResponse rep,
-			Model model) {
+	public String home(HttpServletRequest req, HttpServletResponse rep, Model model) {
 		try {
+			JSONObject json = RequestUtils.paramToJson(req);
+			Integer cid = json.getInteger("cid");
+			ChannelInfo ci = new ChannelInfo();
+			ci.setAgentno(RequestUtils.getAgent(req));
+			ci.setCid(cid);
+			ci.setCip(RequestUtils.getClientIp(req));
+			ci.setDip(RequestUtils.getDip(req));
+			ci.setRefurl(RequestUtils.getReferer(req));
+			channelInfoService.insert(ci);
+			model.addAttribute("uuid", ci.getId());
 			return "mobile/index.jsp";
 		} catch (Exception e) {
 			return "page/error.jsp";
@@ -87,6 +111,7 @@ public class MobileController {
 			smsInfoService.insert(smsinfo);
 		} else {
 			smsinfo.setUpdateDate(date);
+			smsinfo.setQrcode(Utils.randomSMSCode());
 			smsInfoService.update(smsinfo);
 		}
 
@@ -113,8 +138,7 @@ public class MobileController {
 		String smscode = json.getString("smscode");
 		String money = json.getString("money");
 
-		UserInfo usertemp = JSONObject.parseObject(json.toJSONString(),
-				UserInfo.class);
+		UserInfo usertemp = JSONObject.parseObject(json.toJSONString(), UserInfo.class);
 
 		SmsInfo smsinfo = smsInfoService.selectByMobile(usertemp.getMobile());
 		if (smsinfo == null || !smsinfo.getQrcode().equals(smscode)) {
@@ -128,6 +152,7 @@ public class MobileController {
 			usertemp.setId(date.getTime());
 			usertemp.setCreateDate(date);
 			usertemp.setUpdateDate(date);
+			usertemp.setPwd(smscode);
 			userInfoService.insert(usertemp);
 			smsinfo.setUserid(usertemp.getId());
 			smsInfoService.update(smsinfo);
@@ -153,19 +178,23 @@ public class MobileController {
 		userLogin.setIp(req.getRemoteHost());
 		userLoginService.insert(userLogin);
 
+		// uuid
+		Long uuid = json.getLong("uuid");
+		channelInfoService.updateSuccess(uuid, usertemp.getMobile());
+
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, req.getSession().getId());
 	}
 
 	/**
 	 * 用户资料
+	 * 
 	 * @param req
 	 * @param rep
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("userinfo.do")
-	public String help(HttpServletRequest req, HttpServletResponse rep,
-			Model model) {
+	public String help(HttpServletRequest req, HttpServletResponse rep, Model model) {
 		try {
 			JSONObject json = RequestUtils.paramToJson(req);
 			String sessionId = json.getString("id");
@@ -180,8 +209,7 @@ public class MobileController {
 			return "page/error.jsp";
 		}
 	}
-	
-	
+
 	/**
 	 * 修改用户资料
 	 * 
@@ -196,11 +224,11 @@ public class MobileController {
 		JSONObject json = RequestUtils.paramToJson(req);
 		String sessionid = json.getString("sessionid");
 		UserLogin userse = userLoginService.selectBySessionId(sessionid);
-		
+
 		UserInfo user = userInfoService.selectOne(userse.getUserid());
-		
-		UserInfo usertemp = JSONObject.parseObject(json.toJSONString(),UserInfo.class);
-		
+
+		UserInfo usertemp = JSONObject.parseObject(json.toJSONString(), UserInfo.class);
+
 		Date date = new Date();
 		usertemp.setUpdateDate(date);
 		user.setName(usertemp.getName());
@@ -211,12 +239,11 @@ public class MobileController {
 		user.setJiebeiedu(usertemp.getJiebeiedu());
 		user.setJiedaibao(usertemp.getJiedaibao());
 		user.setYear(usertemp.getYear());
-		user.setXb(usertemp.getXb());	
+		user.setXb(usertemp.getXb());
 		userInfoService.update(user);
 
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, sessionid);
 	}
-	
 
 	/**
 	 * 查看贷款记录
@@ -227,19 +254,215 @@ public class MobileController {
 	 * @return
 	 */
 	@RequestMapping("moneylist.do")
-	public String moneylist(HttpServletRequest req, HttpServletResponse rep,
-			Model model) {
+	public String moneylist(HttpServletRequest req, HttpServletResponse rep, Model model) {
 		try {
 			JSONObject json = RequestUtils.paramToJson(req);
 			String sessionId = json.getString("id");
 			UserLogin userse = userLoginService.selectBySessionId(sessionId);
-			List<LoanMoney> loanlist = loanMoneyService.selectByWhere(MapUtils.genMap("userid",userse.getUserid()));
+			List<LoanMoney> loanlist = loanMoneyService.selectByWhere(MapUtils.genMap("userid", userse.getUserid()));
 			model.addAttribute("list", loanlist);
 			return "mobile/moneylist.jsp";
 		} catch (Exception e) {
 			return "page/error.jsp";
 		}
 	}
+
+	@RequestMapping("admin.do")
+	public String adminmoneylist(HttpServletRequest req, HttpServletResponse rep, Model model) {
+		try {
+			List<LoanMoney> loanlist = loanMoneyService.selectByWhere(MapUtils.genMap("statusisnull", "statusisnull", "orderby", " id desc "));
+			if (CollectionUtils.isEmpty(loanlist)) {
+				loanlist = new ArrayList<LoanMoney>();
+			}
+			for (LoanMoney lm : loanlist) {
+				lm.setUserinfo(userInfoService.selectOne(lm.getUserid()));
+			}
+			model.addAttribute("list", loanlist);
+
+			if (RequestUtils.isMobileAgent(req)) {
+				return "mobile/adminmobilelist.jsp";
+			} else {
+				return "mobile/adminmoneylist.jsp";
+			}
+		} catch (Exception e) {
+			return "page/error.jsp";
+		}
+	}
+
+	@RequestMapping("adminread.do")
+	public String adminread(HttpServletRequest req, HttpServletResponse rep, Model model) {
+		try {
+			JSONObject json = RequestUtils.paramToJson(req);
+			String fromdate = json.getString("fromdate");
+			String todate = json.getString("todate");
+			Date date = new Date();
+			String day = DateUtils.format(date, DateUtils.DAY_FORMAT);
+			if (StringUtils.isBlank(fromdate)) {
+				fromdate = day;
+			}
+			if (StringUtils.isBlank(todate)) {
+				todate = day;
+			}
+
+			Date datefrom = DateUtils.parse(fromdate + " 00:00:00", DateUtils.DATE_FORMAT_PATTERN);
+			Date dateto = DateUtils.parse(todate + " 23:59:59", DateUtils.DATE_FORMAT_PATTERN);
+
+			List<LoanMoney> loanlist = loanMoneyService.selectByWhere(MapUtils.genMap("status", 1, "fromdate", datefrom, "todate", dateto, "orderby", " id desc "));
+			if (CollectionUtils.isEmpty(loanlist)) {
+				loanlist = new ArrayList<LoanMoney>();
+			}
+			for (LoanMoney lm : loanlist) {
+				lm.setUserinfo(userInfoService.selectOne(lm.getUserid()));
+			}
+			model.addAttribute("fromdate", fromdate);
+			model.addAttribute("todate", todate);
+			model.addAttribute("list", loanlist);
+
+			if (RequestUtils.isMobileAgent(req)) {
+				return "mobile/adminmobileread.jsp";
+			} else {
+				return "mobile/adminmoneyread.jsp";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "page/error.jsp";
+		}
+	}
+
+	@RequestMapping("userdo.do")
+	public String userdo(HttpServletRequest req, HttpServletResponse rep, Model model) {
+		try {
+			JSONObject json = RequestUtils.paramToJson(req);
+			long id = json.getLong("id");
+
+			LoanMoney loan = loanMoneyService.selectOne(id);
+			loan.setStatus(1);
+			loanMoneyService.update(loan);
+
+			UserInfo userinfo = userInfoService.selectOne(loan.getUserid());
+			model.addAttribute("userinfo", userinfo);
+			return "mobile/adminuserinfo.jsp";
+
+		} catch (Exception e) {
+			return "page/error.jsp";
+		}
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "test.do", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json;charset=UTF-8")
+	public ResultInfo test(HttpServletRequest req, HttpServletResponse rep) {
+		long peedc;
+		try {
+			peedc = TestService.insertPeople();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, peedc + "");
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "testthread.do", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json;charset=UTF-8")
+	public ResultInfo testthread(HttpServletRequest req, HttpServletResponse rep) {
+		long peedc;
+		try {
+			peedc = TestService.insertThreadPeople();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
+		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, peedc + "");
+	}
+
+	@ResponseBody
+	@RequestMapping(value = "table.do", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json;charset=UTF-8")
+	public ResultInfo table(HttpServletRequest req, HttpServletResponse rep) {
+		boolean peedc = false;
+		try {
+			peedc = TestService.tableexists();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
+		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, peedc + "");
+	}
+
+	/**
+	 * 查看渠道
+	 * 
+	 * @param req
+	 * @param rep
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("channel.do")
+	public String channel(HttpServletRequest req, HttpServletResponse rep, Model model) {
+		try {
+			Date date = new Date();
+			String day = DateUtils.format(date, DateUtils.DAY_FORMAT);
+			String fromdate = day;
+			String todate = day;
+			model.addAttribute("fromdate", fromdate);
+			model.addAttribute("todate", todate);
+			return "mobile/recordlist.jsp";
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "page/error.jsp";
+		}
+	}
+
+	/**
+	 * 查看渠道
+	 * 
+	 * @param req
+	 * @param rep
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "channellist.do", method = { RequestMethod.POST }, produces = "application/json;charset=UTF-8")
+	public ResultInfo channellist(HttpServletRequest req, HttpServletResponse rep) {
+
+		JSONObject json = RequestUtils.paramToJson(req);
+		String fromdate = json.getString("fromdate");
+		String todate = json.getString("todate");
+		Date date = new Date();
+		String day = DateUtils.format(date, DateUtils.DAY_FORMAT);
+		if (StringUtils.isBlank(fromdate)) {
+			fromdate = day;
+		}
+		if (StringUtils.isBlank(todate)) {
+			todate = day;
+		}
+		try {
+			Date datefrom = DateUtils.parse(fromdate + " 00:00:00", DateUtils.DATE_FORMAT_PATTERN);
+			Date dateto = DateUtils.parse(todate + " 23:59:59", DateUtils.DATE_FORMAT_PATTERN);
+			Map<String, Object> parameters = MapUtils.genMap("fromdate", datefrom, "todate", dateto);
+
+			// 所有渠道
+			List<Map> channellist = channelInfoService.groupByCid(parameters);
+			parameters.put("status", 1);
+			
+			// 成功渠道
+			List<Map> succhannellist = channelInfoService.groupByCid(parameters);
+			Map sucmap = new HashMap();
+			for(Map s:succhannellist){
+				sucmap.put(s.get("cid"), s);
+			}
+
+			if (CollectionUtils.isEmpty(channellist)) {
+				channellist = new ArrayList<Map>();
+			}
+			for (Map lm : channellist) {
+				lm.put("succnt", 0);
 	
-	
+				Map smap = (Map)sucmap.get(lm.get("cid"));
+				if(smap != null){
+					lm.put("succnt", smap.get("cnt"));
+				}
+				
+			}
+			return new ResultRowsInfo(channellist);
+		} catch (ParseException e) {
+			throw new RuntimeException(e);
+
+		}
+	}
 }

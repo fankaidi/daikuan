@@ -44,8 +44,9 @@ public class LoanMoney extends BaseInfo{
 
 	/**修改时间*/		
 	private Date updateDate; 
-
-
+		
+	private UserInfo userinfo; 
+	
 	public Long getId() {
 		return id;
 	}
@@ -95,4 +96,13 @@ public class LoanMoney extends BaseInfo{
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
+
+	public UserInfo getUserinfo() {
+		return userinfo;
+	}
+
+	public void setUserinfo(UserInfo userinfo) {
+		this.userinfo = userinfo;
+	}
+	
 }

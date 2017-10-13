@@ -69,6 +69,19 @@
 		<if test="updateDate != null">			
 			and update_date = #{updateDate}			
 		</if>
+		<if test="fromdate != null">	
+		<![CDATA[		
+			and create_date >= #{fromdate}		
+		]]>	
+		</if>
+		<if test="todate != null">		
+		<![CDATA[		
+			and create_date <= #{todate}		
+		]]>		
+		</if>
+		<if test="statusisnull != null">			
+			and status is null			
+		</if>
 	</sql>
     
 	<select id="selectOne" resultType="com.kensure.ktl.user.model.LoanMoney" parameterType="Long" >
@@ -109,6 +122,9 @@
 		</where>				
 		<if test="orderby != null">
 			ORDER BY ${orderby}
+		</if>
+		<if test="limit != null">
+			LIMIT #{limit} OFFSET #{offset}
 		</if>
 	</select>
 	

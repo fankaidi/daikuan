@@ -3,7 +3,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>线上贷</title>
+<title>91米贷注册</title>
 <meta content="initial-scale=1.0,user-scalable=no,maximum-scale=1,width=device-width" name="viewport" />
 <link type="text/css" rel="stylesheet" href="./skin/css/basic.css" />
 <script type="text/javascript" src="./skin/js/jquery-1.7.2.min.js"></script>
@@ -15,8 +15,8 @@ $(window).load(function() {
 })
 </script>
 </head>
-
-<body>
+<% Long uuid = (Long)request.getAttribute("uuid"); %>
+<body class="mobilebody">
 <div class="w">
   <div id="preloader">
     <div id="status">
@@ -27,19 +27,19 @@ $(window).load(function() {
   <header>
     <div class="header">
     <a class="new-a-back" href="javascript:history.back();"> <span>返回</span> </a>
-      <h2>注册</h2>
+      <h2>91米贷注册</h2>
     </div>
   </header>
-  
+  <div>
+    	<img src="./skin/images/head.png" style="width:100%">
+    </div>
   <div class="page">
+  	
     <div class="main">
       <form id="adduser" name="adduser" method="post" action="">
         <div class="item item-username">
           <input class="txt-input txt-username" type="text" placeholder="常用手机号" value="" name="mobile" maxlength="11" size="11">
        </div>
-        <div class="item item-password">
-          <input class="txt-input txt-password ciphertext" type="password" placeholder="请输入密码" name="pwd">        
-          </div>
 		<div class="item item-username">
           <input class="txt-input txt-username" type="text" placeholder="预借金额" value="" name="money">
          </div>
@@ -100,10 +100,6 @@ $(window).load(function() {
 			  alert("请输入手机");
 			  return;
 		  }
-		  if(!f.pwd.value){
-			  alert("请输入密码");
-			  return;
-		  }
 		  if(!f.money.value){
 			  alert("请输入预借金额");
 			  return;
@@ -113,12 +109,13 @@ $(window).load(function() {
 			  alert("请输入验证码");
 			  return;
 		  }
-
+		  var data = $('#adduser').serialize();
+		  data = data+'&uuid=<%=uuid%>';
 		  $.ajax({
 	          type: "POST",
 	          dataType: "html",
 	          url: "/mobile/commituser.do",
-	          data: $('#adduser').serialize(),
+	          data: data,
 	          success: function (data) {
 	        	  var strresult = $.parseJSON(data);  
 	              if(strresult.type == 'success'){

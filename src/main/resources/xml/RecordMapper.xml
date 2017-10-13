@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kensure.ktl.ly.dao.RecordDao"><!--dsName="" saasAspect=""-->
+	<!-- <cache readOnly="true"/> -->
+    <sql id="allFields">
+		id,
+		name,
+		desc0,
+		desc1,
+		desc2,
+		desc3,
+		desc4,
+		desc5,
+		desc6,
+		desc7,
+		desc8,
+		desc9,
+		tagid,
+		dorder,
+		status,
+		create_date as createDate,
+		update_date as updateDate,
+		publish_date as publishDate
+    </sql>
+    
+	<sql id="insertFields">
+		id,
+		name,
+		desc0,
+		desc1,
+		desc2,
+		desc3,
+		desc4,
+		desc5,
+		desc6,
+		desc7,
+		desc8,
+		desc9,
+		tagid,
+		dorder,
+		status,
+		create_date,
+		update_date,
+		publish_date
+    </sql>
+	
+	<insert id="insert" parameterType="com.kensure.ktl.ly.model.Record">
+		insert into ly_record (<include refid="insertFields"/>)
+		values (
+			#{id},
+			#{name},
+			#{desc0},
+			#{desc1},
+			#{desc2},
+			#{desc3},
+			#{desc4},
+			#{desc5},
+			#{desc6},
+			#{desc7},
+			#{desc8},
+			#{desc9},
+			#{tagid},
+			#{dorder},
+			#{status},
+			#{createDate},
+			#{updateDate},
+			#{publishDate}
+		)
+	</insert>
+	
+	<insert id="insertInBatch" parameterType="com.kensure.ktl.ly.model.Record">
+		insert into ly_record (<include refid="insertFields"/>) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.name},
+				#{item.desc0},
+				#{item.desc1},
+				#{item.desc2},
+				#{item.desc3},
+				#{item.desc4},
+				#{item.desc5},
+				#{item.desc6},
+				#{item.desc7},
+				#{item.desc8},
+				#{item.desc9},
+				#{item.tagid},
+				#{item.dorder},
+				#{item.status},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.publishDate}
+			)
+		</foreach>
+	</insert>   		
+	
+    <sql id="whereClause">
+		<if test="name != null">			
+			name = #{name}			
+		</if>
+		<if test="desc0 != null">			
+			and desc0 = #{desc0}			
+		</if>
+		<if test="desc1 != null">			
+			and desc1 = #{desc1}			
+		</if>
+		<if test="desc2 != null">			
+			and desc2 = #{desc2}			
+		</if>
+		<if test="desc3 != null">			
+			and desc3 = #{desc3}			
+		</if>
+		<if test="desc4 != null">			
+			and desc4 = #{desc4}			
+		</if>
+		<if test="desc5 != null">			
+			and desc5 = #{desc5}			
+		</if>
+		<if test="desc6 != null">			
+			and desc6 = #{desc6}			
+		</if>
+		<if test="desc7 != null">			
+			and desc7 = #{desc7}			
+		</if>
+		<if test="desc8 != null">			
+			and desc8 = #{desc8}			
+		</if>
+		<if test="desc9 != null">			
+			and desc9 = #{desc9}			
+		</if>
+		<if test="tagid != null">			
+			and tagid = #{tagid}			
+		</if>
+		<if test="dorder != null">			
+			and dorder = #{dorder}			
+		</if>
+		<if test="status != null">			
+			and status = #{status}			
+		</if>
+		<if test="createDate != null">			
+			and create_date = #{createDate}			
+		</if>
+		<if test="updateDate != null">			
+			and update_date = #{updateDate}			
+		</if>
+		<if test="publishDate != null">			
+			and publish_date = #{publishDate}			
+		</if>
+	</sql>
+    
+	<select id="selectOne" resultType="com.kensure.ktl.ly.model.Record" parameterType="Long" >
+		select <include refid="allFields"/> 
+		  from ly_record 
+		 where id = #{id} 
+	</select>
+	
+	<select id="selectByIds" parameterType="List" resultType="com.kensure.ktl.ly.model.Record">
+		select <include refid="allFields"/> from ly_record 
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+		
+	<select id="selectAll" resultType="com.kensure.ktl.ly.model.Record">
+		select <include refid="allFields"/> 
+		from ly_record 
+	</select>
+
+	<select id="selectCount" resultType="long">
+		select count(*) from ly_record 
+	</select>
+	
+	<select id="selectCountByWhere" parameterType="Map" resultType="Long">
+		select count(*) from ly_record 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</select>
+
+	<select id="selectByWhere" parameterType="Map" resultType="com.kensure.ktl.ly.model.Record">
+		select <include refid="allFields"/>
+		from ly_record 
+		<where>
+		    <include refid="whereClause"/>
+		</where>				
+		<if test="orderby != null">
+			ORDER BY ${orderby}
+		</if>
+	</select>
+	
+	<sql id="setComn">		
+		<if test="name != null">
+			name = #{name},
+		</if>
+		<if test="desc0 != null">
+			desc0 = #{desc0},
+		</if>
+		<if test="desc1 != null">
+			desc1 = #{desc1},
+		</if>
+		<if test="desc2 != null">
+			desc2 = #{desc2},
+		</if>
+		<if test="desc3 != null">
+			desc3 = #{desc3},
+		</if>
+		<if test="desc4 != null">
+			desc4 = #{desc4},
+		</if>
+		<if test="desc5 != null">
+			desc5 = #{desc5},
+		</if>
+		<if test="desc6 != null">
+			desc6 = #{desc6},
+		</if>
+		<if test="desc7 != null">
+			desc7 = #{desc7},
+		</if>
+		<if test="desc8 != null">
+			desc8 = #{desc8},
+		</if>
+		<if test="desc9 != null">
+			desc9 = #{desc9},
+		</if>
+		<if test="tagid != null">
+			tagid = #{tagid},
+		</if>
+		<if test="dorder != null">
+			dorder = #{dorder},
+		</if>
+		<if test="status != null">
+			status = #{status},
+		</if>
+		<if test="createDate != null">
+			create_date = #{createDate},
+		</if>
+		<if test="updateDate != null">
+			update_date = #{updateDate},
+		</if>
+		<if test="publishDate != null">
+			publish_date = #{publishDate}
+		</if>
+	</sql>
+	
+	<update id="update" parameterType="com.kensure.ktl.ly.model.Record">
+		 update ly_record 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<update id="updateByMap" parameterType="Map">
+		 update ly_record 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from ly_record where id = #{id}
+	</delete>
+	
+	<delete id="deleteMulti" parameterType="List">
+		delete from ly_record
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteByWhere" parameterType="Map">
+		delete from ly_record 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</delete>	
+
+</mapper>    

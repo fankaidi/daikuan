@@ -27,7 +27,7 @@ public class SMSClient {
 	private static final String accountSid = "bdc33045964e49a9bedfd2c7e5ca8faf";
 	private static final String baseUrl = "https://api.miaodiyun.com/20150822/industrySMS/sendSMS";
 	private static final String smsToken = "00235df98cea4872b52edbc0d2ccf48a";
-	private static final String contentTemplate = "【线上贷】您的验证码为{1}，请于{2}分钟内正确输入，如非本人操作，请忽略此短信。";
+	private static final String contentTemplate = "【91米贷】您的验证码为{1}，请于{2}分钟内正确输入，如非本人操作，请忽略此短信。";
 
 	/**
 	 * 

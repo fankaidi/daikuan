@@ -1,0 +1,19 @@
+@charset "utf-8";
+/* CSS Document */
+
+.c-select a {
+	color: #0074c1
+    font-weight: 700;
+    height: 24px;
+    line-height: 24px;
+    margin-right: 12px;
+}
+
+.c-select .checked {
+	color: red;
+}
+
+.formwidth {
+	margin-top:10px;
+	width:80%;
+}
