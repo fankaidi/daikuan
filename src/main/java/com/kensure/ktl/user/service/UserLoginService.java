@@ -26,6 +26,8 @@ import org.springframework.stereotype.Service;
 import co.kensure.frame.JSBaseService;
 import co.kensure.mem.CollectionUtils;
 import co.kensure.mem.MapUtils;
+import co.kensure.mem.NumberUtils;
+import co.kensure.mem.Utils;
 
 
 /**
@@ -67,6 +69,8 @@ public class UserLoginService extends JSBaseService{
 	
 	
 	public boolean insert(UserLogin obj){
+		String id = System.currentTimeMillis()+Utils.randomSMSCode();
+		obj.setSessionid(id);
 		return dao.insert(obj);
 	}
 	

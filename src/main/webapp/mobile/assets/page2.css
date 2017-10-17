@@ -1,0 +1,27 @@
+body{background:#f44d08 }
+
+input[placeholder], [placeholder], *[placeholder] {
+    color:#dab57c !important;
+}
+.top_img{position: absolute;top: 0;left: 0;z-index: 1;}
+.header{width:100%;height: 100%;}
+.mainPading{width:90.7%;position: relative;/* top: 444px; */margin: 0 auto;z-index: 9;}
+.login_img{margin: 0 auto 20px;display: inherit;}
+.login_input_wrap{width: 86.4%;margin: 0 auto;position: absolute;top: 30px;left: 46px;}
+input.borderDaius{ border-radius: 43px;}
+.YZ_wrap{padding-top: 22px;    text-align: left;}
+input.moilePhone,input.YZ_input{width:100%;border:0;font-size: 30px;padding:26px 35px;box-sizing: border-box;color: #dab57c;background: #ffedd1;}
+input.YZ_input{ width:51.6%;display: inline-block;}
+.btn_YZ{font-size: 30px;color:#ffffff;display: inline-block;width: 251px;height:88px;line-height: 88px;text-align: center;background: url('./205.png') no-repeat;margin-left: 27px;}
+.btnGo{width:584px; height:80px; line-height: 80px; text-align: center; background: url('./206.png') no-repeat center; font-size: 36px; color:#ffffff; margin-top:30px;}
+.footer{width:100%;text-align: center;font-size: 22px;line-height: 32px;color: #fff;/* margin-top: -30px; */margin: 40px auto 0;padding-bottom: 40px;}
+span.footFt{ display: block;}
+.telphone{color: #fff;}
+.button_img{margin-top: 20px}
+.bg_warp{width: 100%;background: linear-gradient( #d01a00, #f44d08);/* height: 100%; *//* position: relative; *//* bottom: 0; */position: relative;top: 444px;}
+
+
+#toasts{width:100%;}
+#toasts,.toast{width:100%}
+.toastFt{text-align: center;width: 144px;height: 144px;line-height: 144px;margin: 10px auto;background-color: #666;border-radius: 50%;color: #fff;font-size: 48px;border: 1px solid #333;}
+.toastSpan{font-size: 42px;line-height:normal;padding-left: 10px;padding-right: 10px;text-align: center;}

@@ -80,10 +80,36 @@ public class MobileController {
 			model.addAttribute("uuid", ci.getId());
 			return "mobile/index.jsp";
 		} catch (Exception e) {
+			e.printStackTrace();
 			return "page/error.jsp";
 		}
 	}
 
+	
+	/**
+	 * qudao 
+	 * 
+	 * @param req
+	 * @param rep
+	 * @param model
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "addchannel.do", method = { RequestMethod.POST }, produces = "application/json;charset=UTF-8")
+	public ResultInfo addchannel(HttpServletRequest req, HttpServletResponse rep) {
+		JSONObject json = RequestUtils.paramToJson(req);
+		Integer cid = json.getInteger("cid");
+		ChannelInfo ci = new ChannelInfo();
+		ci.setAgentno(RequestUtils.getAgent(req));
+		ci.setCid(cid);
+		ci.setCip(RequestUtils.getClientIp(req));
+		ci.setDip(RequestUtils.getDip(req));
+		ci.setRefurl(RequestUtils.getReferer(req));
+		channelInfoService.insert(ci);
+		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS,ci.getId()+"");
+	}
+	
+	
 	/**
 	 * 验证码发送
 	 * 
@@ -174,7 +200,6 @@ public class MobileController {
 		userLogin.setCreateDate(date);
 		userLogin.setUpdateDate(date);
 		userLogin.setUserid(user1.getId());
-		userLogin.setSessionid(req.getSession().getId());
 		userLogin.setIp(req.getRemoteHost());
 		userLoginService.insert(userLogin);
 
@@ -182,7 +207,7 @@ public class MobileController {
 		Long uuid = json.getLong("uuid");
 		channelInfoService.updateSuccess(uuid, usertemp.getMobile());
 
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, req.getSession().getId());
+		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, userLogin.getSessionid());
 	}
 
 	/**
