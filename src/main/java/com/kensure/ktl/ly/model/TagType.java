@@ -12,6 +12,7 @@
 package com.kensure.ktl.ly.model;
 
 import java.util.Date;
+import java.util.List;
 
 import co.kensure.frame.BaseInfo;
 
@@ -71,6 +72,9 @@ public class TagType extends BaseInfo{
 
 	/***/		
 	private Date updateDate;
+	
+	/**标签*/		
+	private List<Tag> tagList;
 
 
 	public Long getId() {
@@ -185,4 +189,13 @@ public class TagType extends BaseInfo{
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
+
+	public List<Tag> getTagList() {
+		return tagList;
+	}
+
+	public void setTagList(List<Tag> tagList) {
+		this.tagList = tagList;
+	}
+	
 }

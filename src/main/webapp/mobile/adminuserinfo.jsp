@@ -80,7 +80,95 @@ em.ico-ding {
 		</div>
 		
 		<div class='car-txt'> 
-			借贷宝:<%=u.getJiedaibao()%>
+			职业:<%=u.getWork()%>
+		</div>
+		
+		<div class='car-txt'> 
+			哪里人:<%=u.getHome()%>
+		</div>
+		
+		<div class='car-txt'> 
+			手机实名多久:<%=u.getMobiletime()%>
+		</div>
+		
+		<div class='car-txt'> 
+			通讯录人数:<%=u.getMobilenum()%>
+		</div>
+		
+		<div class='car-txt'> 
+			手机号、支付宝是否统一并实名:<%=u.getIsrealname()%>
+		</div>
+		
+		<div class='car-txt'> 
+			无忧负债:<%=u.getWyfz()%>
+		</div>
+		
+		<div class='car-txt'> 
+			无忧已还:<%=u.getWuyh()%>
+		</div>
+		
+		<div class='car-txt'> 
+			米房负债:<%=u.getMffz()%>
+		</div>
+		
+		<div class='car-txt'> 
+			米房已还:<%=u.getMfyh()%>
+		</div>
+		
+		<div class='car-txt'> 
+			同信缘负债:<%=u.getTxyfz()%>
+		</div>
+		
+		<div class='car-txt'> 
+			同信圆还款:<%=u.getTxyyh()%>
+		</div>
+		
+		<div class='car-txt'> 
+			借贷宝负债:<%=u.getJdbfz()%>
+		</div>
+		
+		<div class='car-txt'> 
+			借贷宝已还:<%=u.getJdbyh()%>
+		</div>
+		
+		<div class='car-txt'> 
+			今借到负债:<%=u.getJjdfz()%>
+		</div>
+		
+		<div class='car-txt'> 
+			今借到已还:<%=u.getJjdyh()%>
+		</div>
+		
+		<div class='car-txt'> 
+			其他平台负债多少:<%=u.getQtptfz()%>
+		</div>
+		
+		<div class='car-txt'> 
+			其他平台已还多少:<%=u.getQtptyh()%>
+		</div>
+		
+		<div class='car-txt'> 
+			今日还款多少:<%=u.getJrhk()%>
+		</div>
+		
+		<div class='car-txt'> 
+			有无逾期记录:<%=u.getYwyqjl()%>
+		</div>
+		
+		<div class='car-txt'> 
+			有无车房:<%=u.getYwcf()%>
+		</div>
+		
+		<div class='car-txt'> 
+			有无社保:<%=u.getYwsb()%>
+		</div>
+		
+		<div class='car-txt'> 
+			有无公积金:<%=u.getYwgjj()%>
+		</div>
+		
+		<div class='car-txt'> 
+			有无信用卡:<%=u.getYwxhk()%>
 		</div>
  	
 </body>

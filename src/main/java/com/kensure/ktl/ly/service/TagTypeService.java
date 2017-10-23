@@ -12,6 +12,7 @@
 package com.kensure.ktl.ly.service;
 
 import com.kensure.ktl.ly.dao.TagTypeDao;
+import com.kensure.ktl.ly.model.Tag;
 import com.kensure.ktl.ly.model.TagType;
 import com.kensure.ktl.ly.service.TagTypeService;
 
@@ -22,7 +23,9 @@ import java.util.Map;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+
 import co.kensure.frame.JSBaseService;
+import co.kensure.mem.MapUtils;
 
 
 /**
@@ -35,7 +38,9 @@ public class TagTypeService extends JSBaseService{
 	
 	@Resource
 	private TagTypeDao dao;
-    
+	
+	@Resource
+	private TagService tagService;
     
     public TagType selectOne(Long id){
     	return dao.selectOne(id);
@@ -51,6 +56,26 @@ public class TagTypeService extends JSBaseService{
 	
 	public List<TagType> selectByWhere(Map<String, Object> parameters){
 		return dao.selectByWhere(parameters);
+	}
+	
+	/**
+	 * 根据描述字段进行检索，同时获取子标签
+	 * @param name
+	 * @param val
+	 * @return
+	 */
+	public List<TagType> selectByDesc(String name,String val){
+		Map<String, Object> parameters = MapUtils.genMap(name,val,"status",1,"orderby", " dorder,id ");
+		List<TagType> tagtypelist = selectByWhere(parameters);
+		
+		Map<String, Object> parameters1 = MapUtils.genMap("status",1,"orderby", " dorder,id ");
+		for(TagType tagtype:tagtypelist){
+			parameters1.put("tagtypeid", tagtype.getId());
+			List<Tag> taglist = tagService.selectByWhere(parameters1);
+			tagtype.setTagList(taglist);
+		}
+		
+		return tagtypelist;
 	}
 	
 	

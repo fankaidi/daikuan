@@ -36,7 +36,7 @@ String todate = (String)request.getAttribute("todate");
 	    for(LoanMoney m : list){
 	    	UserInfo u = m.getUserinfo();
 	    %>
-        <tr><td><%=u.getName() %></td>
+        <tr><td><a href="/mobile/userdo.do?id=<%=m.getId()%>" target="_blank"><%=u.getName() %></a></td>
             <td><%=u.getMobile() %></td>
             <td><%=u.getQq() %></td>
             <td><%=m.getMoney() %></td>

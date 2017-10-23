@@ -85,9 +85,8 @@ public class MobileController {
 		}
 	}
 
-	
 	/**
-	 * qudao 
+	 * qudao
 	 * 
 	 * @param req
 	 * @param rep
@@ -106,10 +105,9 @@ public class MobileController {
 		ci.setDip(RequestUtils.getDip(req));
 		ci.setRefurl(RequestUtils.getReferer(req));
 		channelInfoService.insert(ci);
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS,ci.getId()+"");
+		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, ci.getId() + "");
 	}
-	
-	
+
 	/**
 	 * 验证码发送
 	 * 
@@ -244,7 +242,7 @@ public class MobileController {
 	 * @return
 	 */
 	@ResponseBody
-	@RequestMapping(value = "updateuser.do", method = { RequestMethod.POST }, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "updateuser.do", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json;charset=UTF-8")
 	public ResultInfo updateuser(HttpServletRequest req, HttpServletResponse rep) {
 		JSONObject json = RequestUtils.paramToJson(req);
 		String sessionid = json.getString("sessionid");
@@ -255,17 +253,12 @@ public class MobileController {
 		UserInfo usertemp = JSONObject.parseObject(json.toJSONString(), UserInfo.class);
 
 		Date date = new Date();
+		usertemp.setId(user.getId());
+		usertemp.setPwd(user.getPwd());
+		usertemp.setPhone(user.getPhone());
+		usertemp.setCreateDate(user.getCreateDate());
 		usertemp.setUpdateDate(date);
-		user.setName(usertemp.getName());
-		user.setCard(usertemp.getCard());
-		user.setQq(usertemp.getQq());
-		user.setZhimafen(usertemp.getZhimafen());
-		user.setHuabeiedu(usertemp.getHuabeiedu());
-		user.setJiebeiedu(usertemp.getJiebeiedu());
-		user.setJiedaibao(usertemp.getJiedaibao());
-		user.setYear(usertemp.getYear());
-		user.setXb(usertemp.getXb());
-		userInfoService.update(user);
+		userInfoService.update(usertemp);
 
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, sessionid);
 	}
@@ -464,11 +457,11 @@ public class MobileController {
 			// 所有渠道
 			List<Map> channellist = channelInfoService.groupByCid(parameters);
 			parameters.put("status", 1);
-			
+
 			// 成功渠道
 			List<Map> succhannellist = channelInfoService.groupByCid(parameters);
 			Map sucmap = new HashMap();
-			for(Map s:succhannellist){
+			for (Map s : succhannellist) {
 				sucmap.put(s.get("cid"), s);
 			}
 
@@ -477,12 +470,12 @@ public class MobileController {
 			}
 			for (Map lm : channellist) {
 				lm.put("succnt", 0);
-	
-				Map smap = (Map)sucmap.get(lm.get("cid"));
-				if(smap != null){
+
+				Map smap = (Map) sucmap.get(lm.get("cid"));
+				if (smap != null) {
 					lm.put("succnt", smap.get("cnt"));
 				}
-				
+
 			}
 			return new ResultRowsInfo(channellist);
 		} catch (ParseException e) {

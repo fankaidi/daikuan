@@ -20,7 +20,30 @@
 		xinyongka,
 		jiedaibao,
 		create_date as createDate,
-		update_date as updateDate
+		update_date as updateDate,
+		work,
+		home,
+		mobiletime,
+		mobilenum,
+		isrealname,
+		wyfz,
+		wuyh,
+		mffz,
+		mfyh,
+		txyfz,
+		txyyh,
+		jdbfz,
+		jdbyh,
+		jjdfz,
+		jjdyh,
+		qtptfz,
+		qtptyh,
+		jrhk,
+		ywyqjl,
+		ywcf,
+		ywsb,
+		ywgjj,
+		ywxhk
     </sql>
     
 	<sql id="insertFields">
@@ -41,7 +64,30 @@
 		xinyongka,
 		jiedaibao,
 		create_date,
-		update_date
+		update_date,
+		work,
+		home,
+		mobiletime,
+		mobilenum,
+		isrealname,
+		wyfz,
+		wuyh,
+		mffz,
+		mfyh,
+		txyfz,
+		txyyh,
+		jdbfz,
+		jdbyh,
+		jjdfz,
+		jjdyh,
+		qtptfz,
+		qtptyh,
+		jrhk,
+		ywyqjl,
+		ywcf,
+		ywsb,
+		ywgjj,
+		ywxhk
     </sql>
 	
 	<insert id="insert" parameterType="com.kensure.ktl.user.model.UserInfo">
@@ -64,7 +110,30 @@
 			#{xinyongka},
 			#{jiedaibao},
 			#{createDate},
-			#{updateDate}
+			#{updateDate},
+			#{work},
+			#{home},
+			#{mobiletime},
+			#{mobilenum},
+			#{isrealname},
+			#{wyfz},
+			#{wuyh},
+			#{mffz},
+			#{mfyh},
+			#{txyfz},
+			#{txyyh},
+			#{jdbfz},
+			#{jdbyh},
+			#{jjdfz},
+			#{jjdyh},
+			#{qtptfz},
+			#{qtptyh},
+			#{jrhk},
+			#{ywyqjl},
+			#{ywcf},
+			#{ywsb},
+			#{ywgjj},
+			#{ywxhk}
 		)
 	</insert>
 	
@@ -237,6 +306,75 @@
 		</if>
 		<if test="createDate != null">
 			create_date = #{createDate},
+		</if>
+		<if test="work != null">
+			work = #{work},
+		</if>
+		<if test="home != null">
+			home = #{home},
+		</if>
+		<if test="mobiletime != null">
+			mobiletime = #{mobiletime},
+		</if>
+		<if test="mobilenum != null">
+			mobilenum = #{mobilenum},
+		</if>
+		<if test="isrealname != null">
+			isrealname = #{isrealname},
+		</if>
+		<if test="wyfz != null">
+			wyfz = #{wyfz},
+		</if>
+		<if test="wuyh != null">
+			wuyh = #{wuyh},
+		</if>
+		<if test="mffz != null">
+			mffz = #{mffz},
+		</if>
+		<if test="mfyh != null">
+			mfyh = #{mfyh},
+		</if>
+		<if test="txyfz != null">
+			txyfz = #{txyfz},
+		</if>
+		<if test="txyyh != null">
+			txyyh = #{txyyh},
+		</if>
+		<if test="jdbfz != null">
+			jdbfz = #{jdbfz},
+		</if>
+		<if test="jdbyh != null">
+			jdbyh = #{jdbyh},
+		</if>
+		<if test="jjdfz != null">
+			jjdfz = #{jjdfz},
+		</if>
+		<if test="jjdyh != null">
+			jjdyh = #{jjdyh},
+		</if>
+		<if test="qtptfz != null">
+			qtptfz = #{qtptfz},
+		</if>
+		<if test="qtptyh != null">
+			qtptyh = #{qtptyh},
+		</if>
+		<if test="jrhk != null">
+			jrhk = #{jrhk},
+		</if>
+		<if test="ywyqjl != null">
+			ywyqjl = #{ywyqjl},
+		</if>
+		<if test="ywcf != null">
+			ywcf = #{ywcf},
+		</if>
+		<if test="ywsb != null">
+			ywsb = #{ywsb},
+		</if>
+		<if test="ywgjj != null">
+			ywgjj = #{ywgjj},
+		</if>
+		<if test="ywxhk != null">
+			ywxhk = #{ywxhk},
 		</if>
 		<if test="updateDate != null">
 			update_date = #{updateDate}
