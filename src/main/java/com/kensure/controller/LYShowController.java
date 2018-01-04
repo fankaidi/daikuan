@@ -65,7 +65,7 @@ public class LYShowController {
 	}
 
 	/**
-	 * 
+	 * 新增页面
 	 * @param req
 	 * @param rep
 	 * @param model
@@ -104,6 +104,7 @@ public class LYShowController {
 		}
 	}
 
+	
 	@RequestMapping("admin.do")
 	public String adminmoneylist(HttpServletRequest req, HttpServletResponse rep, Model model) {
 		try {

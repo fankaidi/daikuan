@@ -58,6 +58,7 @@ public class HttpUtils {
 	                 String bookPrice=ele.select("div[class=p-price]").select("strong").select("i").text();
 	                 String bookName=ele.select("div[class=p-name]").select("em").text();
 	                 //创建一个对象，这里可以看出，使用Model的优势，直接进行封装
+	                 
 	               
 	             }
 	        }
