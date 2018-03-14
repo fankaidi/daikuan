@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kensure.ktl.liuliang.dao.LLUserInfoDao"><!--dsName="" saasAspect=""-->
+	<!-- <cache readOnly="true"/> -->
+    <sql id="allFields">
+		id,
+		name,
+		pwd,
+		mobile,
+		qiyemobile,
+		nickname,
+		loginname,
+		card,
+		year,
+		danwei,
+		create_date as createDate,
+		update_date as updateDate,
+		status
+    </sql>
+    
+	<sql id="insertFields">
+		id,
+		name,
+		pwd,
+		mobile,
+		qiyemobile,
+		nickname,
+		loginname,
+		card,
+		year,
+		danwei,
+		create_date,
+		update_date,
+		status
+    </sql>
+	
+	<insert id="insert" parameterType="com.kensure.ktl.liuliang.model.LLUserInfo">
+		insert into ll_user_info (<include refid="insertFields"/>)
+		values (
+			#{id},
+			#{name},
+			#{pwd},
+			#{mobile},
+			#{qiyemobile},
+			#{nickname},
+			#{loginname},
+			#{card},
+			#{year},
+			#{danwei},
+			#{createDate},
+			#{updateDate},
+			#{status}
+		)
+	</insert>
+	
+	<insert id="insertInBatch" parameterType="com.kensure.ktl.liuliang.model.LLUserInfo">
+		insert into ll_user_info (<include refid="insertFields"/>) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.name},
+				#{item.pwd},
+				#{item.mobile},
+				#{item.qiyemobile},
+				#{item.nickname},
+				#{item.loginname},
+				#{item.card},
+				#{item.year},
+				#{item.danwei},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.status}
+			)
+		</foreach>
+	</insert>   		
+	
+    <sql id="whereClause">
+		<if test="name != null">			
+			name = #{name}			
+		</if>
+		<if test="pwd != null">			
+			and pwd = #{pwd}			
+		</if>
+		<if test="mobile != null">			
+			and mobile = #{mobile}			
+		</if>
+		<if test="qiyemobile != null">			
+			and qiyemobile = #{qiyemobile}			
+		</if>
+		<if test="nickname != null">			
+			and nickname = #{nickname}			
+		</if>
+		<if test="loginname != null">			
+			and loginname = #{loginname}			
+		</if>
+		<if test="card != null">			
+			and card = #{card}			
+		</if>
+		<if test="year != null">			
+			and year = #{year}			
+		</if>
+		<if test="danwei != null">			
+			and danwei = #{danwei}			
+		</if>
+		<if test="createDate != null">			
+			and create_date = #{createDate}			
+		</if>
+		<if test="updateDate != null">			
+			and update_date = #{updateDate}			
+		</if>
+		<if test="status != null">			
+			and status = #{status}			
+		</if>
+	</sql>
+    
+	<select id="selectOne" resultType="com.kensure.ktl.liuliang.model.LLUserInfo" parameterType="Long" >
+		select <include refid="allFields"/> 
+		  from ll_user_info 
+		 where id = #{id} 
+	</select>
+	
+	<select id="selectByIds" parameterType="List" resultType="com.kensure.ktl.liuliang.model.LLUserInfo">
+		select <include refid="allFields"/> from ll_user_info 
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+		
+	<select id="selectAll" resultType="com.kensure.ktl.liuliang.model.LLUserInfo">
+		select <include refid="allFields"/> 
+		from ll_user_info 
+	</select>
+
+	<select id="selectCount" resultType="long">
+		select count(*) from ll_user_info 
+	</select>
+	
+	<select id="selectCountByWhere" parameterType="Map" resultType="Long">
+		select count(*) from ll_user_info 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</select>
+
+	<select id="selectByWhere" parameterType="Map" resultType="com.kensure.ktl.liuliang.model.LLUserInfo">
+		select <include refid="allFields"/>
+		from ll_user_info 
+		<where>
+		    <include refid="whereClause"/>
+		</where>				
+		<if test="orderby != null">
+			ORDER BY ${orderby}
+		</if>
+	</select>
+	
+	<sql id="setComn">		
+		<if test="name != null">
+			name = #{name},
+		</if>
+		<if test="pwd != null">
+			pwd = #{pwd},
+		</if>
+		<if test="mobile != null">
+			mobile = #{mobile},
+		</if>
+		<if test="qiyemobile != null">
+			qiyemobile = #{qiyemobile},
+		</if>
+		<if test="nickname != null">
+			nickname = #{nickname},
+		</if>
+		<if test="loginname != null">
+			loginname = #{loginname},
+		</if>
+		<if test="card != null">
+			card = #{card},
+		</if>
+		<if test="year != null">
+			year = #{year},
+		</if>
+		<if test="danwei != null">
+			danwei = #{danwei},
+		</if>
+		<if test="createDate != null">
+			create_date = #{createDate},
+		</if>
+		<if test="updateDate != null">
+			update_date = #{updateDate},
+		</if>
+		<if test="status != null">
+			status = #{status}
+		</if>
+	</sql>
+	
+	<update id="update" parameterType="com.kensure.ktl.liuliang.model.LLUserInfo">
+		 update ll_user_info 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<update id="updateByMap" parameterType="Map">
+		 update ll_user_info 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from ll_user_info where id = #{id}
+	</delete>
+	
+	<delete id="deleteMulti" parameterType="List">
+		delete from ll_user_info
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteByWhere" parameterType="Map">
+		delete from ll_user_info 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</delete>	
+
+</mapper>    

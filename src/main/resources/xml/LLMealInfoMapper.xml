@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kensure.ktl.liuliang.dao.LLMealInfoDao"><!--dsName="" saasAspect=""-->
+	<!-- <cache readOnly="true"/> -->
+    <sql id="allFields">
+		id,
+		name,
+		type,
+		danjia,
+		jine,
+		tiaoshu,
+		create_date as createDate,
+		update_date as updateDate,
+		youxiaoqi,
+		tuijian,
+		status
+    </sql>
+    
+	<sql id="insertFields">
+		id,
+		name,
+		type,
+		danjia,
+		jine,
+		tiaoshu,
+		create_date,
+		update_date,
+		youxiaoqi,
+		tuijian,
+		status
+    </sql>
+	
+	<insert id="insert" parameterType="com.kensure.ktl.liuliang.model.LLMealInfo">
+		insert into ll_meal_info (<include refid="insertFields"/>)
+		values (
+			#{id},
+			#{name},
+			#{type},
+			#{danjia},
+			#{jine},
+			#{tiaoshu},
+			#{createDate},
+			#{updateDate},
+			#{youxiaoqi},
+			#{tuijian},
+			#{status}
+		)
+	</insert>
+	
+	<insert id="insertInBatch" parameterType="com.kensure.ktl.liuliang.model.LLMealInfo">
+		insert into ll_meal_info (<include refid="insertFields"/>) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.name},
+				#{item.type},
+				#{item.danjia},
+				#{item.jine},
+				#{item.tiaoshu},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.youxiaoqi},
+				#{item.tuijian},
+				#{item.status}
+			)
+		</foreach>
+	</insert>   		
+	
+    <sql id="whereClause">
+		<if test="name != null">			
+			name = #{name}			
+		</if>
+		<if test="type != null">			
+			and type = #{type}			
+		</if>
+		<if test="danjia != null">			
+			and danjia = #{danjia}			
+		</if>
+		<if test="jine != null">			
+			and jine = #{jine}			
+		</if>
+		<if test="tiaoshu != null">			
+			and tiaoshu = #{tiaoshu}			
+		</if>
+		<if test="createDate != null">			
+			and create_date = #{createDate}			
+		</if>
+		<if test="updateDate != null">			
+			and update_date = #{updateDate}			
+		</if>
+		<if test="youxiaoqi != null">			
+			and youxiaoqi = #{youxiaoqi}			
+		</if>
+		<if test="status != null">			
+			and status = #{status}			
+		</if>
+		<if test="tuijian != null">			
+			and tuijian = #{tuijian}			
+		</if>
+	</sql>
+    
+	<select id="selectOne" resultType="com.kensure.ktl.liuliang.model.LLMealInfo" parameterType="Long" >
+		select <include refid="allFields"/> 
+		  from ll_meal_info 
+		 where id = #{id} 
+	</select>
+	
+	<select id="selectByIds" parameterType="List" resultType="com.kensure.ktl.liuliang.model.LLMealInfo">
+		select <include refid="allFields"/> from ll_meal_info 
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+		
+	<select id="selectAll" resultType="com.kensure.ktl.liuliang.model.LLMealInfo">
+		select <include refid="allFields"/> 
+		from ll_meal_info 
+	</select>
+
+	<select id="selectCount" resultType="long">
+		select count(*) from ll_meal_info 
+	</select>
+	
+	<select id="selectCountByWhere" parameterType="Map" resultType="Long">
+		select count(*) from ll_meal_info 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</select>
+
+	<select id="selectByWhere" parameterType="Map" resultType="com.kensure.ktl.liuliang.model.LLMealInfo">
+		select <include refid="allFields"/>
+		from ll_meal_info 
+		<where>
+		    <include refid="whereClause"/>
+		</where>				
+		<if test="orderby != null">
+			ORDER BY ${orderby}
+		</if>
+		<if test="limit != null">
+			LIMIT #{limit} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<sql id="setComn">		
+		<if test="name != null">
+			name = #{name},
+		</if>
+		<if test="type != null">
+			type = #{type},
+		</if>
+		<if test="danjia != null">
+			danjia = #{danjia},
+		</if>
+		<if test="jine != null">
+			jine = #{jine},
+		</if>
+		<if test="tiaoshu != null">
+			tiaoshu = #{tiaoshu},
+		</if>
+		<if test="createDate != null">
+			create_date = #{createDate},
+		</if>
+		<if test="updateDate != null">
+			update_date = #{updateDate},
+		</if>
+		<if test="youxiaoqi != null">
+			youxiaoqi = #{youxiaoqi},
+		</if>
+		<if test="status != null">
+			status = #{status}
+		</if>
+		<if test="tuijian != null">
+			tuijian = #{tuijian}
+		</if>	
+	</sql>
+	
+	<update id="update" parameterType="com.kensure.ktl.liuliang.model.LLMealInfo">
+		 update ll_meal_info 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<update id="updateByMap" parameterType="Map">
+		 update ll_meal_info 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from ll_meal_info where id = #{id}
+	</delete>
+	
+	<delete id="deleteMulti" parameterType="List">
+		delete from ll_meal_info
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteByWhere" parameterType="Map">
+		delete from ll_meal_info 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</delete>	
+
+</mapper>    

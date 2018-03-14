@@ -19,6 +19,10 @@ public class ResultRowsInfo extends ResultInfo {
 		super(ResultType.SUCCESS, Const.SELECT_SUCCESS, rows, count);
 	}
 	
+	public ResultRowsInfo(Collection<?> rows, Long count) {
+		super(ResultType.SUCCESS, Const.SELECT_SUCCESS, rows, count.intValue());
+	}
+	
 	public ResultRowsInfo(Collection<?> rows) {
 		super(ResultType.SUCCESS, Const.SELECT_SUCCESS, rows, CollectionUtils.getSize(rows));
 	}

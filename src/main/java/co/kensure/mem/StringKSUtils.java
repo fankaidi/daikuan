@@ -36,4 +36,29 @@ public class StringKSUtils {
 			return (new StringBuilder()).append(Character.toLowerCase(s.charAt(0))).append(s.substring(1)).toString();
 	}
 
+	/**
+	 * 信息脱敏，对于小于6位的数字，进行全部脱敏，大于6位的信息，只显示前三位和后三位
+	 * 
+	 * @param s
+	 * @return
+	 */
+	public static String doMed(String s) {
+		if (StringUtils.isBlank(s)) {
+			return null;
+		}
+		if (s.length() <= 6)
+			return "*****";
+		else {
+			String i1 = s.substring(0, 3);
+			String i2 = s.substring(s.length() - 4, s.length() - 1);
+			int size = s.length() - 6;
+			String str = i1;
+			for (int i = 0; i < size; i++) {
+				str += "*";
+			}
+			str += i2;
+			return str;
+		}
+	}
+
 }

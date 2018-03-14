@@ -13,9 +13,12 @@ package co.kensure.mem;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.apache.commons.lang3.StringUtils;
+
+import co.kensure.exception.BusinessExceptionUtil;
 
 /**
  * number工具类
@@ -85,13 +88,48 @@ public class DateUtils {
 		return new SimpleDateFormat(pattern).format(date);
 	}
 
-	public static Date parse(String dateStr, String pattern) throws ParseException {
+	public static Date parse(String dateStr, String pattern) {
 		if (StringUtils.isBlank(dateStr)) {
 			return null;
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
-		Date date = sdf.parse(dateStr);
+		Date date = null;
+		try {
+			date = sdf.parse(dateStr);
+		} catch (ParseException e) {
+			BusinessExceptionUtil.threwException(e);
+		}
 		return date;
+	}
+
+	/**
+	 * 获取当前天数的+-past天数
+	 * 
+	 * @param past
+	 *            天数
+	 * @return date
+	 */
+	public static Date getPastDay(Date day, int past) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(day);
+		calendar.set(Calendar.DAY_OF_YEAR, calendar.get(Calendar.DAY_OF_YEAR) + past);
+		Date pastday = calendar.getTime();
+		return pastday;
+	}
+
+	/**
+	 * 获取当前天数的+-past月数
+	 * 
+	 * @param past
+	 *            月数
+	 * @return date
+	 */
+	public static Date getPastMonth(Date day, int past) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(day);
+		calendar.add(Calendar.MONTH, past);
+		Date pastday = calendar.getTime();
+		return pastday;
 	}
 
 }

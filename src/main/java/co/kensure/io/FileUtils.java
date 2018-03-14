@@ -26,6 +26,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.vfs2.FileObject;
 import org.apache.commons.vfs2.FileSystemManager;
 import org.apache.commons.vfs2.VFS;
+import org.springframework.web.multipart.MultipartFile;
 
 import co.kensure.exception.BusinessException;
 import co.kensure.frame.Const;
@@ -151,6 +152,35 @@ public final class FileUtils {
 			close(inputStreamReader);
 		}
 		return value.toString();
+	}
+	
+	/**
+	 * 上传过来的文件，把他放入服务器指定的目录，可以重命名
+	 * 
+	 * @param file
+	 *            上传上来的文件
+	 * @param filePath
+	 *            文件存放文件路径
+	 * @param fileReName
+	 *            文件重命名，如果为空，则用文件本来的名字
+	 */
+	public static void fileToIo(MultipartFile file, String filePath, String fileReName) {
+		if (file == null) {
+			throw new BusinessException("上传文件不得为空");
+		}
+		if (StringUtils.isBlank(fileReName)) {
+			fileReName = file.getOriginalFilename();
+		}
+		// 上传到目录
+		InputStream is = null;
+		try {
+			is = file.getInputStream();
+			write(file.getInputStream(), filePath, fileReName);
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		} finally {
+			close(is);
+		}
 	}
 	
 	/**

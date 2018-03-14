@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kensure.ktl.liuliang.dao.LLMealSaleDao"><!--dsName="" saasAspect=""-->
+	<!-- <cache readOnly="true"/> -->
+    <sql id="allFields">
+		id,
+		meal_id as mealId,
+		jine,
+		danjia,
+		fenshu,
+		total,
+		sytiaoshu,
+		type,
+		create_date as createDate,
+		update_date as updateDate,
+		validity_date as validityDate,
+		status,
+		user_id as userId
+    </sql>
+    
+	<sql id="insertFields">
+		id,
+		meal_id,
+		jine,
+		danjia,
+		fenshu,
+		total,
+		sytiaoshu,
+		type,
+		create_date,
+		update_date,
+		validity_date,
+		status,
+		user_id
+    </sql>
+	
+	<insert id="insert" parameterType="com.kensure.ktl.liuliang.model.LLMealSale">
+		insert into ll_meal_sale (<include refid="insertFields"/>)
+		values (
+			#{id},
+			#{mealId},
+			#{jine},
+			#{danjia},
+			#{fenshu},
+			#{total},
+			#{sytiaoshu},
+			#{type},
+			#{createDate},
+			#{updateDate},
+			#{validityDate},
+			#{status},
+			#{userId}
+		)
+	</insert>
+	
+	<insert id="insertInBatch" parameterType="com.kensure.ktl.liuliang.model.LLMealSale">
+		insert into ll_meal_sale (<include refid="insertFields"/>) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.mealId},
+				#{item.jine},
+				#{item.danjia},
+				#{item.fenshu},
+				#{item.total},
+				#{item.sytiaoshu},
+				#{item.type},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.validityDate},
+				#{item.status},
+				#{item.userId}
+			)
+		</foreach>
+	</insert>   		
+	
+    <sql id="whereClause">
+		<if test="mealId != null">			
+			meal_id = #{mealId}			
+		</if>
+		<if test="jine != null">			
+			and jine = #{jine}			
+		</if>
+		<if test="danjia != null">			
+			and danjia = #{danjia}			
+		</if>
+		<if test="fenshu != null">			
+			and fenshu = #{fenshu}			
+		</if>
+		<if test="total != null">			
+			and total = #{total}			
+		</if>
+		<if test="sytiaoshu != null">	
+			<![CDATA[		
+			and sytiaoshu >= #{sytiaoshu}			
+			]]>			
+		</if>
+		<if test="type != null">			
+			and type = #{type}			
+		</if>
+		<if test="createDate != null">			
+			and create_date = #{createDate}			
+		</if>
+		<if test="updateDate != null">			
+			and update_date = #{updateDate}			
+		</if>
+		<if test="validityDate != null">			
+			and validity_date = #{validityDate}			
+		</if>
+		<if test="status != null">			
+			and status = #{status}			
+		</if>
+		<if test="userId != null">			
+			and user_id = #{userId}			
+		</if>
+	</sql>
+    
+	<select id="selectOne" resultType="com.kensure.ktl.liuliang.model.LLMealSale" parameterType="Long" >
+		select <include refid="allFields"/> 
+		  from ll_meal_sale 
+		 where id = #{id} 
+	</select>
+	
+	<select id="selectByIds" parameterType="List" resultType="com.kensure.ktl.liuliang.model.LLMealSale">
+		select <include refid="allFields"/> from ll_meal_sale 
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+		
+	<select id="selectAll" resultType="com.kensure.ktl.liuliang.model.LLMealSale">
+		select <include refid="allFields"/> 
+		from ll_meal_sale 
+	</select>
+
+	<select id="selectCount" resultType="long">
+		select count(*) from ll_meal_sale 
+	</select>
+	
+	<select id="selectCountByWhere" parameterType="Map" resultType="Long">
+		select count(*) from ll_meal_sale 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</select>
+
+	<select id="selectByWhere" parameterType="Map" resultType="com.kensure.ktl.liuliang.model.LLMealSale">
+		select <include refid="allFields"/>
+		from ll_meal_sale 
+		<where>
+		    <include refid="whereClause"/>
+		</where>				
+		<if test="orderby != null">
+			ORDER BY ${orderby}
+		</if>
+		<if test="limit != null">
+			LIMIT #{limit} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<sql id="setComn">		
+		<if test="mealId != null">
+			meal_id = #{mealId},
+		</if>
+		<if test="jine != null">
+			jine = #{jine},
+		</if>
+		<if test="danjia != null">
+			danjia = #{danjia},
+		</if>
+		<if test="fenshu != null">
+			fenshu = #{fenshu},
+		</if>
+		<if test="total != null">
+			total = #{total},
+		</if>
+		<if test="sytiaoshu != null">
+			sytiaoshu = #{sytiaoshu},
+		</if>
+		<if test="type != null">
+			type = #{type},
+		</if>
+		<if test="createDate != null">
+			create_date = #{createDate},
+		</if>
+		<if test="updateDate != null">
+			update_date = #{updateDate},
+		</if>
+		<if test="validityDate != null">
+			validity_date = #{validityDate},
+		</if>
+		<if test="status != null">
+			status = #{status},
+		</if>
+		<if test="userId != null">
+			user_id = #{userId}
+		</if>
+	</sql>
+	
+	<update id="update" parameterType="com.kensure.ktl.liuliang.model.LLMealSale">
+		 update ll_meal_sale 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<update id="updateByMap" parameterType="Map">
+		 update ll_meal_sale 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from ll_meal_sale where id = #{id}
+	</delete>
+	
+	<delete id="deleteMulti" parameterType="List">
+		delete from ll_meal_sale
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteByWhere" parameterType="Map">
+		delete from ll_meal_sale 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</delete>	
+
+</mapper>    

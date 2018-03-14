@@ -11,6 +11,8 @@
  */
 package co.kensure.mem;
 
+import java.math.BigDecimal;
+
 import org.apache.commons.lang3.StringUtils;
 
 
@@ -80,7 +82,8 @@ public class NumberUtils {
 		if(StringUtils.isBlank(obj)){
 			return defaultVal;
 		}
-		Integer ret = Integer.valueOf(obj);
+		BigDecimal big = new BigDecimal(obj);
+		Integer ret = big.intValue();
 		return ret;
 	}
 	
@@ -112,7 +115,8 @@ public class NumberUtils {
 		if(StringUtils.isBlank(obj)){
 			return defaultVal;
 		}
-		Long ret = Long.valueOf(obj);
+		BigDecimal big = new BigDecimal(obj);
+		Long ret = big.longValue();
 		return ret;
 	}
 

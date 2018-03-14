@@ -20,5 +20,17 @@ public class ParamUtils {
 			BusinessExceptionUtil.threwException(e);
 		}
 	}
+	
+	/**
+	 * 如果参数不是整数，抛出异常
+	 * 
+	 * @param cause
+	 * @throws BusinessException
+	 */
+	public static void isNotIntegerThrewException(String param, String e) throws BusinessException {
+		if (!StringUtils.isNumeric(param)) {
+			BusinessExceptionUtil.threwException(e);
+		}
+	}
 
 }

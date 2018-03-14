@@ -1,7 +1,6 @@
 package com.kensure.controller;
 
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -449,38 +448,35 @@ public class MobileController {
 		if (StringUtils.isBlank(todate)) {
 			todate = day;
 		}
-		try {
-			Date datefrom = DateUtils.parse(fromdate + " 00:00:00", DateUtils.DATE_FORMAT_PATTERN);
-			Date dateto = DateUtils.parse(todate + " 23:59:59", DateUtils.DATE_FORMAT_PATTERN);
-			Map<String, Object> parameters = MapUtils.genMap("fromdate", datefrom, "todate", dateto);
 
-			// 所有渠道
-			List<Map> channellist = channelInfoService.groupByCid(parameters);
-			parameters.put("status", 1);
+		Date datefrom = DateUtils.parse(fromdate + " 00:00:00", DateUtils.DATE_FORMAT_PATTERN);
+		Date dateto = DateUtils.parse(todate + " 23:59:59", DateUtils.DATE_FORMAT_PATTERN);
+		Map<String, Object> parameters = MapUtils.genMap("fromdate", datefrom, "todate", dateto);
 
-			// 成功渠道
-			List<Map> succhannellist = channelInfoService.groupByCid(parameters);
-			Map sucmap = new HashMap();
-			for (Map s : succhannellist) {
-				sucmap.put(s.get("cid"), s);
+		// 所有渠道
+		List<Map> channellist = channelInfoService.groupByCid(parameters);
+		parameters.put("status", 1);
+
+		// 成功渠道
+		List<Map> succhannellist = channelInfoService.groupByCid(parameters);
+		Map sucmap = new HashMap();
+		for (Map s : succhannellist) {
+			sucmap.put(s.get("cid"), s);
+		}
+
+		if (CollectionUtils.isEmpty(channellist)) {
+			channellist = new ArrayList<Map>();
+		}
+		for (Map lm : channellist) {
+			lm.put("succnt", 0);
+
+			Map smap = (Map) sucmap.get(lm.get("cid"));
+			if (smap != null) {
+				lm.put("succnt", smap.get("cnt"));
 			}
-
-			if (CollectionUtils.isEmpty(channellist)) {
-				channellist = new ArrayList<Map>();
-			}
-			for (Map lm : channellist) {
-				lm.put("succnt", 0);
-
-				Map smap = (Map) sucmap.get(lm.get("cid"));
-				if (smap != null) {
-					lm.put("succnt", smap.get("cnt"));
-				}
-
-			}
-			return new ResultRowsInfo(channellist);
-		} catch (ParseException e) {
-			throw new RuntimeException(e);
 
 		}
+		return new ResultRowsInfo(channellist);
+
 	}
 }

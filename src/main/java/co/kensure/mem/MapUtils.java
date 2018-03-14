@@ -17,6 +17,9 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.lang3.StringUtils;
+
+import com.alibaba.fastjson.JSONObject;
 
 /**
  * map工具类
@@ -216,5 +219,68 @@ public class MapUtils {
 	public static boolean isNotEmpty(Map<?, ?> map) {
 		return !isEmpty(map);
 	}
+	
+	/**
+	 * 设置字符串，如果为空，则不设置
+	 * @return
+	 */
+	public static void putString(Map<String, Object> map,String name,String value) {
+		if (StringUtils.isNotBlank(value)) {
+			map.put(name, value);
+		}
+	}
+	
+	/**
+	 * 设置Integer数字，如果为空，则不设置
+	 * @return
+	 */
+	public static void putInt(Map<String, Object> map,String name,String value) {
+		if (StringUtils.isNotBlank(value)) {
+			map.put(name, NumberUtils.parseInteger(value, 0));
+		}
+	}
+	
+	/**
+	 * 设置开始时间，如果为空，则不设置,如果value只是日期，需要加入 时分秒
+	 * @return
+	 */
+	public static void putStartTime(Map<String, Object> map,String name,String value) {
+		if (StringUtils.isNotBlank(value)) {
+			if(value.length() == 10){
+				value += " 00:00:00";
+			}
+			map.put(name, DateUtils.parse(value, DateUtils.DATE_FORMAT_PATTERN));
+		}
+	}
+	
+	/**
+	 * 设置结束时间，如果为空，则不设置,如果value只是日期，需要加入 时分秒
+	 * @return
+	 */
+	public static void putEndTime(Map<String, Object> map,String name,String value) {
+		if (StringUtils.isNotBlank(value)) {
+			if(value.length() == 10){
+				value += " 23:59:59";
+			}
+			map.put(name, DateUtils.parse(value, DateUtils.DATE_FORMAT_PATTERN));
+		}
+	}
+	
+	/**
+	 * 设置翻页信息，固定参数limit和current
+	 * @return
+	 */
+	public static void putPageInfo(Map<String, Object> map,JSONObject json) {
+		String limit = json.getString("limit");
+		String current = json.getString("current");
+		Integer limitI = NumberUtils.parseInteger(limit, 20);
+		Integer currentI = NumberUtils.parseInteger(current, 1);
+		Integer offset = (currentI - 1) * limitI;
+		map.put("limit", limitI);
+		map.put("offset", offset);
+	}
+	
+	
+	
 
 }

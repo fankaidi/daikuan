@@ -1,0 +1,435 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kensure.ktl.liuliang.dao.LLBaseInfoDao"><!--dsName="" saasAspect=""-->
+	<!-- <cache readOnly="true"/> -->
+    <sql id="allFields">
+		ll_base_info.id,
+		ll_base_info.source_id as sourceId,
+		ll_base_info.name,
+		ll_base_info.mobile,
+		ll_base_info.qq,
+		ll_base_info.weixin,
+		ll_base_info.xb,
+		ll_base_info.card,
+		ll_base_info.year,
+		ll_base_info.area,
+		ll_base_info.shebei,
+		ll_base_info.qudao,
+		ll_base_info.danwei,
+		ll_base_info.lixi,
+		ll_base_info.jkfs,
+		ll_base_info.hkje,
+		ll_base_info.fuzai,
+		ll_base_info.zhimafen,
+		ll_base_info.huabeiedu,
+		ll_base_info.jiebeiedu,
+		ll_base_info.xinyongka,
+		ll_base_info.jiedaibao,
+		ll_base_info.day,
+		ll_base_info.create_date as createDate,
+		ll_base_info.update_date as updateDate,
+		ll_base_info.publish_date as publishDate,
+		ll_base_info.status
+    </sql>
+    
+	<sql id="insertFields">
+		id,
+		source_id,
+		name,
+		mobile,
+		qq,
+		weixin,
+		xb,
+		card,
+		year,
+		area,
+		shebei,
+		qudao,
+		danwei,
+		lixi,
+		jkfs,
+		hkje,
+		fuzai,
+		zhimafen,
+		huabeiedu,
+		jiebeiedu,
+		xinyongka,
+		jiedaibao,
+		day,
+		create_date,
+		update_date,
+		publish_date,
+		status
+    </sql>
+	
+	<insert id="insert" parameterType="com.kensure.ktl.liuliang.model.LLBaseInfo">
+		insert into ll_base_info (<include refid="insertFields"/>)
+		values (
+			#{id},
+			#{sourceId},
+			#{name},
+			#{mobile},
+			#{qq},
+			#{weixin},
+			#{xb},
+			#{card},
+			#{year},
+			#{area},
+			#{shebei},
+			#{qudao},
+			#{danwei},
+			#{lixi},
+			#{jkfs},
+			#{hkje},
+			#{fuzai},
+			#{zhimafen},
+			#{huabeiedu},
+			#{jiebeiedu},
+			#{xinyongka},
+			#{jiedaibao},
+			#{day},
+			#{createDate},
+			#{updateDate},
+			#{publishDate},
+			#{status}
+		)
+	</insert>
+	
+	<insert id="insertInBatch" parameterType="com.kensure.ktl.liuliang.model.LLBaseInfo">
+		insert into ll_base_info (<include refid="insertFields"/>) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.sourceId},
+				#{item.name},
+				#{item.mobile},
+				#{item.qq},
+				#{item.weixin},
+				#{item.xb},
+				#{item.card},
+				#{item.year},
+				#{item.area},
+				#{item.shebei},
+				#{item.qudao},
+				#{item.danwei},
+				#{item.lixi},
+				#{item.jkfs},
+				#{item.hkje},
+				#{item.fuzai},
+				#{item.zhimafen},
+				#{item.huabeiedu},
+				#{item.jiebeiedu},
+				#{item.xinyongka},
+				#{item.jiedaibao},
+				#{item.day},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.publishDate},
+				#{item.status}
+			)
+		</foreach>
+	</insert>   		
+	
+    <sql id="whereClause">
+		<if test="sourceId != null">			
+			ll_base_info.source_id = #{sourceId}			
+		</if>
+		<if test="name != null">			
+			and ll_base_info.name like '%${name}%'		
+		</if>
+		<if test="mobile != null">			
+			and ll_base_info.mobile = #{mobile}			
+		</if>
+		<if test="qq != null">			
+			and ll_base_info.qq = #{qq}			
+		</if>
+		<if test="weixin != null">			
+			and ll_base_info.weixin = #{weixin}			
+		</if>
+		<if test="xb != null">			
+			and ll_base_info.xb = #{xb}			
+		</if>
+		<if test="card != null">			
+			and ll_base_info.card = #{card}			
+		</if>
+		<if test="year != null">			
+			and ll_base_info.year = #{year}			
+		</if>
+		<if test="area != null">			
+			and ll_base_info.area like '%${area}%'		
+		</if>
+		<if test="shebei != null">			
+			and ll_base_info.shebei = #{shebei}			
+		</if>
+		<if test="qudao != null">			
+			and ll_base_info.qudao = #{qudao}			
+		</if>
+		<if test="danwei != null">			
+			and ll_base_info.danwei = #{danwei}			
+		</if>
+		<if test="lixi != null">			
+			and ll_base_info.lixi = #{lixi}			
+		</if>
+		<if test="jkfs != null">			
+			and ll_base_info.jkfs = #{jkfs}			
+		</if>
+		<if test="hkje != null">			
+			and ll_base_info.hkje = #{hkje}			
+		</if>
+		<if test="fuzai != null">			
+			and ll_base_info.fuzai = #{fuzai}			
+		</if>
+		<if test="zhimafen != null">			
+			and ll_base_info.zhimafen = #{zhimafen}			
+		</if>
+		<if test="huabeiedu != null">			
+			and ll_base_info.huabeiedu = #{huabeiedu}			
+		</if>
+		<if test="jiebeiedu != null">			
+			and ll_base_info.jiebeiedu = #{jiebeiedu}			
+		</if>
+		<if test="xinyongka != null">			
+			and ll_base_info.xinyongka = #{xinyongka}			
+		</if>
+		<if test="jiedaibao != null">			
+			and ll_base_info.jiedaibao = #{jiedaibao}			
+		</if>
+		<if test="day != null">			
+			and ll_base_info.day = #{day}			
+		</if>
+		<if test="createDate != null">			
+			and ll_base_info.create_date = #{createDate}			
+		</if>
+		<if test="updateDate != null">			
+			and ll_base_info.update_date = #{updateDate}			
+		</if>
+		<if test="publishDate != null">			
+			and ll_base_info.publish_date = #{publishDate}			
+		</if>
+		<if test="status != null">			
+			and ll_base_info.status = #{status}			
+		</if>
+		<if test="minzhimafen != null">			
+			<![CDATA[		
+			and ll_base_info.zhimafen >= #{minzhimafen}		
+			]]>			
+		</if>
+		<if test="maxzhimafen != null">	
+			<![CDATA[		
+			and ll_base_info.zhimafen <= #{maxzhimafen}		
+			]]>			
+		</if>
+		<if test="minyear != null">			
+			<![CDATA[		
+			and ll_base_info.year >= #{minyear}		
+			]]>			
+		</if>
+		<if test="maxyear != null">	
+			<![CDATA[		
+			and ll_base_info.year <= #{maxyear}		
+			]]>			
+		</if>
+		<if test="startTime != null">			
+			<![CDATA[		
+			and ll_base_info.publish_date >= #{startTime}		
+			]]>			
+		</if>
+		<if test="endTime != null">	
+			<![CDATA[		
+			and ll_base_info.publish_date <= #{endTime}		
+			]]>			
+		</if>
+	</sql>
+    
+	<select id="selectOne" resultType="com.kensure.ktl.liuliang.model.LLBaseInfo" parameterType="Long" >
+		select <include refid="allFields"/> 
+		  from ll_base_info 
+		 where id = #{id} 
+	</select>
+	
+	<select id="selectByIds" parameterType="List" resultType="com.kensure.ktl.liuliang.model.LLBaseInfo">
+		select <include refid="allFields"/> from ll_base_info 
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+		
+	<select id="selectAll" resultType="com.kensure.ktl.liuliang.model.LLBaseInfo">
+		select <include refid="allFields"/> 
+		from ll_base_info 
+	</select>
+
+	<select id="selectCount" resultType="long">
+		select count(*) from ll_base_info 
+	</select>
+	
+	<select id="selectCountByWhere" parameterType="Map" resultType="Long">
+		select count(*) from ll_base_info 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</select>
+
+	<select id="selectByWhere" parameterType="Map" resultType="com.kensure.ktl.liuliang.model.LLBaseInfo">
+		select <include refid="allFields"/>
+		from ll_base_info 
+		<where>
+		    <include refid="whereClause"/>
+		</where>				
+		<if test="orderby != null">
+			ORDER BY ${orderby}
+		</if>
+		<if test="limit != null">
+			LIMIT #{limit} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectNewInfo" parameterType="Map" resultType="com.kensure.ktl.liuliang.model.LLBaseInfo">
+		select <include refid="allFields"/>
+		from ll_base_info 
+		LEFT JOIN ll_caigou_info
+		on ll_base_info.id=ll_caigou_info.base_id and ll_caigou_info.user_id=#{userId} 
+		<where>
+		    <include refid="whereClause"/>
+		    and ll_caigou_info.id is null
+		</where>				
+		<if test="orderby != null">
+			ORDER BY ${orderby}
+		</if>
+		<if test="limit != null">
+			LIMIT #{limit} OFFSET #{offset}
+		</if>
+	</select>
+	
+	<select id="selectNewInfoCount" parameterType="Map" resultType="Long">
+		select count(*)
+		from ll_base_info 
+		LEFT JOIN ll_caigou_info
+		on ll_base_info.id=ll_caigou_info.base_id and ll_caigou_info.user_id=#{userId} 
+		<where>
+		    <include refid="whereClause"/>
+		    and ll_caigou_info.id is null
+		</where>				
+	</select>
+	
+	
+	
+	
+	<sql id="setComn">		
+		<if test="sourceId != null">
+			source_id = #{sourceId},
+		</if>
+		<if test="name != null">
+			name = #{name},
+		</if>
+		<if test="mobile != null">
+			mobile = #{mobile},
+		</if>
+		<if test="qq != null">
+			qq = #{qq},
+		</if>
+		<if test="weixin != null">
+			weixin = #{weixin},
+		</if>
+		<if test="xb != null">
+			xb = #{xb},
+		</if>
+		<if test="card != null">
+			card = #{card},
+		</if>
+		<if test="year != null">
+			year = #{year},
+		</if>
+		<if test="area != null">
+			area = #{area},
+		</if>
+		<if test="shebei != null">
+			shebei = #{shebei},
+		</if>
+		<if test="qudao != null">
+			qudao = #{qudao},
+		</if>
+		<if test="danwei != null">
+			danwei = #{danwei},
+		</if>
+		<if test="lixi != null">
+			lixi = #{lixi},
+		</if>
+		<if test="jkfs != null">
+			jkfs = #{jkfs},
+		</if>
+		<if test="hkje != null">
+			hkje = #{hkje},
+		</if>
+		<if test="fuzai != null">
+			fuzai = #{fuzai},
+		</if>
+		<if test="zhimafen != null">
+			zhimafen = #{zhimafen},
+		</if>
+		<if test="huabeiedu != null">
+			huabeiedu = #{huabeiedu},
+		</if>
+		<if test="jiebeiedu != null">
+			jiebeiedu = #{jiebeiedu},
+		</if>
+		<if test="xinyongka != null">
+			xinyongka = #{xinyongka},
+		</if>
+		<if test="jiedaibao != null">
+			jiedaibao = #{jiedaibao},
+		</if>
+		<if test="day != null">
+			day = #{day},
+		</if>
+		<if test="createDate != null">
+			create_date = #{createDate},
+		</if>
+		<if test="updateDate != null">
+			update_date = #{updateDate},
+		</if>
+		<if test="publishDate != null">
+			publish_date = #{publishDate},
+		</if>
+		<if test="status != null">
+			status = #{status}
+		</if>
+	</sql>
+	
+	<update id="update" parameterType="com.kensure.ktl.liuliang.model.LLBaseInfo">
+		 update ll_base_info 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<update id="updateByMap" parameterType="Map">
+		 update ll_base_info 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from ll_base_info where id = #{id}
+	</delete>
+	
+	<delete id="deleteMulti" parameterType="List">
+		delete from ll_base_info
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteByWhere" parameterType="Map">
+		delete from ll_base_info 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</delete>	
+
+</mapper>    
