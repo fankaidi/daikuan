@@ -47,9 +47,6 @@
 		    	<br>
 		    	开始时间：<input type="date" name="startTime" />
 		    	结束时间：<input type="date" name="endTime" />
-		    	<input type="hidden" id="sessionid" name="sessionid" />
-		    	<input type="hidden" id="current" name="current" />
-		    	<input type="hidden" id="limit" name="limit" />
 		    	<input type="button" value="查询" onclick="getRecord(1)"/>	
 	    	</form>
     	</div>
@@ -70,14 +67,17 @@ var fanye = new FanYe("fanye","getRecord",0,20,1);
 		if(!fanye.check(current)){
 			return;
 		}
-		$('#sessionid').val($.cookie('sessionid'));
-		$('#current').val(current);
-		$('#limit').val(20);
+		var basedata = {
+				sessionid:$.cookie('sessionid'),
+				current:current,
+				limit:20
+		}
+		var data = $.param(basedata)+"&"+$('#search').serialize()
 		 $.ajax({
             type: "POST",
             dataType: "html",
             url: "<%=context%>/liuliangpost/goumaibaseinfo.do",
-            data: $('#search').serialize(),
+            data: data,
 			success : function(data) {
 				var strresult = $.parseJSON(data);
 				if (strresult.type == 'success') {

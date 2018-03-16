@@ -17,6 +17,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.annotation.Resource;
 
@@ -64,7 +66,7 @@ public class LLMealSaleService extends JSBaseService {
 	/**
 	 * 对每个订单进行上锁，保证他做减法的时候不会并发
 	 */
-	private static Map<Long, Integer> mealSaleLock = new HashMap<>();
+	private static Map<Long, Lock> mealSaleLock = new HashMap<>();
 
 	public LLMealSale selectOne(Long id) {
 		return dao.selectOne(id);
@@ -224,7 +226,7 @@ public class LLMealSaleService extends JSBaseService {
 		}
 
 		// 进行前期校验
-		Map<String, Object> parameters = MapUtils.genMap("userId",userId,"status", 1, "sytiaoshu", 1, "orderby", "validity_date");
+		Map<String, Object> parameters = MapUtils.genMap("userId", userId, "status", 1, "sytiaoshu", 1, "orderby", "validity_date");
 		List<LLMealSale> list = selectByWhere(parameters);
 		if (CollectionUtils.isEmpty(list)) {
 			return null;
@@ -265,7 +267,7 @@ public class LLMealSaleService extends JSBaseService {
 	 */
 	public int getTotalSY(Long userId, Integer type) {
 		// 进行前期校验
-		Map<String, Object> parameters = MapUtils.genMap("userId",userId,"status", 1, "sytiaoshu", 1);
+		Map<String, Object> parameters = MapUtils.genMap("userId", userId, "status", 1, "sytiaoshu", 1);
 		if (type != null) {
 			parameters.put("type", type);
 		}
@@ -288,7 +290,7 @@ public class LLMealSaleService extends JSBaseService {
 	 */
 	public int getBaseLeiJi(Long userId) {
 		// 进行前期校验
-		Map<String, Object> parameters = MapUtils.genMap("userId",userId,"status", 1, "type", 2);
+		Map<String, Object> parameters = MapUtils.genMap("userId", userId, "status", 1, "type", 2);
 		List<LLMealSale> list = selectByWhere(parameters);
 		if (CollectionUtils.isEmpty(list)) {
 			return 0;
@@ -308,7 +310,7 @@ public class LLMealSaleService extends JSBaseService {
 	 */
 	public int getMealLeiJi(Long userId) {
 		// 进行前期校验
-		Map<String, Object> parameters = MapUtils.genMap("userId",userId,"status", 1, "type", 1);
+		Map<String, Object> parameters = MapUtils.genMap("userId", userId, "status", 1, "type", 1);
 		List<LLMealSale> list = selectByWhere(parameters);
 		if (CollectionUtils.isEmpty(list)) {
 			return 0;
@@ -325,10 +327,12 @@ public class LLMealSaleService extends JSBaseService {
 	 * 
 	 * @param id
 	 *            ,购买记录id
+	 * @param tiaoshu
+	 *            ,购买条数
 	 * 
 	 * @return
 	 */
-	public void subSY(Long id) {
+	public void subSY(Long id, int tiaoshu) {
 		try {
 			lock(id);
 			LLMealSale ms = selectOne(id);
@@ -338,10 +342,10 @@ public class LLMealSaleService extends JSBaseService {
 			if (ms.getStatus() == 9) {
 				BusinessExceptionUtil.threwException("该订单信息已经用完");
 			}
-			if (ms.getSytiaoshu() == 0) {
+			ms.setSytiaoshu(ms.getSytiaoshu() - tiaoshu);
+			if (ms.getSytiaoshu() < 0) {
 				BusinessExceptionUtil.threwException("该订单信息已经用完1");
 			}
-			ms.setSytiaoshu(ms.getSytiaoshu() - 1);
 			if (ms.getSytiaoshu() == 0) {
 				ms.setStatus(9);
 			}
@@ -357,8 +361,10 @@ public class LLMealSaleService extends JSBaseService {
 	 * 
 	 * @param userId
 	 */
-	private void lock(Long id) {
-		mealSaleLock.put(id, 1);
+	private synchronized void lock(Long id) {
+		Lock queueLock = new ReentrantLock();
+		queueLock.lock();
+		mealSaleLock.put(id, queueLock);
 	}
 
 	/**
@@ -367,6 +373,8 @@ public class LLMealSaleService extends JSBaseService {
 	 * @param userId
 	 */
 	private void unLock(Long id) {
+		Lock queueLock = mealSaleLock.get(id);
+		queueLock.unlock();
 		mealSaleLock.remove(id);
 	}
 }

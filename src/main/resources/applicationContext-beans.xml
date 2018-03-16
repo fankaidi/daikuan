@@ -82,6 +82,9 @@
         <property name="dataSource" ref="dataSource"/>
     </bean>
 
+  	<!-- 第四种配置事务的方式，注解 -->
+    <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
+   
     <aop:config>
         <aop:pointcut id="serviceMethod" expression="execution(* com.kensure.*.service..*(..))" />
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>

@@ -225,6 +225,21 @@ public class LiuLiangPostController {
 		llCaiGouInfoService.goumaiLL(sessionId, id);
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
 	}
+	
+	/**
+	 * 批量购买流量
+	 * 
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("goumailiuliangs.do")
+	public ResultInfo goumailiuliangs(HttpServletRequest req, HttpServletResponse rep) {
+		JSONObject json = RequestUtils.paramToJson(req);
+		String sessionId = json.getString("sessionid");
+		String ids = json.getString("ids");
+		llCaiGouInfoService.goumaiLLBatch(sessionId, ids);
+		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+	}
 
 	/**
 	 * 订单查询

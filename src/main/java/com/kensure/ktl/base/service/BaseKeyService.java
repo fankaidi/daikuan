@@ -142,7 +142,11 @@ public class BaseKeyService extends JSBaseService {
 	 * @return
 	 */
 	private synchronized Long getKeyTable(String tableName) {
-		Long id = null;
+		//再次从缓存里面取下，这么做是为了防止高并发
+		Long id = getKeyCache(tableName);
+		if(id != null){
+			return id;
+		}
 		BaseKey bk = selectOne(tableName);
 		// 没有，需要创建
 		if (bk == null) {

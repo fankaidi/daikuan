@@ -47,10 +47,8 @@
 		    	<br>
 		    	开始时间：<input type="date" name="startTime" />
 		    	结束时间：<input type="date" name="endTime" />
-		    	<input type="hidden" id="sessionid" name="sessionid" />
-		    	<input type="hidden" id="current" name="current" />
-		    	<input type="hidden" id="limit" name="limit" />
 		    	<input type="button" value="查询" onclick="getRecord(1)"/>	
+		    	<input type="button" value="全部购买" onclick="goumaiall()"/>	
 	    	</form>
     	</div>
         <div style="margin-top:10px">
@@ -70,14 +68,17 @@
 		if(!fanye.check(current)){
 			return;
 		}
-		$('#sessionid').val($.cookie('sessionid'));
-		$('#current').val(current);
-		$('#limit').val(20);
+		var basedata = {
+				sessionid:$.cookie('sessionid'),
+				current:current,
+				limit:20
+		}
+		var data = $.param(basedata)+"&"+$('#search').serialize()
 		 $.ajax({
             type: "POST",
             dataType: "html",
             url: "<%=context%>/liuliangpost/newbaseinfo.do",
-            data: $('#search').serialize(),
+            data: data,
 			success : function(data) {
 				var strresult = $.parseJSON(data);
 				if (strresult.type == 'success') {
@@ -146,10 +147,66 @@
 			error : function(data) {
 				alert("error:" + data.responseText);
 			}
+		});	
+	}
+	
+	function goumaiall() {
+		var basedata = {
+				sessionid:$.cookie('sessionid'),
+				current:1,
+				limit:10000
+		}
+		var data = $.param(basedata)+"&"+$('#search').serialize()
+		$.ajax({
+            type: "POST",
+            dataType: "html",
+            url: "<%=context%>/liuliangpost/newbaseinfo.do",
+            data: data,
+			success : function(data) {
+				var strresult = $.parseJSON(data);
+				if (strresult.type == 'success') {
+					var allrows = strresult.resultData.rows;
+					if(!allrows || allrows.length == 0){
+						 alert("没有需要购买的流量");
+					}
+					if(window.confirm('你确定要购买'+allrows.length+'条流量吗？')){   
+						var ids = "";
+						for(var i in allrows){
+							var r = allrows[i];
+							ids += r.id+",";
+						}
+						ids = ids.substring(0, ids.length-1);
+						goumaibyids(ids);
+		            }
+				}
+			},
+			error : function(data) {
+				alert("error:" + data.responseText);
+			}
 		});
-		
-		
-		
+	}
+	
+	function goumaibyids(ids) {
+		$.ajax({
+	          type: "POST",
+	          dataType: "html",
+	          url: "<%=context%>/liuliangpost/goumailiuliangs.do",
+			data : {
+				"sessionid" : $.cookie('sessionid'),
+				"ids" : ids
+			},
+			success : function(data) {
+				var strresult = $.parseJSON(data);
+				if (strresult.type == 'success') {
+					alert("成功付款");
+				}else{
+					 alert(strresult.message);
+				}
+			},
+			error : function(data) {
+				alert("error:" + data.responseText);
+			}
+		});	
 	}
   
 </script>

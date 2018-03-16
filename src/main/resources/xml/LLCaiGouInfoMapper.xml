@@ -85,6 +85,12 @@
 		<if test="jine != null">			
 			and jine = #{jine}			
 		</if>
+		<if test="baseIdsin != null">			
+			and base_id in 
+			<foreach collection="baseIdsin" item="item" open="(" close=")" separator=",">
+				#{item}
+			</foreach>		
+		</if>
 		<if test="sessionid != null">			
 			and sessionid = #{sessionid}			
 		</if>
