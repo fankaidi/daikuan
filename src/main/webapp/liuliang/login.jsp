@@ -22,17 +22,17 @@
 			<form id="Login" name="Login" method="post" onsubmit="" action="">
 				<li class="login-item">
 					<span>用户名：</span>
-					<input type="text" id="username" name="username" class="login_input" >
+					<input type="text" id="username" name="username" class="login_input" onkeydown="keyActionSubmit()">
                                         <span id="count-msg" class="error"></span>
 				</li>
 				<li class="login-item">
 					<span>密　码：</span>
-					<input type="password" id="password" name="password" class="login_input" >
+					<input type="password" id="password" name="password" class="login_input" onkeydown="keyActionSubmit()">
                                         <span id="password-msg" class="error"></span>
 				</li>
 				
 				<li class="login-sub">
-					<input type="button" class="submit" value="登录" onclick="actionSubmit()"> 
+					<input type="button" class="submit" value="登录" onclick="actionSubmit()" /> 
 					<input type="button" class="submit" value="注册" onclick="zhuce()">
 				</li>                      
            </form>
@@ -59,6 +59,12 @@
               alert("error:"+data.responseText);
            }
       });
+  }
+  
+  function keyActionSubmit(){
+	  if (event.keyCode == 13) {
+		  actionSubmit();
+	   }
   }
   
   function zhuce() {

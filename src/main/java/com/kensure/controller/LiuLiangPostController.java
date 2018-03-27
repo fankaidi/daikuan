@@ -20,6 +20,7 @@ import co.kensure.frame.ResultRowsInfo;
 import co.kensure.frame.ResultType;
 import co.kensure.http.RequestUtils;
 import co.kensure.mem.MapUtils;
+import co.kensure.thread.LocalThreadUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kensure.ktl.liuliang.model.LLBaseInfo;
@@ -79,7 +80,7 @@ public class LiuLiangPostController {
 		JSONObject json = RequestUtils.paramToJson(req);
 		String username = json.getString("username");
 		String password = json.getString("password");
-		LLUserLogin userLogin = llUserLoginService.login(username, password, req.getRemoteHost());
+		LLUserLogin userLogin = llUserLoginService.login(username, password, LocalThreadUtils.getSession());
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, userLogin);
 	}
 
@@ -91,8 +92,7 @@ public class LiuLiangPostController {
 	@ResponseBody
 	@RequestMapping("userlogout.do")
 	public ResultInfo userlogout(HttpServletRequest req, HttpServletResponse rep) {
-		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionId = json.getString("sessionid");
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		llUserLoginService.loginOut(sessionId);
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
 	}
@@ -127,7 +127,7 @@ public class LiuLiangPostController {
 		llUserInfoService.insert(user);
 
 		// 用户登录
-		LLUserLogin userLogin = llUserLoginService.login(username, password, req.getRemoteHost());
+		LLUserLogin userLogin = llUserLoginService.login(username, password, LocalThreadUtils.getSession());
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, userLogin);
 	}
 
@@ -139,8 +139,7 @@ public class LiuLiangPostController {
 	@ResponseBody
 	@RequestMapping("userinfo.do")
 	public ResultInfo userinfo(HttpServletRequest req, HttpServletResponse rep) {
-		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionId = json.getString("sessionid");
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		LLUserInfo user = llUserInfoService.selectBySessionId(sessionId);
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, user);
 	}
@@ -154,8 +153,8 @@ public class LiuLiangPostController {
 	@RequestMapping("newbaseinfo.do")
 	public ResultInfo newbaseinfo(HttpServletRequest req, HttpServletResponse rep) {
 		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionid = json.getString("sessionid");
-		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
+		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		if (userinfo == null) {
 			BusinessExceptionUtil.threwException("找不到该用户");
 		}
@@ -163,15 +162,11 @@ public class LiuLiangPostController {
 		Map<String, Object> parameters = new HashMap<>();
 		MapUtils.putStartTime(parameters, "startTime", json.getString("startTime"));
 		MapUtils.putEndTime(parameters, "endTime", json.getString("endTime"));
-		MapUtils.putString(parameters, "qudao", json.getString("qudao"));
-		MapUtils.putString(parameters, "name", json.getString("name"));
-		MapUtils.putString(parameters, "shebei", json.getString("shebei"));
-		MapUtils.putInt(parameters, "minzhimafen", json.getString("minzhimafen"));
-		MapUtils.putInt(parameters, "maxzhimafen", json.getString("maxzhimafen"));
-		MapUtils.putInt(parameters, "minyear", json.getString("minyear"));
-		MapUtils.putInt(parameters, "maxyear", json.getString("maxyear"));
+		MapUtils.putStrings(parameters, json, "qudao", "name", "shebei");
+		MapUtils.putInts(parameters, json, "minzhimafen", "maxzhimafen", "minyear", "maxyear");
 		MapUtils.putPageInfo(parameters, json);
 		parameters.put("userId", userinfo.getId());
+		parameters.put("status", 1);
 
 		List<LLBaseInfo> list = llBaseInfoService.selectNewInfo(parameters);
 		int size = (int) llBaseInfoService.selectNewInfoCount(parameters);
@@ -187,7 +182,7 @@ public class LiuLiangPostController {
 	@RequestMapping("goumaibaseinfo.do")
 	public ResultInfo goumaibaseinfo(HttpServletRequest req, HttpServletResponse rep) {
 		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionid = json.getString("sessionid");
+		String sessionid = LocalThreadUtils.getSession().getSessionid();
 		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
 		if (userinfo == null) {
 			BusinessExceptionUtil.threwException("找不到该用户");
@@ -196,13 +191,8 @@ public class LiuLiangPostController {
 		Map<String, Object> parameters = new HashMap<>();
 		MapUtils.putStartTime(parameters, "startTime", json.getString("startTime"));
 		MapUtils.putEndTime(parameters, "endTime", json.getString("endTime"));
-		MapUtils.putString(parameters, "qudao", json.getString("qudao"));
-		MapUtils.putString(parameters, "name", json.getString("name"));
-		MapUtils.putString(parameters, "shebei", json.getString("shebei"));
-		MapUtils.putInt(parameters, "minzhimafen", json.getString("minzhimafen"));
-		MapUtils.putInt(parameters, "maxzhimafen", json.getString("maxzhimafen"));
-		MapUtils.putInt(parameters, "minyear", json.getString("minyear"));
-		MapUtils.putInt(parameters, "maxyear", json.getString("maxyear"));
+		MapUtils.putStrings(parameters, json, "qudao", "name", "shebei");
+		MapUtils.putInts(parameters, json, "minzhimafen", "maxzhimafen", "minyear", "maxyear");
 		MapUtils.putPageInfo(parameters, json);
 		parameters.put("userId", userinfo.getId());
 
@@ -220,12 +210,12 @@ public class LiuLiangPostController {
 	@RequestMapping("goumailiuliang.do")
 	public ResultInfo goumailiuliang(HttpServletRequest req, HttpServletResponse rep) {
 		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionId = json.getString("sessionid");
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		String id = json.getString("id");
 		llCaiGouInfoService.goumaiLL(sessionId, id);
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
 	}
-	
+
 	/**
 	 * 批量购买流量
 	 * 
@@ -235,7 +225,7 @@ public class LiuLiangPostController {
 	@RequestMapping("goumailiuliangs.do")
 	public ResultInfo goumailiuliangs(HttpServletRequest req, HttpServletResponse rep) {
 		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionId = json.getString("sessionid");
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		String ids = json.getString("ids");
 		llCaiGouInfoService.goumaiLLBatch(sessionId, ids);
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
@@ -250,8 +240,8 @@ public class LiuLiangPostController {
 	@RequestMapping("xiaofei.do")
 	public ResultInfo xiaofei(HttpServletRequest req, HttpServletResponse rep) {
 		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionid = json.getString("sessionid");
-		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
+		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		if (userinfo == null) {
 			BusinessExceptionUtil.threwException("找不到该用户");
 		}
@@ -274,8 +264,8 @@ public class LiuLiangPostController {
 	@RequestMapping("updatepwd.do")
 	public ResultInfo updatepwd(HttpServletRequest req, HttpServletResponse rep) {
 		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionid = json.getString("sessionid");
-		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
+		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		if (userinfo == null) {
 			BusinessExceptionUtil.threwException("找不到该用户");
 		}
@@ -306,8 +296,8 @@ public class LiuLiangPostController {
 	@RequestMapping("newnotice.do")
 	public ResultInfo newnotice(HttpServletRequest req, HttpServletResponse rep) {
 		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionid = json.getString("sessionid");
-		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
+		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		if (userinfo == null) {
 			BusinessExceptionUtil.threwException("找不到该用户");
 		}
@@ -330,8 +320,8 @@ public class LiuLiangPostController {
 	@RequestMapping("tuijian.do")
 	public ResultInfo tuijian(HttpServletRequest req, HttpServletResponse rep) {
 		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionid = json.getString("sessionid");
-		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
+		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		if (userinfo == null) {
 			BusinessExceptionUtil.threwException("找不到该用户");
 		}
@@ -352,9 +342,8 @@ public class LiuLiangPostController {
 	@ResponseBody
 	@RequestMapping("baseliuliang.do")
 	public ResultInfo baseliuliang(HttpServletRequest req, HttpServletResponse rep) {
-		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionid = json.getString("sessionid");
-		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
+		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		int total = llMealSaleService.getBaseTotalSY(userinfo.getId());
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, total);
 	}
@@ -378,9 +367,8 @@ public class LiuLiangPostController {
 	@ResponseBody
 	@RequestMapping("meallastone.do")
 	public ResultInfo meallastone(HttpServletRequest req, HttpServletResponse rep) {
-		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionid = json.getString("sessionid");
-		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
+		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		LLMealSale mealsale = llMealSaleService.getSY(userinfo.getId());
 		if (mealsale != null && mealsale.getType() == 2) {
 			mealsale = null;
@@ -394,9 +382,8 @@ public class LiuLiangPostController {
 	@ResponseBody
 	@RequestMapping("totalliuliang.do")
 	public ResultInfo totalliuliang(HttpServletRequest req, HttpServletResponse rep) {
-		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionid = json.getString("sessionid");
-		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
+		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		int total = llMealSaleService.getTotalSY(userinfo.getId(), null);
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, total);
 	}
@@ -407,9 +394,8 @@ public class LiuLiangPostController {
 	@ResponseBody
 	@RequestMapping("leijiliuliang.do")
 	public ResultInfo leijiliuliang(HttpServletRequest req, HttpServletResponse rep) {
-		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionid = json.getString("sessionid");
-		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
+		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		Long count = llCaiGouInfoService.getLeiJiLiuliang(userinfo.getId());
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, count);
 	}
@@ -420,9 +406,8 @@ public class LiuLiangPostController {
 	@ResponseBody
 	@RequestMapping("salebase.do")
 	public ResultInfo salebase(HttpServletRequest req, HttpServletResponse rep) {
-		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionid = json.getString("sessionid");
-		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
+		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		int count = llMealSaleService.getBaseLeiJi(userinfo.getId());
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, count);
 	}
@@ -433,9 +418,8 @@ public class LiuLiangPostController {
 	@ResponseBody
 	@RequestMapping("salemeal.do")
 	public ResultInfo salemeal(HttpServletRequest req, HttpServletResponse rep) {
-		JSONObject json = RequestUtils.paramToJson(req);
-		String sessionid = json.getString("sessionid");
-		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
+		String sessionId = LocalThreadUtils.getSession().getSessionid();
+		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		int count = llMealSaleService.getMealLeiJi(userinfo.getId());
 		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, count);
 	}

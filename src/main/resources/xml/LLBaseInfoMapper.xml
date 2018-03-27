@@ -29,6 +29,7 @@
 		ll_base_info.create_date as createDate,
 		ll_base_info.update_date as updateDate,
 		ll_base_info.publish_date as publishDate,
+		ll_base_info.expire_count as expireCount,
 		ll_base_info.status
     </sql>
     
@@ -239,6 +240,36 @@
 			and ll_base_info.publish_date <= #{endTime}		
 			]]>			
 		</if>
+		<if test="expireCount != null">	
+			<![CDATA[		
+			and ll_base_info.expire_count <= #{expireCount}		
+			]]>			
+		</if>
+		<if test="expireCountIsNull != null">	
+			<![CDATA[		
+			and ll_base_info.expire_count is null	
+			]]>			
+		</if>
+		<if test="minCreateDate != null">	
+			<![CDATA[		
+				and ll_base_info.create_date >= #{minCreateDate}	
+			]]>						
+		</if>
+		<if test="maxCreateDate != null">	
+			<![CDATA[		
+				and ll_base_info.create_date <= #{maxCreateDate}	
+			]]>						
+		</if>
+		<if test="minUpdateDate != null">	
+			<![CDATA[		
+				and ll_base_info.update_date >= #{minUpdateDate}	
+			]]>						
+		</if>
+		<if test="maxUpdateDate != null">	
+			<![CDATA[		
+				and ll_base_info.update_date <= #{maxUpdateDate}	
+			]]>						
+		</if>
 	</sql>
     
 	<select id="selectOne" resultType="com.kensure.ktl.liuliang.model.LLBaseInfo" parameterType="Long" >
@@ -312,9 +343,6 @@
 		    and ll_caigou_info.id is null
 		</where>				
 	</select>
-	
-	
-	
 	
 	<sql id="setComn">		
 		<if test="sourceId != null">
@@ -393,8 +421,11 @@
 			publish_date = #{publishDate},
 		</if>
 		<if test="status != null">
-			status = #{status}
+			status = #{status},
 		</if>
+		<if test="expireCount != null">
+			expire_count = #{expireCount}
+		</if>		
 	</sql>
 	
 	<update id="update" parameterType="com.kensure.ktl.liuliang.model.LLBaseInfo">

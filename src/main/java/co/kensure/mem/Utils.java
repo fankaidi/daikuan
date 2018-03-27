@@ -5,6 +5,7 @@ import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
+import java.util.UUID;
 
 import org.apache.commons.codec.digest.DigestUtils;
 
@@ -53,9 +54,14 @@ public class Utils {
         }
         return str;
     }
+    
+    public static String getUUID(){
+    	UUID uuid = java.util.UUID.randomUUID();
+    	return uuid.toString().replace("-", "");
+    }
 
     public static void main(String[] args) {
-        System.out.println(randomSMSCode());
+        System.out.println(getUUID() );
     }
 
 }

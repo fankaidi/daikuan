@@ -11,21 +11,26 @@
  */
 package com.kensure.ktl.liuliang.service;
 
-import com.kensure.ktl.base.service.BaseKeyService;
-import com.kensure.ktl.liuliang.dao.LLBaseInfoDao;
-import com.kensure.ktl.liuliang.model.LLBaseInfo;
-import com.kensure.ktl.liuliang.service.LLBaseInfoService;
-
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.kensure.frame.JSBaseService;
+import co.kensure.mem.CollectionUtils;
+import co.kensure.mem.DateUtils;
+import co.kensure.mem.MapUtils;
 import co.kensure.mem.StringKSUtils;
+
+import com.kensure.ktl.base.service.BaseKeyService;
+import com.kensure.ktl.liuliang.dao.LLBaseInfoDao;
+import com.kensure.ktl.liuliang.model.LLBaseInfo;
 
 
 /**
@@ -85,6 +90,8 @@ public class LLBaseInfoService extends JSBaseService{
 	
 	
 	public boolean update(LLBaseInfo obj){
+		Date date = new Date();
+		obj.setUpdateDate(date);
 		return dao.update(obj);
 	}
     
@@ -130,7 +137,58 @@ public class LLBaseInfoService extends JSBaseService{
 		return dao.selectNewInfoCount(parameters);
 	}
     
+    /**
+     * 让流量进行第一次过期。
+     */
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public void expireFirstBaseInfo(){
+    	 Date dayago = DateUtils.getPastDay(new Date(), -4);
+    	 Map<String, Object> parameters = MapUtils.genMap("expireCountIsNull",1,"status",1,"maxCreateDate",dayago);
+    	 List<LLBaseInfo> list = selectByWhere(parameters);
+    	 if(CollectionUtils.isEmpty(list)){
+    		 return;
+    	 }
+    	 for(LLBaseInfo info:list){
+    		 info.setExpireCount(1);
+    		 info.setStatus(-1);
+    		 update(info);
+    	 }
+	}
     
+    /**
+     * 让流量进行第二次过期。
+     */
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public void expireSecondBaseInfo(){
+    	 Date dayago = DateUtils.getPastDay(new Date(), -4);
+    	 Map<String, Object> parameters = MapUtils.genMap("expireCount",1,"status",1,"maxUpdateDate",dayago);
+    	 List<LLBaseInfo> list = selectByWhere(parameters);
+    	 if(CollectionUtils.isEmpty(list)){
+    		 return;
+    	 }
+    	 for(LLBaseInfo info:list){
+    		 info.setExpireCount(2);
+    		 info.setStatus(-1);
+    		 update(info);
+    	 }
+	}
+    
+    /**
+     * 让流量进行第一次恢复。
+     */
+    @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
+    public void activeFirstBaseInfo(){
+    	 Date dayago = DateUtils.getPastDay(new Date(), -3);
+    	 Map<String, Object> parameters = MapUtils.genMap("expireCount",1,"status",-1,"maxUpdateDate",dayago);
+    	 List<LLBaseInfo> list = selectByWhere(parameters);
+    	 if(CollectionUtils.isEmpty(list)){
+    		 return;
+    	 }
+    	 for(LLBaseInfo info:list){
+    		 info.setStatus(1);
+    		 update(info);
+    	 }
+	}
   
 
 }

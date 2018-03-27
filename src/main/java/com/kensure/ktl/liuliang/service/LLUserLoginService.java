@@ -18,6 +18,7 @@ import java.util.Map;
 
 import javax.annotation.Resource;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import co.kensure.exception.BusinessExceptionUtil;
@@ -45,7 +46,7 @@ public class LLUserLoginService extends JSBaseService {
 
 	@Resource
 	private LLUserInfoService llUserInfoService;
-	
+
 	@Resource
 	private BaseKeyService baseKeyService;
 
@@ -79,7 +80,10 @@ public class LLUserLoginService extends JSBaseService {
 		obj.setCreateDate(date);
 		obj.setUpdateDate(date);
 		obj.setStatus(1);
-		obj.setSessionid(obj.getId()+""+Utils.randomSMSCode());
+		obj.setSessionid(obj.getId() + "" + Utils.randomSMSCode());
+		if (StringUtils.length(obj.getUa()) > 250) {
+			obj.setUa(obj.getUa().substring(0, 250));
+		}
 		return dao.insert(obj);
 	}
 
@@ -144,7 +148,7 @@ public class LLUserLoginService extends JSBaseService {
 	 * @param password
 	 * @return
 	 */
-	public LLUserLogin login(String loginname, String password, String ip) {
+	public LLUserLogin login(String loginname, String password, co.kensure.thread.Session se) {
 		Map<String, Object> map = MapUtils.genMap("loginname", loginname);
 		List<LLUserInfo> list = llUserInfoService.selectByWhere(map);
 		if (CollectionUtils.isEmpty(list)) {
@@ -156,7 +160,8 @@ public class LLUserLoginService extends JSBaseService {
 		}
 		LLUserLogin userLogin = new LLUserLogin();
 		userLogin.setUserid(user.getId());
-		userLogin.setIp(ip);
+		userLogin.setIp(se.getIp());
+		userLogin.setUa(se.getUserAgent());
 		insert(userLogin);
 		return userLogin;
 	}

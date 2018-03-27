@@ -35,6 +35,9 @@ public class LLUserLogin extends BaseInfo{
 
 	/***/		
 	private String ip;
+	
+	/**用户的客户端*/		
+	private String ua;
 
 	/***/		
 	private Date createDate;
@@ -105,4 +108,13 @@ public class LLUserLogin extends BaseInfo{
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
+
+	public String getUa() {
+		return ua;
+	}
+
+	public void setUa(String ua) {
+		this.ua = ua;
+	}
+	
 }

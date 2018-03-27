@@ -7,6 +7,7 @@
 		sessionid,
 		userid,
 		ip,
+		ua,
 		create_date as createDate,
 		update_date as updateDate,
 		outtime_date as outtimeDate,
@@ -18,6 +19,7 @@
 		sessionid,
 		userid,
 		ip,
+		ua,
 		create_date,
 		update_date,
 		outtime_date,
@@ -31,6 +33,7 @@
 			#{sessionid},
 			#{userid},
 			#{ip},
+			#{ua},
 			#{createDate},
 			#{updateDate},
 			#{outtimeDate},
@@ -46,6 +49,7 @@
 				#{item.sessionid},
 				#{item.userid},
 				#{item.ip},
+				#{item.ua},
 				#{item.createDate},
 				#{item.updateDate},
 				#{item.outtimeDate},
@@ -75,6 +79,9 @@
 		</if>
 		<if test="status != null">			
 			and status = #{status}			
+		</if>
+		<if test="ua != null">			
+			and ua = #{ua}			
 		</if>
 	</sql>
     

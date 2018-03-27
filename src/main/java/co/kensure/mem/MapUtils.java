@@ -219,58 +219,109 @@ public class MapUtils {
 	public static boolean isNotEmpty(Map<?, ?> map) {
 		return !isEmpty(map);
 	}
-	
+
 	/**
 	 * 设置字符串，如果为空，则不设置
+	 * 
 	 * @return
 	 */
-	public static void putString(Map<String, Object> map,String name,String value) {
+	public static void putString(Map<String, Object> map, String name, String value) {
 		if (StringUtils.isNotBlank(value)) {
 			map.put(name, value);
 		}
 	}
-	
+
 	/**
-	 * 设置Integer数字，如果为空，则不设置
+	 * 设置字符串，传入需要设置的参数对象和获取参数的对象，还有参数名，就可以继续批量设置
+	 * 
+	 * @param map
+	 *            需要进行设置的参数对象
+	 * @param json
+	 *            获取参数值的对象
+	 * @param valueName
+	 *            参数名
 	 * @return
 	 */
-	public static void putInt(Map<String, Object> map,String name,String value) {
+	public static void putStrings(Map<String, Object> map, JSONObject json, String... valueName) {
+		int len = valueName.length;
+		if (len == 0)
+			return;
+		for (int i = 0; i < len; i++) {
+			String key = String.valueOf(valueName[i]);
+			String val = json.getString(key);
+			putString(map, key, val);
+		}
+	}
+
+	/**
+	 * 设置Integer数字，如果为空，则不设置
+	 * 
+	 * @return
+	 */
+	public static void putInt(Map<String, Object> map, String name, String value) {
 		if (StringUtils.isNotBlank(value)) {
 			map.put(name, NumberUtils.parseInteger(value, 0));
 		}
 	}
-	
+
 	/**
-	 * 设置开始时间，如果为空，则不设置,如果value只是日期，需要加入 时分秒
+	 * 设置数字，传入需要设置的参数对象和获取参数的对象，还有参数名，就可以继续批量设置
+	 * 
+	 * @param map
+	 *            需要进行设置的参数对象
+	 * @param json
+	 *            获取参数值的对象
+	 * @param valueName
+	 *            参数名
 	 * @return
 	 */
-	public static void putStartTime(Map<String, Object> map,String name,String value) {
+	public static void putInts(Map<String, Object> map, JSONObject json, String... valueName) {
+		int len = valueName.length;
+		if (len == 0)
+			return;
+		for (int i = 0; i < len; i++) {
+			String key = String.valueOf(valueName[i]);
+			Integer val = json.getInteger(key);
+			if (val != null) {
+				map.put(key, val);
+			}
+		}
+	}
+
+	/**
+	 * 设置开始时间，如果为空，则不设置,如果value只是日期，需要加入 时分秒
+	 * 
+	 * @return
+	 */
+	public static void putStartTime(Map<String, Object> map, String name, String value) {
 		if (StringUtils.isNotBlank(value)) {
-			if(value.length() == 10){
+			if (value.length() == 10) {
 				value += " 00:00:00";
 			}
 			map.put(name, DateUtils.parse(value, DateUtils.DATE_FORMAT_PATTERN));
 		}
 	}
-	
+
 	/**
 	 * 设置结束时间，如果为空，则不设置,如果value只是日期，需要加入 时分秒
+	 * 
 	 * @return
 	 */
-	public static void putEndTime(Map<String, Object> map,String name,String value) {
+	public static void putEndTime(Map<String, Object> map, String name, String value) {
 		if (StringUtils.isNotBlank(value)) {
-			if(value.length() == 10){
+			if (value.length() == 10) {
 				value += " 23:59:59";
 			}
 			map.put(name, DateUtils.parse(value, DateUtils.DATE_FORMAT_PATTERN));
 		}
 	}
-	
+
 	/**
 	 * 设置翻页信息，固定参数limit和current
+	 * 
 	 * @return
 	 */
-	public static void putPageInfo(Map<String, Object> map,JSONObject json) {
+	public static void putPageInfo(Map<String, Object> map, JSONObject json) {
 		String limit = json.getString("limit");
 		String current = json.getString("current");
 		Integer limitI = NumberUtils.parseInteger(limit, 20);
@@ -279,8 +330,5 @@ public class MapUtils {
 		map.put("limit", limitI);
 		map.put("offset", offset);
 	}
-	
-	
-	
 
 }

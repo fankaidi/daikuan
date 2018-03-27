@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import co.kensure.exception.BusinessExceptionUtil;
 import co.kensure.frame.JSBaseService;
 import co.kensure.mem.CollectionUtils;
+import co.kensure.mem.DateUtils;
 import co.kensure.mem.ListUtils;
 import co.kensure.mem.MapUtils;
 import co.kensure.mem.NumberUtils;
@@ -335,5 +336,13 @@ public class LLCaiGouInfoService extends JSBaseService {
 	public long selectGouMaiCount(Map<String, Object> parameters) {
 		return dao.selectGouMaiCount(parameters);
 	}
+	
+	public static void main(String[] args)    
+    {  
+		String a = DateUtils.format(new Date(), "yyyy/MM/dd HH:mm:ss.SSSSSS");
+        System.out.println("===="+a); //[ljava.lang.string;@139a55  “[”代表数组， “l”代表long , "@139a55"代表哈希值  
+     
+       
+    }  
 
 }

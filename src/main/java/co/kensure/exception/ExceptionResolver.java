@@ -11,6 +11,7 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 
 import co.kensure.frame.ResultType;
+import co.kensure.thread.LocalThreadUtils;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -44,6 +45,8 @@ public class ExceptionResolver implements HandlerExceptionResolver{
         } catch (IOException e1) {
             e1.printStackTrace();
             LOGGER.error( e1 );
+        }finally{
+        	LocalThreadUtils.clear();
         }
         return null;
     }

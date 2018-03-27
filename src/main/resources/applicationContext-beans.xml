@@ -56,6 +56,9 @@
         <property name="initialSize" value="${jdbc.initialSize}" />
         <property name="maxActive" value="${jdbc.maxPoolSize}"/>
         <property name="testWhileIdle" value="true"/>
+          <!-- 这里建议配置为TRUE，防止取到的连接不可用 --> 
+	    <property name="testOnBorrow" value="true" /> 
+	    <property name="testOnReturn" value="false" />
         <property name="maxWait" value="10000"/>
         <property name="timeBetweenEvictionRunsMillis" value="10000"/>
         <property name="validationQuery" value="select now()"/>
@@ -95,17 +98,17 @@
             <tx:method name="select*" read-only="true" propagation="SUPPORTS"/>
             <tx:method name="query*" read-only="true" propagation="SUPPORTS"/>
             <tx:method name="get*" read-only="true" propagation="SUPPORTS"/>
-            <tx:method name="insert*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="add*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="create*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="update*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="modify*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="delete*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="remove*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="rename*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="save*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="perform*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
-            <tx:method name="deploy*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException"/>
+            <tx:method name="insert*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="add*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="create*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="update*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="modify*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="delete*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="remove*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="rename*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="save*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="perform*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
+            <tx:method name="deploy*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
         </tx:attributes>
     </tx:advice>
 
@@ -113,10 +116,6 @@
         <property name="basePackage" value="com.kensure.*"/>
         <property name="annotationClass" value="co.kensure.annotation.MyBatisRepository" />
     </bean>
-
-    <beans profile="test">
-        <content:property-placeholder location="classpath:configuration-test.properties" ignore-unresolvable="true"/>
-    </beans>
 
     <beans profile="dev">
         <content:property-placeholder location="classpath:configuration-dev.properties" ignore-unresolvable="true"/>

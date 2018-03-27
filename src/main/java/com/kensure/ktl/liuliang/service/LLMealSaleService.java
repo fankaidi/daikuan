@@ -362,7 +362,10 @@ public class LLMealSaleService extends JSBaseService {
 	 * @param userId
 	 */
 	private synchronized void lock(Long id) {
-		Lock queueLock = new ReentrantLock();
+		Lock queueLock = mealSaleLock.get(id);
+		if(queueLock == null){
+			queueLock = new ReentrantLock();
+		}
 		queueLock.lock();
 		mealSaleLock.put(id, queueLock);
 	}
@@ -374,7 +377,7 @@ public class LLMealSaleService extends JSBaseService {
 	 */
 	private void unLock(Long id) {
 		Lock queueLock = mealSaleLock.get(id);
-		queueLock.unlock();
 		mealSaleLock.remove(id);
+		queueLock.unlock();	
 	}
 }

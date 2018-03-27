@@ -106,10 +106,12 @@ public class LLBaseInfo extends BaseInfo{
 	/**借款申请时间字符串格式*/		
 	private String publishDateStr;
 
-	/**状态1是有效的*/		
+	/**状态1是有效的,-1是失效*/		
 	private Integer status;
-
-
+	
+	/**失效次数*/		
+	private Integer expireCount;
+	
 	public Long getId() {
 		return id;
 	}
@@ -308,6 +310,13 @@ public class LLBaseInfo extends BaseInfo{
 	public void setPublishDateStr(String publishDateStr) {
 		this.publishDateStr = publishDateStr;
 	}
-	
+
+	public Integer getExpireCount() {
+		return expireCount;
+	}
+
+	public void setExpireCount(Integer expireCount) {
+		this.expireCount = expireCount;
+	}
 	
 }

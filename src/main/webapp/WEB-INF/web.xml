@@ -45,7 +45,7 @@
 
   <filter-mapping>
     <filter-name>kettle</filter-name>
-    <url-pattern>/*</url-pattern>
+    <url-pattern>*.do</url-pattern>
   </filter-mapping>
   
   <servlet>
