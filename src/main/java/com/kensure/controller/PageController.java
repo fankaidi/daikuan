@@ -15,9 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.kensure.exception.BusinessExceptionUtil;
-import co.kensure.frame.Const;
 import co.kensure.frame.ResultInfo;
-import co.kensure.frame.ResultType;
+import co.kensure.frame.ResultRowInfo;
 import co.kensure.http.RequestUtils;
 import co.kensure.mem.CollectionUtils;
 import co.kensure.mem.MapUtils;
@@ -195,7 +194,7 @@ public class PageController {
 		userLogin.setSessionid(req.getSession().getId());
 		userLogin.setIp(req.getRemoteHost());
     	userLoginService.insert(userLogin);
-    	return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+    	return new ResultRowInfo();
     	
    	}
     
@@ -217,7 +216,7 @@ public class PageController {
 		user.setCreateDate(date);
 		user.setUpdateDate(date);
 		userInfoService.insert(user);	
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+		return new ResultRowInfo();
    	}
     
     /**
@@ -242,7 +241,7 @@ public class PageController {
 		m.setMoney(NumberUtils.parseInteger(money, null));
 		m.setUserid(userse.getUserid());
 		loanMoneyService.insert(m);
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+		return new ResultRowInfo();
    	}
   
 }

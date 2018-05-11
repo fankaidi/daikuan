@@ -18,7 +18,6 @@ import co.kensure.mem.MapUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kensure.ktl.user.model.LoanMoney;
-import com.kensure.ktl.user.model.UserInfo;
 import com.kensure.ktl.user.model.UserLogin;
 import com.kensure.ktl.user.service.LoanMoneyService;
 import com.kensure.ktl.user.service.SmsInfoService;
@@ -49,19 +48,11 @@ public class LYManageController {
 
 	/**
 	 * 列表页面
-	 * 
-	 * @param req
-	 * @param rep
-	 * @param model
 	 * @return
 	 */
 	@RequestMapping("page1.do")
 	public String page1(HttpServletRequest req, HttpServletResponse rep, Model model) {
-		try {
-			return "ly/manage/recordlist.jsp";
-		} catch (Exception e) {
-			return "page/error.jsp";
-		}
+		return "ly/manage/recordlist.jsp";
 	}
 
 	/**

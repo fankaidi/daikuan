@@ -27,10 +27,10 @@ import co.kensure.mem.CollectionUtils;
 import co.kensure.mem.MapUtils;
 import co.kensure.mem.Utils;
 
-import com.kensure.ktl.base.service.BaseKeyService;
 import com.kensure.ktl.liuliang.dao.LLUserLoginDao;
 import com.kensure.ktl.liuliang.model.LLUserInfo;
 import com.kensure.ktl.liuliang.model.LLUserLogin;
+import com.kensure.mycom.base.service.BaseKeyService;
 
 /**
  * 流量商户登录表服务实现类

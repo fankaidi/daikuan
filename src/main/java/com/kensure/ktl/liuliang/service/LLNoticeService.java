@@ -22,9 +22,9 @@ import org.springframework.stereotype.Service;
 
 import co.kensure.frame.JSBaseService;
 
-import com.kensure.ktl.base.service.BaseKeyService;
 import com.kensure.ktl.liuliang.dao.LLNoticeDao;
 import com.kensure.ktl.liuliang.model.LLNotice;
+import com.kensure.mycom.base.service.BaseKeyService;
 
 
 /**

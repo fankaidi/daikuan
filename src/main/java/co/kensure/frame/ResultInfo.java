@@ -38,42 +38,14 @@ public class ResultInfo {
 	private ResultData resultData;
 
 	public ResultInfo() {
+		this(ResultType.SUCCESS,Const.RESUME_SUCCESS, null, null, null, 0);
 	}
 
-	public ResultInfo(Object row) {
-		this(ResultType.SUCCESS, Const.RESUME_SUCCESS, row, null, null, 0);
-	}
 
-	public ResultInfo(String type, Object message) {
-		this(type, message, null, null, null, 0);
-	}
-
-	public ResultInfo(String type, Object message, Object row) {
-		this(type, message, row, null, null, 0);
-	}
-
-	public ResultInfo(String type, Object message, Iterable<?> rows, int count) {
-		this(type, message, null, rows, null, count);
-	}
-
-	public ResultInfo(String type, Object message, Iterable<?> rows, List<String> fields, int count) {
-		this(type, message, null, rows, fields, count);
-	}
-
-	public ResultInfo(String type, Object message, Object row, Iterable<?> rows, List<String> fields, int count) {
+	public ResultInfo(String type, Object message, Object row, Iterable<?> rows, List<String> fields, long count) {
 		this.type = type;
 		this.message = message;
 		resultData = new ResultData(row, rows, fields, count);
-	}
-
-	public ResultInfo(boolean type, String successMessage, String warningMessage) {
-		if (type) {
-			setType(ResultType.SUCCESS);
-			setMessage(successMessage);
-		} else {
-			setType(ResultType.ERROR);
-			setMessage(warningMessage);
-		}
 	}
 
 	/**

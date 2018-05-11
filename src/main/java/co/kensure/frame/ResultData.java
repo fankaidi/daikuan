@@ -6,7 +6,7 @@ package co.kensure.frame;
  *  <p>rows：            多条信息
  *  <p>fields：          信息头字段
  *  <p>total：           信息总数
- * @author Yingjie yao
+ * @author fankaidi
  */
 public class ResultData {
 
@@ -28,12 +28,12 @@ public class ResultData {
     /**
      * 合计
      */
-    private Integer total;
+    private Long total;
 
 
     public ResultData(){}
 
-    public ResultData(Object row, Iterable<?> rows, Iterable<String> fields, Integer total) {
+    public ResultData(Object row, Iterable<?> rows, Iterable<String> fields, Long total) {
         this.row = row;
         this.rows = rows;
         this.fields = fields;
@@ -79,11 +79,11 @@ public class ResultData {
      * 类集合长度
      * @return  int
      */
-    public Integer getTotal() {
+    public Long getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
+    public void setTotal(Long total) {
         this.total = total;
     }
 

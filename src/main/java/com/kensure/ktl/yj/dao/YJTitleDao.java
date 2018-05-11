@@ -1,39 +1,39 @@
 /*
- * 文件名称: BaseKeyDao.java
+ * 文件名称: YJTitleDao.java
  * 版权信息: Copyright 2001-2017 hangzhou jingshu technology Co., LTD. All right reserved.
  * ----------------------------------------------------------------------------------------------
  * 修改历史:
  * ----------------------------------------------------------------------------------------------
  * 修改原因: 新增
  * 修改人员: fankd
- * 修改日期: 2018-3-13
+ * 修改日期: 2018-4-19
  * 修改内容: 
  */
-package com.kensure.ktl.base.dao;
+package com.kensure.ktl.yj.dao;
 import co.kensure.annotation.MyBatisRepository;
 import co.kensure.frame.JSBaseDao;
 import java.util.List;
 import java.util.Collection;
 import java.util.Map;
-import com.kensure.ktl.base.model.BaseKey;
+import com.kensure.ktl.yj.model.YJTitle;
 
 /**
- * 主键表Dao接口类
+ * 游记主表Dao接口类
  * 
- * @author fankd created on 2018-3-13
+ * @author fankd created on 2018-4-19
  * @since 
  */
  @MyBatisRepository
-public interface BaseKeyDao extends JSBaseDao<BaseKey> {
+public interface YJTitleDao extends JSBaseDao<YJTitle> {
 	
 	
-	public BaseKey selectOne(String id);
+	public YJTitle selectOne(Long id);
 	
-	public List<BaseKey> selectByIds(Collection<Long> ids);
+	public List<YJTitle> selectByIds(Collection<Long> ids);
 	
-	public List<BaseKey> selectAll();
+	public List<YJTitle> selectAll();
 	
-	public List<BaseKey> selectByWhere(Map<String, Object> parameters);
+	public List<YJTitle> selectByWhere(Map<String, Object> parameters);
 	
 	
 	public long selectCount();
@@ -41,12 +41,12 @@ public interface BaseKeyDao extends JSBaseDao<BaseKey> {
 	public long selectCountByWhere(Map<String, Object> parameters);
 	
 	
-	public boolean insert(BaseKey obj);
+	public boolean insert(YJTitle obj);
 	
-	public boolean insertInBatch(List<BaseKey> objs);
+	public boolean insertInBatch(List<YJTitle> objs);
 	
 	
-	public boolean update(BaseKey obj);
+	public boolean update(YJTitle obj);
     
     public boolean updateByMap(Map<String, Object> params);
     

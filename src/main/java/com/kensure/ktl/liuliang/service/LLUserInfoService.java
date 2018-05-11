@@ -11,12 +11,6 @@
  */
 package com.kensure.ktl.liuliang.service;
 
-import com.kensure.ktl.base.service.BaseKeyService;
-import com.kensure.ktl.liuliang.dao.LLUserInfoDao;
-import com.kensure.ktl.liuliang.model.LLUserInfo;
-import com.kensure.ktl.liuliang.model.LLUserLogin;
-import com.kensure.ktl.liuliang.service.LLUserInfoService;
-
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -30,6 +24,11 @@ import co.kensure.exception.BusinessExceptionUtil;
 import co.kensure.frame.JSBaseService;
 import co.kensure.mem.CollectionUtils;
 import co.kensure.mem.MapUtils;
+
+import com.kensure.ktl.liuliang.dao.LLUserInfoDao;
+import com.kensure.ktl.liuliang.model.LLUserInfo;
+import com.kensure.ktl.liuliang.model.LLUserLogin;
+import com.kensure.mycom.base.service.BaseKeyService;
 
 /**
  * 流量商户表服务实现类

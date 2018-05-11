@@ -9,23 +9,30 @@
  * 修改日期: 2018-3-13
  * 修改内容: 
  */
-package com.kensure.ktl.base.service;
+package com.kensure.mycom.base.service;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.sql.DataSource;
 
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import co.kensure.conn.ConnUtils;
+import co.kensure.exception.BusinessExceptionUtil;
 import co.kensure.frame.JSBaseService;
 import co.kensure.mem.NumberUtils;
 
-import com.kensure.ktl.base.dao.BaseKeyDao;
-import com.kensure.ktl.base.model.BaseKey;
+import com.kensure.mycom.base.dao.BaseKeyDao;
+import com.kensure.mycom.base.model.BaseKey;
 
 /**
  * 主键表服务实现类
@@ -36,8 +43,16 @@ import com.kensure.ktl.base.model.BaseKey;
 @Service
 public class BaseKeyService extends JSBaseService {
 
+	private final static Logger LOGGER = Logger.getLogger(BaseKeyService.class);
+
+	private final static String updateSQL = " update base_key set nowid=? ,update_date=? where id=?";
+	private final static String insertSQL = " insert into base_key (id,nowid,create_date,update_date) values(?,?,?,?)";
+
 	@Resource
 	private BaseKeyDao dao;
+
+	@Resource
+	private DataSource dataSource;
 
 	public BaseKey selectOne(String id) {
 		return dao.selectOne(id);
@@ -64,36 +79,50 @@ public class BaseKeyService extends JSBaseService {
 	}
 
 	public boolean insert(BaseKey obj) {
-		Date date = new Date();
-		obj.setCreateDate(date);
-		obj.setUpdateDate(date);
-		return dao.insert(obj);
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(insertSQL);
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			pstmt.setString(1, obj.getId());
+			pstmt.setString(2, obj.getNowid());
+			pstmt.setTimestamp(3, time);
+			pstmt.setTimestamp(4, time);
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			BusinessExceptionUtil.threwException(e);
+		} finally {
+			ConnUtils.close(pstmt, conn);
+		}
+		return true;
 	}
 
-	public boolean insertInBatch(List<BaseKey> objs) {
-		return dao.insertInBatch(objs);
-	}
-
+	/**
+	 * 不和业务保存事物一致性，自己管理连接
+	 * 
+	 * @param obj
+	 * @return
+	 */
 	public boolean update(BaseKey obj) {
-		Date date = new Date();
-		obj.setUpdateDate(date);
-		return dao.update(obj);
-	}
-
-	public boolean updateByMap(Map<String, Object> params) {
-		return dao.updateByMap(params);
-	}
-
-	public boolean delete(Long id) {
-		return dao.delete(id);
-	}
-
-	public boolean deleteMulti(Collection<Long> ids) {
-		return dao.deleteMulti(ids);
-	}
-
-	public boolean deleteByWhere(Map<String, Object> parameters) {
-		return dao.deleteByWhere(parameters);
+		Connection conn = null;
+		PreparedStatement pstmt = null;
+		try {
+			conn = dataSource.getConnection();
+			pstmt = conn.prepareStatement(updateSQL);
+			Timestamp time = new Timestamp(System.currentTimeMillis());
+			pstmt.setString(1, obj.getNowid());
+			pstmt.setTimestamp(2, time);
+			pstmt.setString(3, obj.getId());
+			pstmt.executeUpdate();
+		} catch (SQLException e) {
+			LOGGER.error(e);
+			BusinessExceptionUtil.threwException(e);
+		} finally {
+			ConnUtils.close(pstmt, conn);
+		}
+		return true;
 	}
 
 	/**
@@ -109,6 +138,11 @@ public class BaseKeyService extends JSBaseService {
 			key = getKeyTable(tableName);
 		}
 		return key;
+	}
+	
+	
+	public void clearCache(){
+		keyMap.clear();
 	}
 
 	private static Map<String, Long> keyMap = new HashMap<>();
@@ -142,9 +176,9 @@ public class BaseKeyService extends JSBaseService {
 	 * @return
 	 */
 	private synchronized Long getKeyTable(String tableName) {
-		//再次从缓存里面取下，这么做是为了防止高并发
+		// 再次从缓存里面取下，这么做是为了防止高并发
 		Long id = getKeyCache(tableName);
-		if(id != null){
+		if (id != null) {
 			return id;
 		}
 		BaseKey bk = selectOne(tableName);
@@ -165,7 +199,6 @@ public class BaseKeyService extends JSBaseService {
 		Long nextId = id + 1;
 		keyMap.put(tableName, nextId);
 		return id;
-
 	}
 
 }

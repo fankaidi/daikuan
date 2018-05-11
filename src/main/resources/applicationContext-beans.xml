@@ -68,13 +68,11 @@
                 <ref bean="stat-filter" />
             </list>
         </property>
-    </bean>
-
-   
+    </bean> 
 
     <bean id="sessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="mapperLocations" value="classpath:xml/*.xml" />
+        <property name="mapperLocations" value="classpath:com/kensure/**/**/dao/*Mapper.xml" />
     </bean>
 
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate">
@@ -87,30 +85,6 @@
 
   	<!-- 第四种配置事务的方式，注解 -->
     <tx:annotation-driven transaction-manager="txManager" proxy-target-class="true"/>
-   
-    <aop:config>
-        <aop:pointcut id="serviceMethod" expression="execution(* com.kensure.*.service..*(..))" />
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceMethod"/>
-    </aop:config>
-
-    <tx:advice id="txAdvice" transaction-manager="txManager">
-        <tx:attributes>
-            <tx:method name="select*" read-only="true" propagation="SUPPORTS"/>
-            <tx:method name="query*" read-only="true" propagation="SUPPORTS"/>
-            <tx:method name="get*" read-only="true" propagation="SUPPORTS"/>
-            <tx:method name="insert*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
-            <tx:method name="add*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
-            <tx:method name="create*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
-            <tx:method name="update*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
-            <tx:method name="modify*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
-            <tx:method name="delete*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
-            <tx:method name="remove*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
-            <tx:method name="rename*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
-            <tx:method name="save*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
-            <tx:method name="perform*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
-            <tx:method name="deploy*" read-only="false" propagation="REQUIRED" rollback-for="java.lang.Exception"/>
-        </tx:attributes>
-    </tx:advice>
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.kensure.*"/>

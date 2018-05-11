@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.kensure.exception.BusinessExceptionUtil;
-import co.kensure.frame.Const;
 import co.kensure.frame.ResultInfo;
-import co.kensure.frame.ResultType;
+import co.kensure.frame.ResultRowInfo;
 import co.kensure.http.RequestUtils;
 import co.kensure.mem.CollectionUtils;
 import co.kensure.mem.MapUtils;
@@ -103,7 +102,7 @@ public class DaiKuanController {
 		} catch (Exception e) {
 			BusinessExceptionUtil.threwException("发送短信失败");
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+		return new ResultRowInfo();
 	}
 
 	/**
@@ -161,7 +160,7 @@ public class DaiKuanController {
 		userLogin.setIp(req.getRemoteHost());
 		userLoginService.insert(userLogin);
 
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, req.getSession().getId());
+		return new ResultRowInfo(req.getSession().getId());
 	}
 
 	/**
@@ -222,7 +221,7 @@ public class DaiKuanController {
 		user.setXb(usertemp.getXb());	
 		userInfoService.update(user);
 
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, sessionid);
+		return new ResultRowInfo(sessionid);
 	}
 	
 
@@ -276,7 +275,7 @@ public class DaiKuanController {
 		} catch (IOException e) {
 		   throw new RuntimeException(e);
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, peedc+"");
+		return new ResultRowInfo(peedc+"");
 	}
 	
 	
@@ -289,7 +288,7 @@ public class DaiKuanController {
 		} catch (Exception e) {
 		   throw new RuntimeException(e);
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, peedc+"");
+		return new ResultRowInfo(peedc+"");
 	}
 	
 	
@@ -302,7 +301,7 @@ public class DaiKuanController {
 		} catch (IOException e) {
 		   throw new RuntimeException(e);
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, peedc+"");
+		return new ResultRowInfo(peedc+"");
 	}
 	
 }

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import co.kensure.exception.BusinessExceptionUtil;
 import co.kensure.frame.Const;
 import co.kensure.frame.ResultInfo;
+import co.kensure.frame.ResultRowInfo;
 import co.kensure.frame.ResultRowsInfo;
 import co.kensure.frame.ResultType;
 import co.kensure.http.RequestUtils;
@@ -104,7 +105,7 @@ public class MobileController {
 		ci.setDip(RequestUtils.getDip(req));
 		ci.setRefurl(RequestUtils.getReferer(req));
 		channelInfoService.insert(ci);
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, ci.getId() + "");
+		return new ResultRowInfo(ci.getId() + "");
 	}
 
 	/**
@@ -143,7 +144,7 @@ public class MobileController {
 		} catch (Exception e) {
 			BusinessExceptionUtil.threwException("发送短信失败");
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+		return new ResultRowInfo();
 	}
 
 	/**
@@ -204,7 +205,7 @@ public class MobileController {
 		Long uuid = json.getLong("uuid");
 		channelInfoService.updateSuccess(uuid, usertemp.getMobile());
 
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, userLogin.getSessionid());
+		return new ResultRowInfo(userLogin.getSessionid());
 	}
 
 	/**
@@ -259,7 +260,7 @@ public class MobileController {
 		usertemp.setUpdateDate(date);
 		userInfoService.update(usertemp);
 
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, sessionid);
+		return new ResultRowInfo(sessionid);
 	}
 
 	/**
@@ -374,7 +375,7 @@ public class MobileController {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, peedc + "");
+		return new ResultRowInfo(peedc + "");
 	}
 
 	@ResponseBody
@@ -386,7 +387,7 @@ public class MobileController {
 		} catch (Exception e) {
 			throw new RuntimeException(e);
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, peedc + "");
+		return new ResultRowInfo( peedc + "");
 	}
 
 	@ResponseBody
@@ -398,7 +399,7 @@ public class MobileController {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, peedc + "");
+		return new ResultRowInfo(peedc + "");
 	}
 
 	/**

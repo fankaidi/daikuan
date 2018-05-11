@@ -2,8 +2,10 @@ package co.kensure.exception;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.alibaba.fastjson.JSONObject;
+
 /**
- * 业务异常处理帮助类
+ * 业务参数处理类
  *
  * @author fankd
  */
@@ -11,9 +13,6 @@ public class ParamUtils {
 
 	/**
 	 * 如果参数为空，抛出异常
-	 * 
-	 * @param cause
-	 * @throws BusinessException
 	 */
 	public static void isBlankThrewException(String param, String e) throws BusinessException {
 		if (StringUtils.isBlank(param)) {
@@ -23,9 +22,6 @@ public class ParamUtils {
 	
 	/**
 	 * 如果参数不是整数，抛出异常
-	 * 
-	 * @param cause
-	 * @throws BusinessException
 	 */
 	public static void isNotIntegerThrewException(String param, String e) throws BusinessException {
 		if (!StringUtils.isNumeric(param)) {
@@ -33,4 +29,41 @@ public class ParamUtils {
 		}
 	}
 
+	
+	/**
+	 * 如果参数为空，抛出异常
+	 */
+	public static void isBlankThrewException(Long param, String e) throws BusinessException {
+		if (param == null) {
+			BusinessExceptionUtil.threwException(e);
+		}
+	}
+	/**
+	 * 如果参数为空，抛出异常
+	 */
+	public static void isBlankThrewException(Integer param, String e) throws BusinessException {
+		if (param == null) {
+			BusinessExceptionUtil.threwException(e);
+		}
+	}
+	
+	/**
+	 * 如果会话id为空,抛出异常
+	 */
+	public static void checkSessionid(JSONObject json) throws BusinessException {
+		String sessionid = getSessionid(json);
+		isBlankThrewException(sessionid,"会话不能为空");
+	}
+	
+	
+	/**
+	 * 获取会话id，统一会话id是sessionid
+	 */
+	public static String getSessionid(JSONObject json) throws BusinessException {
+		String sessionid = json.getString("sessionid");
+		return sessionid;
+	}
+	
+	
+	
 }

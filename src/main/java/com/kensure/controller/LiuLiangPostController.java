@@ -14,10 +14,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.kensure.exception.BusinessExceptionUtil;
 import co.kensure.exception.ParamUtils;
-import co.kensure.frame.Const;
 import co.kensure.frame.ResultInfo;
+import co.kensure.frame.ResultRowInfo;
 import co.kensure.frame.ResultRowsInfo;
-import co.kensure.frame.ResultType;
 import co.kensure.http.RequestUtils;
 import co.kensure.mem.MapUtils;
 import co.kensure.thread.LocalThreadUtils;
@@ -81,7 +80,7 @@ public class LiuLiangPostController {
 		String username = json.getString("username");
 		String password = json.getString("password");
 		LLUserLogin userLogin = llUserLoginService.login(username, password, LocalThreadUtils.getSession());
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, userLogin);
+		return new ResultRowInfo(userLogin);
 	}
 
 	/**
@@ -94,7 +93,7 @@ public class LiuLiangPostController {
 	public ResultInfo userlogout(HttpServletRequest req, HttpServletResponse rep) {
 		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		llUserLoginService.loginOut(sessionId);
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+		return new ResultRowInfo();
 	}
 
 	/**
@@ -128,7 +127,7 @@ public class LiuLiangPostController {
 
 		// 用户登录
 		LLUserLogin userLogin = llUserLoginService.login(username, password, LocalThreadUtils.getSession());
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, userLogin);
+		return new ResultRowInfo(userLogin);
 	}
 
 	/**
@@ -141,7 +140,7 @@ public class LiuLiangPostController {
 	public ResultInfo userinfo(HttpServletRequest req, HttpServletResponse rep) {
 		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		LLUserInfo user = llUserInfoService.selectBySessionId(sessionId);
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, user);
+		return new ResultRowInfo(user);
 	}
 
 	/**
@@ -213,7 +212,7 @@ public class LiuLiangPostController {
 		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		String id = json.getString("id");
 		llCaiGouInfoService.goumaiLL(sessionId, id);
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+		return new ResultRowInfo();
 	}
 
 	/**
@@ -228,7 +227,7 @@ public class LiuLiangPostController {
 		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		String ids = json.getString("ids");
 		llCaiGouInfoService.goumaiLLBatch(sessionId, ids);
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+		return new ResultRowInfo();
 	}
 
 	/**
@@ -284,7 +283,7 @@ public class LiuLiangPostController {
 		}
 		userinfo.setPwd(newpwd);
 		llUserInfoService.update(userinfo);
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+		return new ResultRowInfo();
 	}
 
 	/**
@@ -345,7 +344,7 @@ public class LiuLiangPostController {
 		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		int total = llMealSaleService.getBaseTotalSY(userinfo.getId());
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, total);
+		return new ResultRowInfo(total);
 	}
 
 	/**
@@ -358,7 +357,7 @@ public class LiuLiangPostController {
 		String sessionid = json.getString("sessionid");
 		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionid);
 		int total = llMealSaleService.getMealTotalSY(userinfo.getId());
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, total);
+		return new ResultRowInfo(total);
 	}
 
 	/**
@@ -373,7 +372,7 @@ public class LiuLiangPostController {
 		if (mealsale != null && mealsale.getType() == 2) {
 			mealsale = null;
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, mealsale);
+		return new ResultRowInfo(mealsale);
 	}
 
 	/**
@@ -385,7 +384,7 @@ public class LiuLiangPostController {
 		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		int total = llMealSaleService.getTotalSY(userinfo.getId(), null);
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, total);
+		return new ResultRowInfo(total);
 	}
 
 	/**
@@ -397,7 +396,7 @@ public class LiuLiangPostController {
 		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		Long count = llCaiGouInfoService.getLeiJiLiuliang(userinfo.getId());
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, count);
+		return new ResultRowInfo(count);
 	}
 
 	/**
@@ -409,7 +408,7 @@ public class LiuLiangPostController {
 		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		int count = llMealSaleService.getBaseLeiJi(userinfo.getId());
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, count);
+		return new ResultRowInfo(count);
 	}
 
 	/**
@@ -421,7 +420,7 @@ public class LiuLiangPostController {
 		String sessionId = LocalThreadUtils.getSession().getSessionid();
 		LLUserInfo userinfo = llUserInfoService.selectBySessionId(sessionId);
 		int count = llMealSaleService.getMealLeiJi(userinfo.getId());
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, count);
+		return new ResultRowInfo(count);
 	}
 
 	// 首页部分结束

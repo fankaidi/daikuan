@@ -25,6 +25,8 @@ import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.lang3.StringUtils;
 
+import co.kensure.exception.BusinessExceptionUtil;
+
 /**
  * zip压缩类
  * 
@@ -139,7 +141,9 @@ public final class ZipUtils {
 			FileUtils.createDir(zipDirPath);
 
 			ZipEntry entry;
+			boolean hasFile = false;
 			while ((entry = zin.getNextEntry()) != null && !entry.isDirectory()) {
+				hasFile = true;
 				FileOutputStream fos = null;
 				BufferedOutputStream bos = null;
 				try {
@@ -155,8 +159,12 @@ public final class ZipUtils {
 					FileUtils.close(fos);
 				}
 			}
+			//如果包下面没有文件，就抛异常
+			if(!hasFile){
+				BusinessExceptionUtil.threwException("zip包下没有文件");
+			}
 		} catch (Exception e) {
-			throw new RuntimeException(e);
+			BusinessExceptionUtil.threwException(e);
 		} finally {
 			FileUtils.close(bin);
 			FileUtils.close(zin);

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kensure.mycom.user.dao.UserChannelDao"><!--dsName="" saasAspect=""-->
+	<!-- <cache readOnly="true"/> -->
+    <sql id="allFields">
+		id,
+		name,
+		openid,
+		unitid,
+		create_date as createDate,
+		update_date as updateDate,
+		userid,
+		channelid
+    </sql>
+    
+	<sql id="insertFields">
+		id,
+		name,
+		openid,
+		unitid,
+		create_date,
+		update_date,
+		userid,
+		channelid
+    </sql>
+	
+	<insert id="insert" parameterType="com.kensure.mycom.user.model.UserChannel">
+		insert into w_user_channel (<include refid="insertFields"/>)
+		values (
+			#{id},
+			#{name},
+			#{openid},
+			#{unitid},
+			#{createDate},
+			#{updateDate},
+			#{userid},
+			#{channelid}
+		)
+	</insert>
+	
+	<insert id="insertInBatch" parameterType="com.kensure.mycom.user.model.UserChannel">
+		insert into w_user_channel (<include refid="insertFields"/>) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.name},
+				#{item.openid},
+				#{item.unitid},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.userid},
+				#{item.channelid}
+			)
+		</foreach>
+	</insert>   		
+	
+    <sql id="whereClause">
+		<if test="name != null">			
+			name = #{name}			
+		</if>
+		<if test="openid != null">			
+			and openid = #{openid}			
+		</if>
+		<if test="unitid != null">			
+			and unitid = #{unitid}			
+		</if>
+		<if test="createDate != null">			
+			and create_date = #{createDate}			
+		</if>
+		<if test="updateDate != null">			
+			and update_date = #{updateDate}			
+		</if>
+		<if test="userid != null">			
+			and userid = #{userid}			
+		</if>
+		<if test="channelid != null">			
+			and channelid = #{channelid}			
+		</if>
+	</sql>
+    
+	<select id="selectOne" resultType="com.kensure.mycom.user.model.UserChannel" parameterType="Long" >
+		select <include refid="allFields"/> 
+		  from w_user_channel 
+		 where id = #{id} 
+	</select>
+	
+	<select id="selectByIds" parameterType="List" resultType="com.kensure.mycom.user.model.UserChannel">
+		select <include refid="allFields"/> from w_user_channel 
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+		
+	<select id="selectAll" resultType="com.kensure.mycom.user.model.UserChannel">
+		select <include refid="allFields"/> 
+		from w_user_channel 
+	</select>
+
+	<select id="selectCount" resultType="long">
+		select count(*) from w_user_channel 
+	</select>
+	
+	<select id="selectCountByWhere" parameterType="Map" resultType="Long">
+		select count(*) from w_user_channel 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</select>
+
+	<select id="selectByWhere" parameterType="Map" resultType="com.kensure.mycom.user.model.UserChannel">
+		select <include refid="allFields"/>
+		from w_user_channel 
+		<where>
+		    <include refid="whereClause"/>
+		</where>				
+		<if test="orderby != null">
+			ORDER BY ${orderby}
+		</if>
+	</select>
+	
+	<sql id="setComn">		
+		<if test="name != null">
+			name = #{name},
+		</if>
+		<if test="openid != null">
+			openid = #{openid},
+		</if>
+		<if test="unitid != null">
+			unitid = #{unitid},
+		</if>
+		<if test="createDate != null">
+			create_date = #{createDate},
+		</if>
+		<if test="updateDate != null">
+			update_date = #{updateDate},
+		</if>
+		<if test="userid != null">
+			userid = #{userid},
+		</if>
+		<if test="channelid != null">
+			channelid = #{channelid}
+		</if>
+	</sql>
+	
+	<update id="update" parameterType="com.kensure.mycom.user.model.UserChannel">
+		 update w_user_channel 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<update id="updateByMap" parameterType="Map">
+		 update w_user_channel 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from w_user_channel where id = #{id}
+	</delete>
+	
+	<delete id="deleteMulti" parameterType="List">
+		delete from w_user_channel
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteByWhere" parameterType="Map">
+		delete from w_user_channel 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</delete>	
+
+</mapper>    

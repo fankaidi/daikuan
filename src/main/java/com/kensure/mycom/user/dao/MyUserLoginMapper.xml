@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kensure.mycom.user.dao.MyUserLoginDao"><!--dsName="" saasAspect=""-->
+	<!-- <cache readOnly="true"/> -->
+    <sql id="allFields">
+		id,
+		sessionid,
+		userid,
+		channelid,
+		ip,
+		ua,
+		create_date as createDate,
+		update_date as updateDate,
+		outtime_date as outtimeDate,
+		status
+    </sql>
+    
+	<sql id="insertFields">
+		id,
+		sessionid,
+		userid,
+		channelid,
+		ip,
+		ua,
+		create_date,
+		update_date,
+		outtime_date,
+		status
+    </sql>
+	
+	<insert id="insert" parameterType="com.kensure.mycom.user.model.MyUserLogin">
+		insert into w_user_login (<include refid="insertFields"/>)
+		values (
+			#{id},
+			#{sessionid},
+			#{userid},
+			#{channelid},
+			#{ip},
+			#{ua},
+			#{createDate},
+			#{updateDate},
+			#{outtimeDate},
+			#{status}
+		)
+	</insert>
+	
+	<insert id="insertInBatch" parameterType="com.kensure.mycom.user.model.MyUserLogin">
+		insert into w_user_login (<include refid="insertFields"/>) values 
+		<foreach collection="list" item="item" index="index" separator=",">
+			(
+				#{item.id},
+				#{item.sessionid},
+				#{item.userid},
+				#{item.channelid},
+				#{item.ip},
+				#{item.ua},
+				#{item.createDate},
+				#{item.updateDate},
+				#{item.outtimeDate},
+				#{item.status}
+			)
+		</foreach>
+	</insert>   		
+	
+    <sql id="whereClause">
+		<if test="sessionid != null">			
+			sessionid = #{sessionid}			
+		</if>
+		<if test="userid != null">			
+			and userid = #{userid}			
+		</if>
+		<if test="channelid != null">			
+			and channelid = #{channelid}			
+		</if>
+		<if test="ip != null">			
+			and ip = #{ip}			
+		</if>
+		<if test="ua != null">			
+			and ua = #{ua}			
+		</if>
+		<if test="createDate != null">			
+			and create_date = #{createDate}			
+		</if>
+		<if test="updateDate != null">			
+			and update_date = #{updateDate}			
+		</if>
+		<if test="outtimeDate != null">			
+			and outtime_date = #{outtimeDate}			
+		</if>
+		<if test="status != null">			
+			and status = #{status}			
+		</if>
+	</sql>
+    
+	<select id="selectOne" resultType="com.kensure.mycom.user.model.MyUserLogin" parameterType="Long" >
+		select <include refid="allFields"/> 
+		  from w_user_login 
+		 where id = #{id} 
+	</select>
+	
+	<select id="selectByIds" parameterType="List" resultType="com.kensure.mycom.user.model.MyUserLogin">
+		select <include refid="allFields"/> from w_user_login 
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</select>
+		
+	<select id="selectAll" resultType="com.kensure.mycom.user.model.MyUserLogin">
+		select <include refid="allFields"/> 
+		from w_user_login 
+	</select>
+
+	<select id="selectCount" resultType="long">
+		select count(*) from w_user_login 
+	</select>
+	
+	<select id="selectCountByWhere" parameterType="Map" resultType="Long">
+		select count(*) from w_user_login 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</select>
+
+	<select id="selectByWhere" parameterType="Map" resultType="com.kensure.mycom.user.model.MyUserLogin">
+		select <include refid="allFields"/>
+		from w_user_login 
+		<where>
+		    <include refid="whereClause"/>
+		</where>				
+		<if test="orderby != null">
+			ORDER BY ${orderby}
+		</if>
+	</select>
+	
+	<sql id="setComn">		
+		<if test="sessionid != null">
+			sessionid = #{sessionid},
+		</if>
+		<if test="userid != null">
+			userid = #{userid},
+		</if>
+		<if test="channelid != null">
+			channelid = #{channelid},
+		</if>
+		<if test="ip != null">
+			ip = #{ip},
+		</if>
+		<if test="ua != null">
+			ua = #{ua},
+		</if>
+		<if test="createDate != null">
+			create_date = #{createDate},
+		</if>
+		<if test="updateDate != null">
+			update_date = #{updateDate},
+		</if>
+		<if test="outtimeDate != null">
+			outtime_date = #{outtimeDate},
+		</if>
+		<if test="status != null">
+			status = #{status}
+		</if>
+	</sql>
+	
+	<update id="update" parameterType="com.kensure.mycom.user.model.MyUserLogin">
+		 update w_user_login 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<update id="updateByMap" parameterType="Map">
+		 update w_user_login 
+		    <set>
+		    	<include refid="setComn"/>
+			</set>
+		  where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from w_user_login where id = #{id}
+	</delete>
+	
+	<delete id="deleteMulti" parameterType="List">
+		delete from w_user_login
+		where id in
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
+	
+	<delete id="deleteByWhere" parameterType="Map">
+		delete from w_user_login 
+		<where>
+		    <include refid="whereClause"/>
+		</where>
+	</delete>	
+
+</mapper>    

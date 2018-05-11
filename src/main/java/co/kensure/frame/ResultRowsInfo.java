@@ -16,14 +16,14 @@ import co.kensure.mem.CollectionUtils;
 public class ResultRowsInfo extends ResultInfo {
 
 	public ResultRowsInfo(Collection<?> rows, int count) {
-		super(ResultType.SUCCESS, Const.SELECT_SUCCESS, rows, count);
+		super(ResultType.SUCCESS, Const.SELECT_SUCCESS, null, rows, null, count);
 	}
 	
 	public ResultRowsInfo(Collection<?> rows, Long count) {
-		super(ResultType.SUCCESS, Const.SELECT_SUCCESS, rows, count.intValue());
+		super(ResultType.SUCCESS, Const.SELECT_SUCCESS, null, rows, null, count.intValue());
 	}
 	
 	public ResultRowsInfo(Collection<?> rows) {
-		super(ResultType.SUCCESS, Const.SELECT_SUCCESS, rows, CollectionUtils.getSize(rows));
+		super(ResultType.SUCCESS, Const.SELECT_SUCCESS, null, rows, null, CollectionUtils.getSize(rows));
 	}
 }

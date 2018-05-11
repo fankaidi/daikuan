@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.kensure.ktl.base.dao.BaseKeyDao"><!--dsName="" saasAspect=""-->
+<mapper namespace="com.kensure.mycom.base.dao.BaseKeyDao"><!--dsName="" saasAspect=""-->
 	<!-- <cache readOnly="true"/> -->
     <sql id="allFields">
 		id,
@@ -16,7 +16,7 @@
 		update_date
     </sql>
 	
-	<insert id="insert" parameterType="com.kensure.ktl.base.model.BaseKey">
+	<insert id="insert" parameterType="com.kensure.mycom.base.model.BaseKey">
 		insert into base_key (<include refid="insertFields"/>)
 		values (
 			#{id},
@@ -26,7 +26,7 @@
 		)
 	</insert>
 	
-	<insert id="insertInBatch" parameterType="com.kensure.ktl.base.model.BaseKey">
+	<insert id="insertInBatch" parameterType="com.kensure.mycom.base.model.BaseKey">
 		insert into base_key (<include refid="insertFields"/>) values 
 		<foreach collection="list" item="item" index="index" separator=",">
 			(
@@ -50,13 +50,13 @@
 		</if>
 	</sql>
     
-	<select id="selectOne" resultType="com.kensure.ktl.base.model.BaseKey" parameterType="String" >
+	<select id="selectOne" resultType="com.kensure.mycom.base.model.BaseKey" parameterType="String" >
 		select <include refid="allFields"/> 
 		  from base_key 
 		 where id = #{id} 
 	</select>
 	
-	<select id="selectByIds" parameterType="List" resultType="com.kensure.ktl.base.model.BaseKey">
+	<select id="selectByIds" parameterType="List" resultType="com.kensure.mycom.base.model.BaseKey">
 		select <include refid="allFields"/> from base_key 
 		where id in
 		<foreach collection="list" item="item" open="(" close=")" separator=",">
@@ -64,7 +64,7 @@
 		</foreach>
 	</select>
 		
-	<select id="selectAll" resultType="com.kensure.ktl.base.model.BaseKey">
+	<select id="selectAll" resultType="com.kensure.mycom.base.model.BaseKey">
 		select <include refid="allFields"/> 
 		from base_key 
 	</select>
@@ -80,7 +80,7 @@
 		</where>
 	</select>
 
-	<select id="selectByWhere" parameterType="Map" resultType="com.kensure.ktl.base.model.BaseKey">
+	<select id="selectByWhere" parameterType="Map" resultType="com.kensure.mycom.base.model.BaseKey">
 		select <include refid="allFields"/>
 		from base_key 
 		<where>
@@ -103,7 +103,7 @@
 		</if>
 	</sql>
 	
-	<update id="update" parameterType="com.kensure.ktl.base.model.BaseKey">
+	<update id="update" parameterType="com.kensure.mycom.base.model.BaseKey">
 		 update base_key 
 		    <set>
 		    	<include refid="setComn"/>

@@ -58,7 +58,7 @@ public class TaobaoTimerService implements MyTimerTasker{
 
 	@Override
 	public boolean getIsrun() {
-		return true;
+		return false;
 	}
 
 	@Override

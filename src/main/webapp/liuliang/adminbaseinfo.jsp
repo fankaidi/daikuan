@@ -21,7 +21,8 @@
 		<div class="breadcrumb">当前位置：后台管理-流量数据管理  <span style="padding-left:100px;">
 		<a href="<%=context%>/liuliang/baseinfo" class="zicaidan">流量数据管理</a> 
 		<a href="<%=context%>/liuliang/mealsalelist" class="zicaidan">套餐销售记录</a>
-		<a href="<%=context%>/liuliang/meallist" class="zicaidan">套餐定义</a></span></div>
+		<a href="<%=context%>/liuliang/meallist" class="zicaidan">套餐定义</a>
+		<a href="<%=context%>/lymanage/page1.do" class="zicaidan">页面编辑</a></span></div>
 		<div> 
 			<form id="uploadfile" method="post" enctype="multipart/form-data">
 		    	<input type="file" name="file" />

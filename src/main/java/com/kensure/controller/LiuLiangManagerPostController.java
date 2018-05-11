@@ -19,10 +19,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import co.kensure.exception.BusinessExceptionUtil;
 import co.kensure.exception.ParamUtils;
-import co.kensure.frame.Const;
 import co.kensure.frame.ResultInfo;
+import co.kensure.frame.ResultRowInfo;
 import co.kensure.frame.ResultRowsInfo;
-import co.kensure.frame.ResultType;
 import co.kensure.http.RequestUtils;
 import co.kensure.io.ExcelUtils;
 import co.kensure.mem.CollectionUtils;
@@ -87,7 +86,7 @@ public class LiuLiangManagerPostController {
 				list = ExcelUtils.get2CellDataByXlsx(inputStream);
 			}
 			if (CollectionUtils.isEmpty(list)) {
-				return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, 0);
+				return new ResultRowInfo(0);
 			}
 			Date date = new Date();
 			// 删除第一行
@@ -142,7 +141,7 @@ public class LiuLiangManagerPostController {
 			BusinessExceptionUtil.threwException(e);
 		}
 		llBaseInfoService.insertInBatch(objs);
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, i);
+		return new ResultRowInfo(i);
 	}
 
 	/**
@@ -232,7 +231,7 @@ public class LiuLiangManagerPostController {
 		JSONObject json = RequestUtils.paramToJson(req);
 		String id = json.getString("id");
 		LLMealInfo mealInfo = llMealInfoService.selectOne(NumberUtils.parseLong(id, 0l));
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, mealInfo);
+		return new ResultRowInfo(mealInfo);
 	}
 
 	/**
@@ -255,7 +254,7 @@ public class LiuLiangManagerPostController {
 		ParamUtils.isBlankThrewException(userIdStr, "购买人不能为空");
 		ParamUtils.isBlankThrewException(shuliangStr, "数量不能为空");
 		llMealSaleService.sale(NumberUtils.parseLong(id, 0l), NumberUtils.parseLong(userIdStr, 0l), shuliangStr);
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+		return new ResultRowInfo();
 	}
 
 	/**
@@ -296,7 +295,7 @@ public class LiuLiangManagerPostController {
 		}
 		Long id = json.getLong("id");
 		llMealSaleService.pay(id);
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+		return new ResultRowInfo();
 	}
 	
 	
@@ -360,7 +359,7 @@ public class LiuLiangManagerPostController {
 		meal.setStatus(1);
 		llMealInfoService.insert(meal);
 		
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+		return new ResultRowInfo();
 	}
 
 }

@@ -11,6 +11,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 
 import sun.misc.BASE64Encoder;
 
+@SuppressWarnings("restriction")
 public class Utils {
 
     /**
@@ -30,7 +31,7 @@ public class Utils {
         Random RANDOM = new SecureRandom();
         byte[] salt = new byte[16];
         RANDOM.nextBytes(salt);
-        String saltStr = new BASE64Encoder().encode(salt);
+		String saltStr = new BASE64Encoder().encode(salt);
         return saltStr;
     }
 
@@ -61,7 +62,7 @@ public class Utils {
     }
 
     public static void main(String[] args) {
-        System.out.println(getUUID() );
+        System.out.println(generateSalt() );
     }
 
 }

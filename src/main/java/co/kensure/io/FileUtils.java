@@ -29,9 +29,8 @@ import org.apache.commons.vfs2.VFS;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.kensure.exception.BusinessException;
+import co.kensure.exception.BusinessExceptionUtil;
 import co.kensure.frame.Const;
-
-
 
 /**
  * 文件读写类
@@ -47,7 +46,7 @@ public final class FileUtils {
 	 * @param content
 	 *            文件内容
 	 * @param filePath
-	 *            写入文件路径
+	 *            文件存放文件路径,如有没有回自动创建
 	 * @param fileName
 	 *            文件名称
 	 */
@@ -77,10 +76,12 @@ public final class FileUtils {
 	 * 
 	 * @param inputStream
 	 * @param filePath
+	 *            文件存放文件路径,如有没有回自动创建
 	 * @param fileName
 	 */
-	public static void write(InputStream inputStream, String filePath, String fileName) {
+	public static String write(InputStream inputStream, String filePath, String fileName) {
 		OutputStream os = null;
+		String fullname = null;
 		try {
 			// 1K的数据缓冲
 			byte[] bs = new byte[1024];
@@ -88,19 +89,19 @@ public final class FileUtils {
 			int len;
 			// 输出的文件流保存到本地文件
 			createDir(filePath);
-			os = new FileOutputStream(filePath + File.separator + fileName);
+			fullname = filePath + File.separator + fileName;
+			os = new FileOutputStream(fullname);
 			// 开始读取
 			while ((len = inputStream.read(bs)) != -1) {
 				os.write(bs, 0, len);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		} catch (Exception e) {
-			e.printStackTrace();
+			BusinessExceptionUtil.threwException(e);
 		} finally {
 			// 完毕，关闭所有链接
 			close(os);
 		}
+		return fullname;
 	}
 
 	/**
@@ -134,7 +135,7 @@ public final class FileUtils {
 	 * @throws IOException
 	 * @throws BusinessException
 	 */
-	public static String read(String filePath){
+	public static String read(String filePath) {
 		StringBuilder value = new StringBuilder();
 		BufferedReader bufferedReader = null;
 		InputStreamReader inputStreamReader = null;
@@ -153,18 +154,18 @@ public final class FileUtils {
 		}
 		return value.toString();
 	}
-	
+
 	/**
 	 * 上传过来的文件，把他放入服务器指定的目录，可以重命名
 	 * 
 	 * @param file
 	 *            上传上来的文件
 	 * @param filePath
-	 *            文件存放文件路径
+	 *            文件存放文件路径,如有没有回自动创建
 	 * @param fileReName
 	 *            文件重命名，如果为空，则用文件本来的名字
 	 */
-	public static void fileToIo(MultipartFile file, String filePath, String fileReName) {
+	public static String fileToIo(MultipartFile file, String filePath, String fileReName) {
 		if (file == null) {
 			throw new BusinessException("上传文件不得为空");
 		}
@@ -173,28 +174,53 @@ public final class FileUtils {
 		}
 		// 上传到目录
 		InputStream is = null;
+		String fullname = null;
 		try {
 			is = file.getInputStream();
-			write(file.getInputStream(), filePath, fileReName);
+			fullname = write(file.getInputStream(), filePath, fileReName);
 		} catch (IOException e) {
-			throw new RuntimeException(e);
+			BusinessExceptionUtil.threwException(e);
 		} finally {
 			close(is);
 		}
+		return fullname;
 	}
-	
+
 	/**
 	 * 判断这个路径下文件或者文件夹是否存在
+	 * 
 	 * @param filePath
 	 * @return
 	 */
-	public static Boolean fileExist(String filePath){
+	public static Boolean fileExist(String filePath) {
 		File file = new File(filePath);
 		return file.exists();
-		
+
 	}
 	
+	/**
+	 * 删除文件
+	 */
+	public static Boolean delete(String filePath) {
+		File file = new File(filePath);
+		if(file.exists()){
+			file.delete();
+		}
+		return true;
+	}
 
+	/**
+	 * 根据文件夹，获取他的子文件
+	 */
+	public static String[] getChildList(String dirpath) {
+		File file = new File(dirpath);
+		String[] list = null;
+		if (file.exists() && file.isDirectory()) {
+			list = file.list();
+		}
+		return list;
+	}
+	
 	/**
 	 * 关闭流，不管是输出和输入流，都需要被关闭
 	 * 

@@ -41,5 +41,15 @@ public class ServiceUtil {
 		String[] result = context.getBeanNamesForType(type);
 		return result;
 	}
+	
+	/**
+	 * 根据接口类，获取bean名数组
+	 * 
+	 * @param name
+	 */
+	public static Object getBean(Class<?> type) {
+		Object result = context.getBean(type);
+		return result;
+	}
 
 }

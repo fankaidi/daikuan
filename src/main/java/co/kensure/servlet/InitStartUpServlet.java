@@ -1,10 +1,12 @@
 package co.kensure.servlet;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,9 @@ import org.apache.log4j.Logger;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
+import com.kensure.mycom.config.service.MyConfigService;
+
+import co.kensure.frame.Const;
 import co.kensure.time.MyTimer;
 import co.kensure.time.MyTimerTasker;
 
@@ -44,6 +49,14 @@ public class InitStartUpServlet extends HttpServlet {
 		WebApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(config.getServletContext());
 		ServiceUtil.setContext(context);
 
+		// 初始化根路径
+		getRootFilePath(config.getServletContext());
+		
+		//初始化w_config
+		MyConfigService myConfigService = (MyConfigService)ServiceUtil.getBean(MyConfigService.class);
+		myConfigService.initCache();
+		Const.ROOT_URL = MyConfigService.getMyConfig("root_url").getName();
+
 		// 启动一些定时器守护线程
 		try {
 			String[] tasknames = ServiceUtil.getBeanNamesForType(MyTimerTasker.class);
@@ -69,4 +82,18 @@ public class InitStartUpServlet extends HttpServlet {
 		super.destroy();
 	}
 
+	/**
+	 * 初始化文件路径
+	 * 
+	 * @param context
+	 */
+	private void getRootFilePath(ServletContext context) {
+		String filePath;
+		try {
+			filePath = context.getResource("/").getPath();
+		} catch (MalformedURLException e) {
+			throw new RuntimeException(e);
+		}
+		Const.ROOT_PATH = filePath;
+	}
 }

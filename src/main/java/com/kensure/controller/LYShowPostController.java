@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.kensure.frame.ResultInfo;
+import co.kensure.frame.ResultRowInfo;
 import co.kensure.frame.ResultRowsInfo;
 import co.kensure.http.RequestUtils;
 
@@ -73,7 +74,7 @@ public class LYShowPostController {
 		JSONObject json = RequestUtils.paramToJson(req);
 		Long id = json.getLong("id");
 		Record record = recordService.selectOne(id);
-		return new ResultInfo(record);
+		return new ResultRowInfo(record);
 	}
 	
 	/**
@@ -90,7 +91,7 @@ public class LYShowPostController {
 		JSONObject json = RequestUtils.paramToJson(req);
 		Record record = JSONObject.parseObject(json.toJSONString(), Record.class);
 		recordService.insert(record);	
-		return new ResultInfo(record);
+		return new ResultRowInfo(record);
 	}
 
 }

@@ -8,35 +8,16 @@ package co.kensure.frame;
  */
 public class Const {
 
-	public static String DEFAULT_PATH = "";
+	//程序 根路径
+	public static String ROOT_PATH = "";
 
-	public static String DEFAULT_URL = "";
+	public static String ROOT_URL = "";
 
 	public static final String MESSAGE = "message";
 
 	public static final String DISABLE = "DISABLE";
 
-	public static final String IS_DEFAULT = "IS_DEFAULT";
-
-	public static final String MENU_CACHE = "menuCache";
-
-	public static final String DICTIONARY_CACHE = "dictionaryCache";
-
-	public static final String DICTIONARY_CACHE_MAP = "dictionaryCacheMap";
-
-	public static final String DIRECTORY_CACHE = "directoryCache";
-
-	public static final String CONNECTION_CACHE = "connectionCache";
-
-	public final static String TRANSFORMATION = "trans";
-
-	public final static String JOB = "job";
-
-	public final static String DIRECTORY = "directory";
-
 	public final static String ENCODING = "utf-8";
-
-	public final static String XML_TAG_TRANSDEBUGPARAM = "TransDebugParam";
 
 	public final static String SELECT_SUCCESS = "查询成功";
 
@@ -109,40 +90,5 @@ public class Const {
 	public final static String START_TIME_IS_NULL = "开始时间不得为空";
 
 	public final static String END_TIME_IS_NULL = "结束时间不得为空";
-
-	public final static int THRESHOLD = 99;
-
-	// 当前用户key
-	public final static String CURRENT_USER = "user";
-
-	// 用户下所有可用的一级菜单
-	public final static String PARENT_MENUS = "parent_menus";
-
-	// 用户下所有可用的二级菜单
-	public final static String SECOND_CHILDREN_MENUS = "second_children_menus";
-
-	public final static String DIRECTORY_TREE = "directoryTree";
-
-	public final static String CONNECTIONS = "connections";
-
-	public final static String RUNNING = "running";
-
-	public final static String STOPPED = "stopped";
-
-	public final static String PAUSED = "paused";
-
-	public final static String SCHEDULER_TYPE = "SchedulerType";
-
-	public final static String WEEK = "WEEK";
-
-	public final static String ROOT_MENU = "ROOT_MENU";
-
-	public final static String HBASE = "HBASE";
-	/*
-	 * 资源类型 作业：job转换：trans链接：conn
-	 * 
-	 * 字典：dict报表：report数据库元数据：datameta对象元数据：objmeta数据地图：datamap
-	 */
-	public final static String[] RESOURCEMETA = { "job", "trans", "conn", "dict", "report", "datameta", "objmeta", "datamap" };
 
 }

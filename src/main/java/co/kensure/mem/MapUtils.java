@@ -226,7 +226,7 @@ public class MapUtils {
 	 * @return
 	 */
 	public static void putString(Map<String, Object> map, String name, String value) {
-		if (StringUtils.isNotBlank(value)) {
+		if (StringUtils.isNotBlank(value) && !"null".equalsIgnoreCase(value)) {
 			map.put(name, value);
 		}
 	}

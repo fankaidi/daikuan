@@ -17,9 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import co.kensure.exception.BusinessExceptionUtil;
-import co.kensure.frame.Const;
 import co.kensure.frame.ResultInfo;
-import co.kensure.frame.ResultType;
+import co.kensure.frame.ResultRowInfo;
 import co.kensure.http.RequestUtils;
 import co.kensure.mem.CollectionUtils;
 import co.kensure.mem.MapUtils;
@@ -40,6 +39,7 @@ import com.kensure.ktl.user.service.UserLoginService;
 
 /**
  * 贷款业务的逻辑处理
+ * 
  * @author fankaidi
  *
  */
@@ -60,8 +60,7 @@ public class DaiKuanPostController {
 	private SmsInfoService smsInfoService;
 
 	@RequestMapping("home.do")
-	public String home(HttpServletRequest req, HttpServletResponse rep,
-			Model model) {
+	public String home(HttpServletRequest req, HttpServletResponse rep, Model model) {
 		try {
 			return "mobile/index.jsp";
 		} catch (Exception e) {
@@ -104,7 +103,7 @@ public class DaiKuanPostController {
 		} catch (Exception e) {
 			BusinessExceptionUtil.threwException("发送短信失败");
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS);
+		return new ResultRowInfo();
 	}
 
 	/**
@@ -122,8 +121,7 @@ public class DaiKuanPostController {
 		String smscode = json.getString("smscode");
 		String money = json.getString("money");
 
-		UserInfo usertemp = JSONObject.parseObject(json.toJSONString(),
-				UserInfo.class);
+		UserInfo usertemp = JSONObject.parseObject(json.toJSONString(), UserInfo.class);
 
 		SmsInfo smsinfo = smsInfoService.selectByMobile(usertemp.getMobile());
 		if (smsinfo == null || !smsinfo.getQrcode().equals(smscode)) {
@@ -162,19 +160,19 @@ public class DaiKuanPostController {
 		userLogin.setIp(req.getRemoteHost());
 		userLoginService.insert(userLogin);
 
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, req.getSession().getId());
+		return new ResultRowInfo(req.getSession().getId());
 	}
 
 	/**
 	 * 用户资料
+	 * 
 	 * @param req
 	 * @param rep
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("userinfo.do")
-	public String help(HttpServletRequest req, HttpServletResponse rep,
-			Model model) {
+	public String help(HttpServletRequest req, HttpServletResponse rep, Model model) {
 		try {
 			JSONObject json = RequestUtils.paramToJson(req);
 			String sessionId = json.getString("id");
@@ -189,8 +187,7 @@ public class DaiKuanPostController {
 			return "page/error.jsp";
 		}
 	}
-	
-	
+
 	/**
 	 * 修改用户资料
 	 * 
@@ -205,11 +202,11 @@ public class DaiKuanPostController {
 		JSONObject json = RequestUtils.paramToJson(req);
 		String sessionid = json.getString("sessionid");
 		UserLogin userse = userLoginService.selectBySessionId(sessionid);
-		
+
 		UserInfo user = userInfoService.selectOne(userse.getUserid());
-		
-		UserInfo usertemp = JSONObject.parseObject(json.toJSONString(),UserInfo.class);
-		
+
+		UserInfo usertemp = JSONObject.parseObject(json.toJSONString(), UserInfo.class);
+
 		Date date = new Date();
 		usertemp.setUpdateDate(date);
 		user.setName(usertemp.getName());
@@ -220,12 +217,11 @@ public class DaiKuanPostController {
 		user.setJiebeiedu(usertemp.getJiebeiedu());
 		user.setJiedaibao(usertemp.getJiedaibao());
 		user.setYear(usertemp.getYear());
-		user.setXb(usertemp.getXb());	
+		user.setXb(usertemp.getXb());
 		userInfoService.update(user);
 
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, sessionid);
+		return new ResultRowInfo(sessionid);
 	}
-	
 
 	/**
 	 * 查看贷款记录
@@ -236,30 +232,28 @@ public class DaiKuanPostController {
 	 * @return
 	 */
 	@RequestMapping("moneylist.do")
-	public String moneylist(HttpServletRequest req, HttpServletResponse rep,
-			Model model) {
+	public String moneylist(HttpServletRequest req, HttpServletResponse rep, Model model) {
 		try {
 			JSONObject json = RequestUtils.paramToJson(req);
 			String sessionId = json.getString("id");
 			UserLogin userse = userLoginService.selectBySessionId(sessionId);
-			List<LoanMoney> loanlist = loanMoneyService.selectByWhere(MapUtils.genMap("userid",userse.getUserid()));
+			List<LoanMoney> loanlist = loanMoneyService.selectByWhere(MapUtils.genMap("userid", userse.getUserid()));
 			model.addAttribute("list", loanlist);
 			return "mobile/moneylist.jsp";
 		} catch (Exception e) {
 			return "page/error.jsp";
 		}
 	}
-	
-	
+
 	@RequestMapping("admin.do")
-	public String adminmoneylist(HttpServletRequest req, HttpServletResponse rep,Model model) {
+	public String adminmoneylist(HttpServletRequest req, HttpServletResponse rep, Model model) {
 		try {
-			List<LoanMoney> loanlist = loanMoneyService.selectByWhere(MapUtils.genMap("orderby"," id desc "));
-			if(CollectionUtils.isEmpty(loanlist)){
+			List<LoanMoney> loanlist = loanMoneyService.selectByWhere(MapUtils.genMap("orderby", " id desc "));
+			if (CollectionUtils.isEmpty(loanlist)) {
 				loanlist = new ArrayList<LoanMoney>();
 			}
-			for(LoanMoney lm : loanlist){
-				lm.setUserinfo(userInfoService.selectOne(lm.getUserid()));		
+			for (LoanMoney lm : loanlist) {
+				lm.setUserinfo(userInfoService.selectOne(lm.getUserid()));
 			}
 			model.addAttribute("list", loanlist);
 			return "mobile/adminmoneylist.jsp";
@@ -267,43 +261,41 @@ public class DaiKuanPostController {
 			return "page/error.jsp";
 		}
 	}
-	
+
 	@ResponseBody
-	@RequestMapping(value = "test.do", method ={ RequestMethod.GET, RequestMethod.POST }, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "test.do", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json;charset=UTF-8")
 	public ResultInfo test(HttpServletRequest req, HttpServletResponse rep) {
 		long peedc;
 		try {
 			peedc = TestService.insertPeople();
 		} catch (IOException e) {
-		   throw new RuntimeException(e);
+			throw new RuntimeException(e);
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, peedc+"");
+		return new ResultRowInfo(peedc + "");
 	}
-	
-	
+
 	@ResponseBody
-	@RequestMapping(value = "testthread.do", method ={ RequestMethod.GET, RequestMethod.POST }, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "testthread.do", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json;charset=UTF-8")
 	public ResultInfo testthread(HttpServletRequest req, HttpServletResponse rep) {
 		long peedc;
 		try {
 			peedc = TestService.insertThreadPeople();
 		} catch (Exception e) {
-		   throw new RuntimeException(e);
+			throw new RuntimeException(e);
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, peedc+"");
+		return new ResultRowInfo(peedc + "");
 	}
-	
-	
+
 	@ResponseBody
-	@RequestMapping(value = "table.do", method ={ RequestMethod.GET, RequestMethod.POST }, produces = "application/json;charset=UTF-8")
+	@RequestMapping(value = "table.do", method = { RequestMethod.GET, RequestMethod.POST }, produces = "application/json;charset=UTF-8")
 	public ResultInfo table(HttpServletRequest req, HttpServletResponse rep) {
 		boolean peedc = false;
 		try {
 			peedc = TestService.tableexists();
 		} catch (IOException e) {
-		   throw new RuntimeException(e);
+			throw new RuntimeException(e);
 		}
-		return new ResultInfo(ResultType.SUCCESS, Const.RESUME_SUCCESS, peedc+"");
+		return new ResultRowInfo(peedc + "");
 	}
-	
+
 }
