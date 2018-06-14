@@ -1,6 +1,7 @@
 package co.kensure.exception;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -16,6 +17,15 @@ public class ParamUtils {
 	 */
 	public static void isBlankThrewException(String param, String e) throws BusinessException {
 		if (StringUtils.isBlank(param)) {
+			BusinessExceptionUtil.threwException(e);
+		}
+	}
+	
+	/**
+	 * 如果参数为空，抛出异常
+	 */
+	public static void isBlankThrewException(MultipartFile[] param, String e) throws BusinessException {
+		if (param == null || param.length == 0) {
 			BusinessExceptionUtil.threwException(e);
 		}
 	}

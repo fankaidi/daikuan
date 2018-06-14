@@ -13,9 +13,7 @@ function initmove(mintop) {
 		}
 		//拖拽
 		function setDrag(obj){
-			obj.onmouseover = function(){
-				obj.style.cursor = "move";
-			}
+			
 			obj.onmousedown = function(event){
 				if(event.target.localName == "textarea"){
 					return true;
@@ -62,10 +60,7 @@ function initmove(mintop) {
 							if(obj.firstChild.localName == "textarea"){
 								obj.firstChild.innerHTML = obj.firstChild.value;
 							}
-							var ohtml = oNear.innerHTML;
-							var objhtml = obj.innerHTML;
-							oNear.innerHTML = objhtml;
-							obj.innerHTML = ohtml;
+							oUl.insertBefore(obj,oNear);
 						}else{
 							//是临时的li,就啥都不做
 						}	
@@ -74,9 +69,9 @@ function initmove(mintop) {
 					}
 					obj.style.position = "static";
 					obj.style.top = "";
-					var $liempty = $('#'+emptyname);
-					if($liempty){
-						$liempty.remove();
+					var liempty = document.getElementById(emptyname);
+					if(liempty){
+						oUl.removeChild(liempty);
 					}
 				}
 				clearInterval(obj.timer);

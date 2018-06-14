@@ -12,6 +12,7 @@ import co.kensure.frame.ResultInfo;
 import co.kensure.frame.ResultRowInfo;
 
 import com.kensure.mycom.base.service.BaseKeyService;
+import com.kensure.mycom.config.service.MyConfigService;
 
 /**
  * 缓存管理类
@@ -25,6 +26,9 @@ public class CacheController {
 
 	@Resource
 	private BaseKeyService baseKeyService;
+	
+	@Resource
+	private MyConfigService myConfigService;
 
 	/**
 	 * 主键缓存清除
@@ -36,6 +40,15 @@ public class CacheController {
 		return new ResultRowInfo();
 	}
 
+	/**
+	 * r_config缓存重新初始化
+	 */
+	@ResponseBody
+	@RequestMapping(value = "myConfigInit.do", produces = "application/json;charset=UTF-8")
+	public ResultInfo myConfigInit(HttpServletRequest req, HttpServletResponse rep) {
+		myConfigService.initCache();
+		return new ResultRowInfo();
+	}
 	
 
 }

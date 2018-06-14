@@ -18,9 +18,11 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.Enumeration;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
+import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.lang3.StringUtils;
@@ -114,63 +116,59 @@ public final class ZipUtils {
 	 * 
 	 * @param filePath
 	 *            文件的路径，包含文件名称
-	 * @param zipDirPath
-	 *            解压到哪里，如果为空，就是加压到当前路径
+	 * @param targetDirPath
+	 *            解压到哪里，如果为空，就是解压到当前路径
 	 */
-	public static void unZip(String filePath, String zipDirPath) {
-		FileInputStream fis = null;
-		ZipInputStream zin = null;
-		BufferedInputStream bin = null;
+	public static void unZip(String filePath, String targetDirPath) {
+		ZipFile zip = null;
 		try {
 			File file = new File(filePath);
 			if (!file.exists()) {
 				throw new RuntimeException("解压文件：" + filePath + "不存在!");
 			}
+			zip = new ZipFile(file, Charset.forName("GBK"));// 解决中文文件夹乱码
 
-			// 输入源zip路径
-			fis = new FileInputStream(file);
-
-			zin = new ZipInputStream(fis,Charset.forName("GBK"));
-			bin = new BufferedInputStream(zin);
-
-			if (StringUtils.isBlank(zipDirPath)) {
-				zipDirPath = file.getParent();
+			// 创建目标目录
+			if (StringUtils.isBlank(targetDirPath)) {
+				targetDirPath = file.getParent();
 			}
+			FileUtils.createDir(targetDirPath);
 
-			// 创建目录
-			FileUtils.createDir(zipDirPath);
-
-			ZipEntry entry;
-			boolean hasFile = false;
-			while ((entry = zin.getNextEntry()) != null && !entry.isDirectory()) {
-				hasFile = true;
-				FileOutputStream fos = null;
-				BufferedOutputStream bos = null;
-				try {
-					File zipFile = new File(zipDirPath, entry.getName());
-					fos = new FileOutputStream(zipFile);
-					bos = new BufferedOutputStream(fos);
-					int b;
-					while ((b = bin.read()) != -1) {
-						bos.write(b);
+			for (Enumeration<? extends ZipEntry> entries = zip.entries(); entries.hasMoreElements();) {
+				ZipEntry entry = (ZipEntry) entries.nextElement();
+				String zipEntryName = entry.getName();
+				// 如果为文件夹,创建文件夹
+				if (entry.isDirectory()) {
+					String dirname = targetDirPath + File.separator + zipEntryName;
+					FileUtils.createDir(dirname);
+				} else {
+					// 输出文件
+					FileOutputStream fos = null;
+					BufferedOutputStream bos = null;
+					InputStream in = null;
+					try {
+						in = zip.getInputStream(entry);
+						File zipFile = new File(targetDirPath, entry.getName());
+						fos = new FileOutputStream(zipFile);
+						bos = new BufferedOutputStream(fos);
+						int len;
+						byte[] buffer = new byte[1024];
+						while ((len = in.read(buffer)) != -1) {
+							bos.write(buffer, 0, len);
+						}
+					} finally {
+						FileUtils.close(bos);
+						FileUtils.close(fos);
+						FileUtils.close(in);
 					}
-				} finally {
-					FileUtils.close(bos);
-					FileUtils.close(fos);
 				}
-			}
-			//如果包下面没有文件，就抛异常
-			if(!hasFile){
-				BusinessExceptionUtil.threwException("zip包下没有文件");
+
 			}
 		} catch (Exception e) {
 			BusinessExceptionUtil.threwException(e);
 		} finally {
-			FileUtils.close(bin);
-			FileUtils.close(zin);
-			FileUtils.close(fis);
+			FileUtils.close(zip);
 		}
-
 	}
 
 }

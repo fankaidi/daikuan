@@ -57,7 +57,7 @@
 	function insertRecords(returndata) {
 		tabledata = returndata.resultData.rows;
 		var $table = $('#records');	
-		var trthhtml ="<tr><th>编号</th> <th>标题</th><th>图片</th><th>状态</th><th>排序（小的排前面）</th><th>操作</th></tr> ";
+		var trthhtml ="<tr><th>编号</th> <th>标题</th><th>图片</th><th>状态</th><th>排序（大的排前面）</th><th>操作</th></tr> ";
 		var html = trthhtml;
 		if(tabledata){
 			for(var i = 0;i<tabledata.length;i++){
@@ -66,8 +66,10 @@
 				var fabubutton = "<input id=\"fabu"+row.id+"\" type=\"button\" value=\"发布\" onclick=\"fabu(tabledata["+i+"])\" />";
 				var quxiaobutton = "<input id=\"quxiao"+row.id+"\" type=\"button\" value=\"取消发布\" onclick=\"quxiao(tabledata["+i+"])\" />";
 				var editbutton = "<input type=\"button\" value=\"编辑\" onclick=\"edit(tabledata["+i+"])\" />";
+				var updatename = "<input id=\"updatename"+row.id+"\" type=\"button\" value=\"修改名称\" onclick=\"updatename(tabledata["+i+"])\" />";
+				var copyrow = "<input id=\"copyrow"+row.id+"\" type=\"button\" value=\"复制\" onclick=\"copyrow(tabledata["+i+"])\" />";
 				var trtdhtml = "<tr><td>"+(i+1)+"</td><td>"+row.name+"</td><td><img width=\"100\" src=\""+row.pic+"\"/></td><td id=\"status"+row.id+"\">"+statusname+"</td>"
-							+"<td >"+row.dorder+"</td><td>"+fabubutton+quxiaobutton+editbutton+"</td></tr> "
+							+"<td >"+row.dorder+"</td><td>"+fabubutton+quxiaobutton+editbutton+updatename+copyrow+"</td></tr> "
 				html+=trtdhtml;
 			}
 		}
@@ -133,6 +135,44 @@
 		}
 		postdo(url,data,successdo);
 	}
+	
+	function updatename(row){
+		var messageStr = "修改名称";
+		var defaultStr = row.name;	
+		var content = window.prompt(messageStr, defaultStr);
+		if(content == null){
+			return;
+		}		
+		var url = "<%=context%>/yj/updateTitle.do";
+		var data = {
+				"sessionid" : $.cookie('sessionid'),
+				"id" : row.id,
+				"name":content
+			};
+		var successdo = function(strresult){
+			alert("修改成功");
+			getRecord(1);
+		}
+		postdo(url,data,successdo);
+	}
+	
+	function copyrow(row){	
+		if(window.confirm('你确定要复制信息吗？')){
+			var url = "<%=context%>/yj/copyyj.do";
+			var data = {
+					"sessionid" : $.cookie('sessionid'),
+					"id" : row.id
+				};
+			var successdo = function(strresult){
+				alert("复制成功");
+				getRecord(1);
+			}
+			postdo(url,data,successdo);
+		}	
+	}
+	
+	
+	
 	
 	function edit(row){
 		window.open("<%=context%>/lymanage/add.do?id="+row.id);     

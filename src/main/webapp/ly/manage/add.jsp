@@ -16,21 +16,33 @@
 <link rel="stylesheet" href="<%=context%>/jqtable/bootstrap-table.css" />
 <script type="text/javascript" src="<%=context%>/jqtable/jquery.min.js"></script>
 <script type="text/javascript" src="<%=context%>/jqtable/bootstrap/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="<%=context%>/common/http.js"></script>
 
-	<script type="text/javascript" src="<%=context%>/common/http.js"></script>
-<script type="text/javascript" src="<%=context%>/jqtable/bootstrap-table.js"></script>
-<script type="text/javascript" src="<%=context%>/common/move/tuozhuai.js"></script>
-<script type="text/javascript" src="<%=context%>/common/imgpic/image-picker.min.js"></script>
 </head>
 
 <style type="text/css">
 *{margin:0; padding:0;list-style: none}
-#ul1{width:800px;position:relative;margin:10px auto;}
-#ul1 li{width:800px;height:150px;float:left;margin:5px;-moz-border-radius:25px;border-radius:25px;}
-#ul1 li:hover{border-color:#9a9fa4; box-shadow:0 0 6px 0 rgba(0, 0, 0, 0.85);}
+#ul1{width:400px;position:relative;margin:10px auto;}
+#ul1 li{width:400px;min-height:150px;float:left;margin:5px;-moz-border-radius:25px;border-radius:25px;}
+#ul1 li:hover{border-color:#9a9fa4;}
 #ul1 .active{border:1px dashed red;}
-#ul1 li img{-moz-border-radius:15px;border-radius:15px;}
-#ul1 li textarea{width:700px;height:130px;}
+#ul1 li textarea{width:350px;height:180px;}
+.pc {
+	width: 34px;
+    height: 34px;
+    border: 1px solid #e1e2e3;
+    cursor: pointer;
+    background: #f2f8ff;
+    border: 1px solid #38f;
+    display: block;
+    text-align: center;
+    line-height: 34px;
+}
+.bianhao {
+    background: red;
+}
+
+
 </style>
 
 <body>
@@ -38,11 +50,6 @@
 	<div  id="divall">
 		<ul id="ul1">
 		</ul>
-		<div id="month" style="left: 22px; top: 21px; position: absolute;z-index: 9999">	
-		<a onclick="add()" title="新增文字"><img src='<%=context%>/common/images/icon64/add.png' width="32" /></a>
-		<a onclick="importone()" title="插入选中图片"><img src='<%=context%>/common/images/icon64/pic.png' width="32" /></a>
-		<a onclick="deletenode()" title="删除"><img src='<%=context%>/common/images/icon64/delete.png' width="32" /></a>
-		</div>
 	</div>
 	<div>
 	<ul>
@@ -52,13 +59,8 @@
 	</ul>
 	上传图片:
 	 <form method="post" id="infoLogoForm" enctype="multipart/form-data">
-	    <input type="file" name="file" />
+	    <input type="file" name="file" multiple="multiple" onchange="upload()"/>
 		<input type="hidden" name="id" value="<%=id%>"/>
-		
-	    <input type="button" onclick="upload()" value="上传图片" />	
-	    <br/>  <br/>
-	    <input type="button" onclick="importall()" value="插入所有图片到页面" />	
-	    <input type="button" onclick="logoset()" value="设为主题图片" />	
     </form>
 	</div>
 	<div id="pics" class="picker">
@@ -87,7 +89,8 @@
 				var strresult = data;
 				if (strresult.type == 'success') {
 					alert("上传成功");
-					initpic();
+					var rows = strresult.resultData.rows;
+					importall(rows);		
 				}else{
 					 alert(strresult.message);
 				}
@@ -98,14 +101,15 @@
 		});	
 	}
 	
-	function add(){
-		 if(liid){
-			 var $liid = $('#'+liid); 
-			 var lih = gettexthtml("新增文字");
-			 $liid.after(lih); 
-			 initmove();
-			 staticbt();
-		 } 	   
+	function add(id){
+		 var $liid = $('#'+id); 
+		 var lih = gettexthtml("新增文字");
+		 $liid.after(lih); 
+	}
+	
+	function deletenode(id){
+		 var $liid = $('#'+id); 
+		 $liid.remove();  
 	}
 	
 	function save(){
@@ -121,13 +125,15 @@
 			 var d = oli.firstChild;
 			 
 			 var content = {};
-			 if(d.localName == "textarea"){
+			 if(d && d.localName == "textarea"){
 				 content.type = 0;
 				 content.content = d.value;
-			 }else{
+			 }else if(d && d.localName == "img"){
 				 content.type = 1;
 				 content.content = d.src;
-			 }
+			 }else{
+				 continue;
+			}
 			 dataarr.push(content);
 		 }
 		 var url = "<%=context%>/yj/addContent.do";
@@ -135,32 +141,25 @@
 		 var successdo = function(strresult){
 			 alert("保存成功");
 		 }
-		 postdo(url,data,successdo);		
-		 
+		 postdo(url,data,successdo);
 	}
 	
 	//主题图片设置
-	function logoset(){
-		var pic = $('#pic').val();
-		if(!pic){	
-			alert("请选择图片");
-			return false;
-		}
-		 var url = "<%=context%>/yj/updatelogo.do";
-		 var data = {id:id,url:pic};
-		 var successdo = function(strresult){
-			 alert("设置成功");
-		 }
-		 postdo(url,data,successdo);			 
+	function logoset(cid){
+		var $lic = $('#'+cid); 
+		var d = $lic[0].firstChild;
+		if(d && d.localName == "img"){
+			 var pic = d.src;
+			 var url = "<%=context%>/yj/updatelogo.do";
+			 var data = {id:id,url:pic};
+			 var successdo = function(strresult){
+				 alert("设置成功");
+			 }
+			 postdo(url,data,successdo);		
+		}		 
 	}
 	
-	function deletenode(){
-		 if(liid){
-			 var $liid = $('#'+liid); 
-			 $liid.remove(); 
-			 initmove();
-		 } 	   
-	}
+
 	
 	var id = "<%=id%>";
 	function init(){
@@ -173,8 +172,6 @@
 	}
 	
 	var last = 0;
-	
-	
 	function insertRecords(strresult){
 		var rows = strresult.resultData.rows;
 		var html = "";
@@ -196,90 +193,130 @@
 		}
 		var $goumai = $('#ul1');
 		$goumai.html(html);
-		$().ready(initmove);
-		staticbt();
 	}
 	init();
 	
-	//初始化按钮
-	function staticbt(){
-		$('.ulcs').mousemove(function(e){
-			var ps = $('#'+this.id).position();
-			liid = this.id;
-	        $('#month').css({
-	            "top": ps.top+65,
-	            "left": $(window).width()/2+300
-	        }).show();
-	    });
-		$('#divall').mouseleave(function(e){
-			$('#month').hide();
-			liid = null;
-	    });
-	}
+
 	
-	function initpic(){
-		var url = "<%=context%>/yj/getpics.do";
-		var data = {id:id};
-		var successdo = function(strresult){
-			var html = "<select id='pic' class='image-picker'>";
-			var rows = strresult.resultData.rows;
-			for(var i=0;i<rows.length;i++){
-				var row = rows[i];
-				html+="<option data-img-src='"+row+"' value='"+row+"'>  Page "+(i)+"  </option>";
-			}
-			html+="</select>";
-			$('#pics').html(html);
-			$().ready(function(){
-				$("select.image-picker").imagepicker({
-					hide_select:false
-				});
-			});		
-		}
-		postdo(url,data,successdo);		
-	}
-	
-	initpic();
-	
-	function importall(){
-		var list = $('#pic option');
+	//插入所有图片
+	function importall(list){
 		var html = "";
 		for(var i=0;i<list.length;i++){
-			var op = list.get(i);
-			var url = op.value;
+			var url = list[i];
 			html+=getpichtml(url);
 		}
 		var $ull = $('#ul1'); 
 		html+=$ull.html();
 		$ull.html(html);
-		initmove();
-		staticbt();
 	}
 	
-	function importone(){
-		var url = $('#pic').val();
-		if(!url){	
-			alert("请选择图片");
-			return false;
+	//移动，向上移动
+	function moveup(dept,cid){
+		var oUl= document.getElementById("ul1");
+		var aLi = oUl.getElementsByTagName("li");
+		//获取当前元素所在的位置
+		var moveindex = 0;
+		for(var i=0;i<aLi.length;i++){
+			var liobj = aLi[i];
+			if(liobj.id == cid){
+				moveindex = i;
+				break;			
+			}
 		}
-		if(liid){
-			 var $liid = $('#'+liid); 
-			 var lih = getpichtml(url);
-			 $liid.after(lih); 
-			 initmove();
-			 staticbt();
-		 } 
+		
+		//计算移动到哪个位置
+		var targetmove = moveindex-dept;
+		if(targetmove < 0){
+			targetmove = 0;
+		}else if(targetmove > aLi.length){
+			targetmove = aLi.length;
+		}
+		
+		if(targetmove == moveindex){
+			return;
+		}
+		var targetobj = aLi[targetmove]
+		var moveobj = aLi[moveindex]; 
+		oUl.insertBefore(moveobj,targetobj);	
+		$("#"+cid)[0].scrollIntoView();
+	}
+	
+	
+	//移动，向下移动
+	function movedown(dept,cid){
+		var oUl= document.getElementById("ul1");
+		var aLi = oUl.getElementsByTagName("li");
+		//获取当前元素所在的位置
+		var moveindex = 0;
+		for(var i=0;i<aLi.length;i++){
+			var liobj = aLi[i];
+			if(liobj.id == cid){
+				moveindex = i;
+				break;			
+			}
+		}
+		
+		//计算移动到哪个位置
+		var targetmove = moveindex+dept;
+		if(targetmove < 0){
+			targetmove = 0;
+		}else if(targetmove > aLi.length){
+			targetmove = aLi.length;
+		}
+		
+		if(targetmove == moveindex){
+			return;
+		}
+		var targetobj = aLi[targetmove]
+		var moveobj = aLi[moveindex];
+		insertAfter(moveobj,targetobj);
+		$("#"+cid)[0].scrollIntoView();
+	}
+	
+	function getli(val){
+		last++;
+		var id = "rn"+last;
+		var html = "<li class='ulcs' id='"+id+"'>"+val+getTable(id)+"</li>";
+		return html;
+	}
+	
+	function getTable(cid){
+		var bianhaoid = cid+"bianhao";
+		var html = "<table><tr><td>上移</td>"+gettdspan(cid,1,"moveup")+gettdspan(cid,3,"moveup")+gettdspan(cid,10,"moveup");
+		html += gettdspan2(cid,"add","新增")+gettdspan2(cid,"deletenode","删除")+gettdspan2(cid,"logoset","主题")
+		html += "<td>下移</td>"+gettdspan(cid,10,"movedown")+gettdspan(cid,3,"movedown")+gettdspan(cid,1,"movedown")+"</tr></table>"
+		return html;
+	}
+	
+	function gettdspan(cid,index,fname){
+		var html = "<td onclick='"+fname+"("+index+",\""+cid+"\")'><span class=\"pc\">"+index+"</span></td>";
+		return html;	
+	}
+	
+	function gettdspan2(cid,fname,name){
+		var html = "<td onclick='"+fname+"(\""+cid+"\")'><span class=\"pc\">"+name+"</span></td>";
+		return html;	
 	}
 	
 	function getpichtml(url){
-		last++;
-		var html = "<li class='ulcs' id='rn"+last+"'><img src='"+url+"' width='200' height='150'  /></li>";
+		var html = getli("<img src='"+url+"' width='350' />");
 		return html;
 	}
 	
 	function gettexthtml(url){
-		last++;
-		var html = "<li class='ulcs' id='rn"+last+"'><textarea>"+url+"</textarea></li>";
+		var html = getli("<textarea>"+url+"</textarea>");
 		return html;
+	}
+	
+	function insertAfter(newElement, targetElement){
+		var parent = targetElement.parentNode;
+		if (parent.lastChild == targetElement) {
+		  // 如果最后的节点是目标元素，则直接添加。因为默认是最后
+		  parent.appendChild(newElement);
+		}else {
+		  parent.insertBefore(newElement, targetElement.nextSibling);
+		 //如果不是，则插入在目标元素的下一个兄弟节点 的前面。也就是目标元素的后面
+		}
 	}
 	
 	

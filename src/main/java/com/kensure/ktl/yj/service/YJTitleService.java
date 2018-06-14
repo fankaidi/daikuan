@@ -30,9 +30,9 @@ import co.kensure.exception.ParamUtils;
 import co.kensure.frame.Const;
 import co.kensure.frame.JSBaseService;
 import co.kensure.io.FileUtils;
-import co.kensure.io.ZipUtils;
 import co.kensure.mem.CollectionUtils;
 import co.kensure.mem.MapUtils;
+import co.kensure.mem.Utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.kensure.ktl.yj.dao.YJTitleDao;
@@ -133,6 +133,19 @@ public class YJTitleService extends JSBaseService {
 	}
 
 	/**
+	 * 发布
+	 * 
+	 * @param id
+	 */
+	public void updateName(Long id, String name) {
+		ParamUtils.isBlankThrewException(id, "id不能为空");
+		ParamUtils.isBlankThrewException(name, "名称不能为空");
+		YJTitle obj = selectOne(id);
+		obj.setName(name);
+		update(obj);
+	}
+
+	/**
 	 * 取消发布
 	 * 
 	 * @param id
@@ -181,14 +194,23 @@ public class YJTitleService extends JSBaseService {
 	 * 
 	 * @param id
 	 */
-	public void importPic(Long id, MultipartFile file) {
+	public List<String> importPic(Long id, MultipartFile[] files) {
 		ParamUtils.isBlankThrewException(id, "id不能为空");
+		ParamUtils.isBlankThrewException(files, "请选择图片");
 		String filePath = Const.ROOT_PATH + File.separator + id;
-		String fullname = FileUtils.fileToIo(file, filePath, null);
-		ZipUtils.unZip(fullname, filePath);
-		FileUtils.delete(fullname);
+
+		List<String> fileList = new ArrayList<>();
+		for (MultipartFile file : files) {
+			String name = file.getOriginalFilename();
+			String pix = name.substring(name.lastIndexOf("."));
+			String picName = Utils.getUUID() + pix;
+			FileUtils.fileToIo(file, filePath, picName);
+			String url = Const.ROOT_URL + id + "/" + picName;
+			fileList.add(url);
+		}
+		return fileList;
 	}
-	
+
 	/**
 	 * 获取目录下图片
 	 * 
@@ -199,21 +221,41 @@ public class YJTitleService extends JSBaseService {
 		String filePath = Const.ROOT_PATH + File.separator + id;
 		String[] list = FileUtils.getChildList(filePath);
 		List<String> pics = new ArrayList<>();
-		if(list != null){
-			for(String name:list){
-				String url = Const.ROOT_URL+id+"/"+name;
+		if (list != null) {
+			for (String name : list) {
+				String url = Const.ROOT_URL + id + "/" + name;
 				pics.add(url);
 			}
-		}	
+		}
 		return pics;
 	}
-	
+
+	/**
+	 * 复制一个游记的信息
+	 * 
+	 * @param id
+	 */
+	public YJTitle copyYJ(Long id) {
+		ParamUtils.isBlankThrewException(id, "id不能为空");
+		YJTitle obj = selectOne(id);
+		List<YJContent> contents = yJContentService.getContentByTitleId(id);
+		obj.setId(null);
+		obj.setName(obj.getName()+"_副本");
+		insert(obj);
+		for (YJContent c : contents) {
+			c.setId(null);
+			c.setTitleId(obj.getId());
+		}
+		yJContentService.insertInBatch(contents);
+		return obj;
+	}
+
 	/**
 	 * 设置为主题图片
 	 * 
 	 * @param id
 	 */
-	public void updateLogo(Long id,String url) {
+	public void updateLogo(Long id, String url) {
 		ParamUtils.isBlankThrewException(id, "id不能为空");
 		YJTitle title = selectOne(id);
 		title.setPic(url);

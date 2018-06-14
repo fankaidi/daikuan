@@ -15,19 +15,19 @@
 <div id="fanye">
 <table>
 <tr><th>编号</th> <th>名称</th><th>操作</th></tr>
-<tr><td>1</td> <td>主键缓存</td><td><input type="button" value="清空" onclick="bkclear()"/></td></tr>
+<tr><td>1</td> <td>主键缓存</td><td><input type="button" value="清空" onclick="clear('bkClear.do')"/></td></tr>
+<tr><td>2</td> <td>配置缓存清除</td><td><input type="button" value="初始化" onclick="clear('myConfigInit.do')"/></td></tr>
 </table>
 </div>
 </body>
 </html>
 
-<script>
-  
-	function bkclear() {
+<script>  
+	function clear(action) {
 		$.ajax({
 	          type: "POST",
 	          dataType: "html",
-	          url: "<%=context%>/cache/bkClear.do",
+	          url: "<%=context%>/cache/"+action,
 			data : {},
 			success : function(data) {
 				var strresult = $.parseJSON(data);

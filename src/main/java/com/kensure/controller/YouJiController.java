@@ -51,7 +51,7 @@ public class YouJiController {
 	@ResponseBody
 	@RequestMapping(value = "tuijian.do", produces = "application/json;charset=UTF-8")
 	public ResultInfo tuijian(HttpServletRequest req, HttpServletResponse rep) {
-		Map<String, Object> parameters = MapUtils.genMap("status", 1, "orderby", "dorder");
+		Map<String, Object> parameters = MapUtils.genMap("status", 1, "orderby", "dorder desc");
 		List<YJTitle> list = yJTitleService.selectByWhere(parameters);
 		return new ResultRowsInfo(list);
 	}
@@ -66,8 +66,7 @@ public class YouJiController {
 	public ResultInfo content(HttpServletRequest req, HttpServletResponse rep) {
 		JSONObject json = RequestUtils.paramToJson(req);
 		String id = json.getString("id");
-		Map<String, Object> parameters = MapUtils.genMap("titleId", NumberUtils.parseLong(id, 0l), "orderby", "dorder");
-		List<YJContent> list = yJContentService.selectByWhere(parameters);
+		List<YJContent> list = yJContentService.getContentByTitleId(NumberUtils.parseLong(id, 0l));
 		return new ResultRowsInfo(list);
 	}
 
@@ -80,7 +79,7 @@ public class YouJiController {
 	@RequestMapping(value = "search.do", produces = "application/json;charset=UTF-8")
 	public ResultInfo search(HttpServletRequest req, HttpServletResponse rep) {
 		JSONObject json = RequestUtils.paramToJson(req);
-		Map<String, Object> parameters = MapUtils.genMap("status", 1, "orderby", "dorder");
+		Map<String, Object> parameters = MapUtils.genMap("status", 1, "orderby", "dorder desc");
 		MapUtils.putStrings(parameters, json, "name");
 		List<YJTitle> list = yJTitleService.selectByWhere(parameters);
 		return new ResultRowsInfo(list);
@@ -95,7 +94,7 @@ public class YouJiController {
 	@RequestMapping(value = "titlelist.do", produces = "application/json;charset=UTF-8")
 	public ResultInfo titlelist(HttpServletRequest req, HttpServletResponse rep) {
 		// JSONObject json = RequestUtils.paramToJson(req);
-		Map<String, Object> parameters = MapUtils.genMap("orderby", "dorder");
+		Map<String, Object> parameters = MapUtils.genMap("orderby", "dorder desc");
 		List<YJTitle> list = yJTitleService.selectByWhere(parameters);
 		return new ResultRowsInfo(list);
 	}
@@ -113,6 +112,19 @@ public class YouJiController {
 		obj.setName(json.getString("name"));
 		yJTitleService.insert(obj);
 		return new ResultRowInfo(obj);
+	}
+
+	/**
+	 * 获取目录下图片
+	 */
+	@ResponseBody
+	@RequestMapping("updateTitle.do")
+	public ResultInfo getpics(HttpServletRequest req, HttpServletResponse rep) {
+		JSONObject json = RequestUtils.paramToJson(req);
+		String name = json.getString("name");
+		Long id = json.getLong("id");
+		yJTitleService.updateName(id, name);
+		return new ResultRowInfo();
 	}
 
 	/**
@@ -159,33 +171,19 @@ public class YouJiController {
 		yJTitleService.addContent(id, content);
 		return new ResultRowInfo();
 	}
-	
-	
+
 	/**
-	 * 批量导入图片，图片必须是zip打包的
+	 * 批量导入图片
 	 */
 	@ResponseBody
 	@RequestMapping("importpic.do")
-	public ResultInfo importpic(MultipartFile file, HttpServletRequest req, HttpServletResponse rep) {
+	public ResultInfo importpic(MultipartFile[] file, HttpServletRequest req, HttpServletResponse rep) {
 		JSONObject json = RequestUtils.paramToJson(req);
 		Long id = json.getLong("id");
-		yJTitleService.importPic(id, file);
-		return new ResultRowInfo();
-	}
-	
-	/**
-	 * 获取目录下图片
-	 */
-	@ResponseBody
-	@RequestMapping("getpics.do")
-	public ResultInfo getpics(MultipartFile file, HttpServletRequest req, HttpServletResponse rep) {
-		JSONObject json = RequestUtils.paramToJson(req);
-		Long id = json.getLong("id");
-		List<String> list = yJTitleService.getPicList(id);
+		List<String> list = yJTitleService.importPic(id, file);
 		return new ResultRowsInfo(list);
 	}
-	
-	
+
 	/**
 	 * 设置主题图片
 	 */
@@ -195,8 +193,20 @@ public class YouJiController {
 		JSONObject json = RequestUtils.paramToJson(req);
 		Long id = json.getLong("id");
 		String url = json.getString("url");
-		yJTitleService.updateLogo(id,url);
+		yJTitleService.updateLogo(id, url);
 		return new ResultRowInfo();
 	}
-	
+
+	/**
+	 * 设置主题图片
+	 */
+	@ResponseBody
+	@RequestMapping("copyyj.do")
+	public ResultInfo copyYJ(HttpServletRequest req, HttpServletResponse rep) {
+		JSONObject json = RequestUtils.paramToJson(req);
+		Long id = json.getLong("id");
+		yJTitleService.copyYJ(id);
+		return new ResultRowInfo();
+	}
+
 }

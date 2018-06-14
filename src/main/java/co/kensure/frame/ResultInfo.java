@@ -38,7 +38,7 @@ public class ResultInfo {
 	private ResultData resultData;
 
 	public ResultInfo() {
-		this(ResultType.SUCCESS,Const.RESUME_SUCCESS, null, null, null, 0);
+		this(ResultType.SUCCESS,Const.SELECT_SUCCESS, null, null, null, 0);
 	}
 
 

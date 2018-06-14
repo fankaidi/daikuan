@@ -15,9 +15,7 @@ import co.kensure.thread.LocalThreadUtils;
 import co.kensure.thread.Session;
 
 /**
- * com.kensure.filter
- *
- * @author Yingjie yao
+ * @author fankaidi
  */
 public class KettleFilter implements Filter {
 

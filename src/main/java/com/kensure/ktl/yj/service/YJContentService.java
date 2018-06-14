@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import co.kensure.frame.JSBaseService;
+import co.kensure.mem.MapUtils;
 
 import com.kensure.ktl.yj.dao.YJContentDao;
 import com.kensure.ktl.yj.model.YJContent;
@@ -56,6 +57,11 @@ public class YJContentService extends JSBaseService{
 		return dao.selectByWhere(parameters);
 	}
 	
+	public List<YJContent> getContentByTitleId(Long id){
+		Map<String, Object> parameters = MapUtils.genMap("titleId", id, "orderby", "dorder");
+		List<YJContent> list = selectByWhere(parameters);
+		return list;
+	}
 	
 	public long selectCount(){
 		return dao.selectCount();

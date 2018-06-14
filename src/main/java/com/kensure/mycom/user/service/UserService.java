@@ -38,7 +38,9 @@ public class UserService extends JSBaseService{
 	
 	@Resource
 	private UserDao dao;
-    
+
+	private final static String tableName = "w_user";
+	
 	@Resource
 	private BaseKeyService baseKeyService;
 	
@@ -70,7 +72,7 @@ public class UserService extends JSBaseService{
 	
 	public boolean insert(User obj){
 		Date date = new Date();
-		obj.setId(baseKeyService.getKey("w_user"));
+		obj.setId(baseKeyService.getKey(tableName));
 		obj.setCreateDate(date);
 		obj.setUpdateDate(date);
 		obj.setStatus(1);

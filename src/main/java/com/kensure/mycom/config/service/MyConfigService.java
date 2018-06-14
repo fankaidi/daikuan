@@ -108,8 +108,14 @@ public class MyConfigService extends JSBaseService{
     	}	
     }
     
+    /**
+     * key value 模式，获取配置信息
+     * @param id
+     * @return
+     */
     public static MyConfig getMyConfig(String id){
     	MyConfig myConfig = map.get(id);
     	return myConfig;
     }
+    
 }
