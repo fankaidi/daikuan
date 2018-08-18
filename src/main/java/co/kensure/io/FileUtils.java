@@ -105,6 +105,32 @@ public final class FileUtils {
 	}
 
 	/**
+	 * 将二进制流，变成文件
+	 * 
+	 * @param bytes
+	 * @param filePath
+	 *            文件存放文件路径,如有没有回自动创建
+	 * @param fileName
+	 */
+	public static String write(byte[] bytes, String filePath, String fileName) {
+		OutputStream os = null;
+		String fullname = null;
+		try {
+			// 输出的文件流保存到本地文件
+			createDir(filePath);
+			fullname = filePath + File.separator + fileName;
+			os = new FileOutputStream(fullname);
+			os.write(bytes, 0, bytes.length);
+		} catch (Exception e) {
+			BusinessExceptionUtil.threwException(e);
+		} finally {
+			// 完毕，关闭所有链接
+			close(os);
+		}
+		return fullname;
+	}
+
+	/**
 	 * 根据文件路径，创建文件夹
 	 * 
 	 * @param path
@@ -197,13 +223,13 @@ public final class FileUtils {
 		return file.exists();
 
 	}
-	
+
 	/**
 	 * 删除文件
 	 */
 	public static Boolean delete(String filePath) {
 		File file = new File(filePath);
-		if(file.exists()){
+		if (file.exists()) {
 			file.delete();
 		}
 		return true;
@@ -220,7 +246,7 @@ public final class FileUtils {
 		}
 		return list;
 	}
-	
+
 	/**
 	 * 关闭流，不管是输出和输入流，都需要被关闭
 	 * 

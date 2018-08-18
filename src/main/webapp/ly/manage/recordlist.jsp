@@ -3,7 +3,9 @@
 <%
 	String context = request.getContextPath();
 %>
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="format-detection" content="telephone=no">
     <link rel="stylesheet" href="<%=context%>/liuliang/index.css">
 	<link rel="stylesheet" href="<%=context%>/liuliang/login.css" />
@@ -170,9 +172,6 @@
 			postdo(url,data,successdo);
 		}	
 	}
-	
-	
-	
 	
 	function edit(row){
 		window.open("<%=context%>/lymanage/add.do?id="+row.id);     

@@ -79,7 +79,7 @@ public class HttpClientDemo {
 	public static String post(String body,String url) throws Exception {
 		String result = "";
 
-		HttpClient httpClient = new DefaultHttpClient();
+		HttpClient httpClient = new HttpClient();
 		HttpPost httpPost = new HttpPost(url);
 		httpPost.addHeader("Content-Type", "application/json");		  
 		httpPost.addHeader("api_key", "a8f5f167f44f4964e6c998dee827110c");
@@ -94,6 +94,7 @@ public class HttpClientDemo {
 				result = EntityUtils.toString(resEntity,"utf-8");
 			}
 		}
+		httpPost.releaseConnection();
 		return result;
 	}
 }
